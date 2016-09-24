@@ -10,7 +10,8 @@ dependencies:
   pre:
     - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-24" ]; then echo y | android update sdk --no-ui --all --filter "android-24"; fi
     - if [ ! -d "/usr/local/android-sdk-linux/build-tools/24.0.2" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-24.0.2"; fi
-    - if [ ! -d "/usr/local/android_sdk/extras/android/m2repository/com/android/support/support-core-utils/24.2.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    - if [ ! -d "/usr/local/android_sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    - if [ ! -d "/usr/local/android_sdk/extras/google/m2repository/com/google/firebase/firebase-core/9.6.0" ]; then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
 
 test:
   override:
