@@ -78,7 +78,7 @@ coveralls {
 }
 
 tasks.coveralls {
-    dependsOn 'testDebugUnitTest'
+    dependsOn 'coverageReport'
     onlyIf { System.env.'CI' }
 }
 
