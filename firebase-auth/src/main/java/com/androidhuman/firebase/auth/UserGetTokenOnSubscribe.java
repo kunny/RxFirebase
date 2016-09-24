@@ -2,28 +2,30 @@ package com.androidhuman.firebase.auth;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import android.support.annotation.NonNull;
 
 import rx.Observable;
 import rx.Subscriber;
 
-final class SignInAnonymousOnSubscribe implements Observable.OnSubscribe<FirebaseUser> {
+final class UserGetTokenOnSubscribe implements Observable.OnSubscribe<String> {
 
-    private final FirebaseAuth instance;
+    private final FirebaseUser user;
 
-    SignInAnonymousOnSubscribe(FirebaseAuth instance) {
-        this.instance = instance;
+    private final boolean forceRefresh;
+
+    UserGetTokenOnSubscribe(FirebaseUser user, boolean forceRefresh) {
+        this.user = user;
+        this.forceRefresh = forceRefresh;
     }
 
     @Override
-    public void call(final Subscriber<? super FirebaseUser> subscriber) {
-        final OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
+    public void call(final Subscriber<? super String> subscriber) {
+        OnCompleteListener<GetTokenResult> listener = new OnCompleteListener<GetTokenResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (!task.isSuccessful()) {
                     if (!subscriber.isUnsubscribed()) {
                         subscriber.onError(task.getException());
@@ -32,13 +34,13 @@ final class SignInAnonymousOnSubscribe implements Observable.OnSubscribe<Firebas
                 }
 
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult().getUser());
+                    subscriber.onNext(task.getResult().getToken());
                     subscriber.onCompleted();
                 }
             }
         };
 
-        instance.signInAnonymously()
+        user.getToken(forceRefresh)
                 .addOnCompleteListener(listener);
     }
 }

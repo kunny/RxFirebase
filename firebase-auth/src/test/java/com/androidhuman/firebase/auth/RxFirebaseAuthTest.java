@@ -6,9 +6,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.ProviderQueryResult;
 
-import com.androidhuman.firebase.auth.model.OptionalFirebaseUser;
 import com.androidhuman.firebase.auth.model.TaskResult;
+import com.memoizrlabs.retrooptional.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import rx.Subscription;
@@ -41,9 +43,15 @@ public class RxFirebaseAuthTest {
     Task<AuthResult> mockAuthResultTask;
 
     @Mock
+    Task<Void> mockSendPasswordResetEmailTask;
+
+    @Mock
+    Task<ProviderQueryResult> mockFetchProvidersTask;
+
+    @Mock
     FirebaseUser mockFirebaseUser;
 
-    private ArgumentCaptor<OnCompleteListener> authOnComplete;
+    private ArgumentCaptor<OnCompleteListener> onComplete;
 
     private ArgumentCaptor<FirebaseAuth.AuthStateListener> authStateChange;
 
@@ -51,7 +59,7 @@ public class RxFirebaseAuthTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        authOnComplete = ArgumentCaptor.forClass(OnCompleteListener.class);
+        onComplete = ArgumentCaptor.forClass(OnCompleteListener.class);
         authStateChange = ArgumentCaptor.forClass(FirebaseAuth.AuthStateListener.class);
     }
 
@@ -85,22 +93,25 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.createUserWithEmailAndPassword("foo@bar.com", "password"))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .createUserWithEmailAndPassword(mockFirebaseAuth, "foo@bar.com", "password")
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
 
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
+        FirebaseUser user = sub.getOnNextEvents().get(0);
 
-        assertThat(user.get().getEmail())
+        assertThat(user.getEmail())
                 .isEqualTo("foo@bar.com");
     }
 
@@ -114,14 +125,70 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.createUserWithEmailAndPassword("foo@bar.com", "password"))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .createUserWithEmailAndPassword(mockFirebaseAuth, "foo@bar.com", "password")
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
+
+        sub.assertError(IllegalStateException.class);
+        sub.assertNoValues();
+    }
+
+    @Test
+    public void testFetchProvidersForEmail() {
+        when(mockFirebaseAuth.fetchProvidersForEmail("foo@bar.com"))
+                .thenReturn(mockFetchProvidersTask);
+
+        mockSuccessfulFetchProvidersResult();
+
+        when(mockFirebaseAuth.fetchProvidersForEmail("foo@bar.com"))
+                .thenReturn(mockFetchProvidersTask);
+
+        TestSubscriber<Optional<List<String>>> sub = new TestSubscriber<>();
+
+        Subscription s = RxFirebaseAuth
+                .fetchProvidersForEmail(mockFirebaseAuth, "foo@bar.com")
+                .subscribe(sub);
+
+        callOnComplete(mockFetchProvidersTask);
+        s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockFetchProvidersTask);
+
+        sub.assertNoErrors();
+        sub.assertCompleted();
+        sub.assertValueCount(1);
+    }
+
+    @Test
+    public void testFetchProvidersForEmail_NotSuccessful() {
+        when(mockFirebaseAuth.fetchProvidersForEmail("foo@bar.com"))
+                .thenReturn(mockFetchProvidersTask);
+
+        mockNotSuccessfulFetchProvidersResult(new IllegalStateException());
+
+        when(mockFirebaseAuth.fetchProvidersForEmail("foo@bar.com"))
+                .thenReturn(mockFetchProvidersTask);
+
+        TestSubscriber<Optional<List<String>>> sub = new TestSubscriber<>();
+
+        Subscription s = RxFirebaseAuth
+                .fetchProvidersForEmail(mockFirebaseAuth, "foo@bar.com")
+                .subscribe(sub);
+
+        callOnComplete(mockFetchProvidersTask);
+        s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockFetchProvidersTask);
 
         sub.assertError(IllegalStateException.class);
         sub.assertNoValues();
@@ -132,7 +199,7 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.getCurrentUser())
                 .thenReturn(null);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<Optional<FirebaseUser>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth.getCurrentUser(mockFirebaseAuth)
                 .subscribe(sub);
@@ -146,7 +213,7 @@ public class RxFirebaseAuthTest {
         sub.assertCompleted();
         sub.assertValueCount(1);
 
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
+        Optional<FirebaseUser> user = sub.getOnNextEvents().get(0);
 
         assertThat(user.isPresent())
                 .isFalse();
@@ -168,7 +235,7 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.getCurrentUser())
                 .thenReturn(mockFirebaseUser);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<Optional<FirebaseUser>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth.getCurrentUser(mockFirebaseAuth)
                 .subscribe(sub);
@@ -182,13 +249,80 @@ public class RxFirebaseAuthTest {
         sub.assertCompleted();
         sub.assertValueCount(1);
 
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
+        Optional<FirebaseUser> user = sub.getOnNextEvents().get(0);
 
         assertThat(user.isPresent())
                 .isTrue();
 
         assertThat(user.get().getDisplayName())
                 .isEqualTo("John Doe");
+    }
+
+    @Test
+    public void testSendPasswordResetEmail() {
+        when(mockFirebaseAuth.sendPasswordResetEmail("email"))
+                .thenReturn(mockSendPasswordResetEmailTask);
+
+        mockSuccessfulSendPasswordResetEmailResult();
+
+        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+
+        Subscription s = RxFirebaseAuth
+                .sendPasswordResetEmail(mockFirebaseAuth, "email")
+                .subscribe(sub);
+
+        callOnComplete(mockSendPasswordResetEmailTask);
+        s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockSendPasswordResetEmailTask);
+
+        verify(mockFirebaseAuth)
+                .sendPasswordResetEmail("email");
+
+        sub.assertNoErrors();
+        sub.assertCompleted();
+        sub.assertValueCount(1);
+
+        TaskResult result = sub.getOnNextEvents().get(0);
+
+        assertThat(result.isSuccess())
+                .isTrue();
+    }
+
+    @Test
+    public void testSendPasswordResetEmail_NotSuccessful() {
+        when(mockFirebaseAuth.sendPasswordResetEmail("email"))
+                .thenReturn(mockSendPasswordResetEmailTask);
+
+        mockNotSuccessfulSendPasswordResetEmailResult(new IllegalStateException());
+
+        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+
+        Subscription s = RxFirebaseAuth
+                .sendPasswordResetEmail(mockFirebaseAuth, "email")
+                .subscribe(sub);
+
+        callOnComplete(mockSendPasswordResetEmailTask);
+        s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockSendPasswordResetEmailTask);
+
+        verify(mockFirebaseAuth)
+                .sendPasswordResetEmail("email");
+
+        sub.assertNoErrors();
+        sub.assertCompleted();
+        sub.assertValueCount(1);
+
+        TaskResult result = sub.getOnNextEvents().get(0);
+
+        assertThat(result.isSuccess())
+                .isFalse();
+
+        assertThat(result.getException())
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Test
@@ -201,23 +335,24 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInAnonymously())
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth.signInAnonymous(mockFirebaseAuth)
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
 
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
+        FirebaseUser user = sub.getOnNextEvents().get(0);
 
-        assertThat(user.isPresent())
-                .isTrue();
-        assertThat(user.get().isAnonymous())
+        assertThat(user.isAnonymous())
                 .isTrue();
     }
 
@@ -228,13 +363,16 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInAnonymously())
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth.signInAnonymous(mockFirebaseAuth)
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertError(IllegalStateException.class);
         sub.assertNoValues();
@@ -247,23 +385,21 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInWithCredential(mockAuthCredential))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .signInWithCredential(mockFirebaseAuth, mockAuthCredential)
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
-
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
-
-        assertThat(user.isPresent())
-                .isTrue();
     }
 
     @Test
@@ -273,14 +409,17 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInWithCredential(mockAuthCredential))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .signInWithCredential(mockFirebaseAuth, mockAuthCredential)
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertError(IllegalStateException.class);
         sub.assertNoValues();
@@ -293,23 +432,21 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInWithCustomToken("custom_token"))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .signInWithCustomToken(mockFirebaseAuth, "custom_token")
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
-
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
-
-        assertThat(user.isPresent())
-                .isTrue();
     }
 
     @Test
@@ -319,14 +456,17 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInWithCustomToken("custom_token"))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .signInWithCustomToken(mockFirebaseAuth, "custom_token")
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertError(IllegalStateException.class);
         sub.assertNoValues();
@@ -339,23 +479,21 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInWithEmailAndPassword("email", "password"))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .signInWithEmailAndPassword(mockFirebaseAuth, "email", "password")
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
-
-        OptionalFirebaseUser user = sub.getOnNextEvents().get(0);
-
-        assertThat(user.isPresent())
-                .isTrue();
     }
 
     @Test
@@ -365,14 +503,17 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.signInWithEmailAndPassword("email", "password"))
                 .thenReturn(mockAuthResultTask);
 
-        TestSubscriber<OptionalFirebaseUser> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseAuth
                 .signInWithEmailAndPassword(mockFirebaseAuth, "email", "password")
                 .subscribe(sub);
 
-        callOnComplete();
+        callOnComplete(mockAuthResultTask);
         s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockAuthResultTask);
 
         sub.assertError(IllegalStateException.class);
         sub.assertNoValues();
@@ -409,7 +550,7 @@ public class RxFirebaseAuthTest {
                 .thenReturn(mockAuthResult);
 
         //noinspection unchecked
-        when(mockAuthResultTask.addOnCompleteListener(authOnComplete.capture()))
+        when(mockAuthResultTask.addOnCompleteListener(onComplete.capture()))
                 .thenReturn(mockAuthResultTask);
     }
 
@@ -421,15 +562,57 @@ public class RxFirebaseAuthTest {
                 .thenReturn(exception);
 
         //noinspection unchecked
-        when(mockAuthResultTask.addOnCompleteListener(authOnComplete.capture()))
+        when(mockAuthResultTask.addOnCompleteListener(onComplete.capture()))
                 .thenReturn(mockAuthResultTask);
     }
 
+    private void mockSuccessfulSendPasswordResetEmailResult() {
+        when(mockSendPasswordResetEmailTask.isSuccessful())
+                .thenReturn(true);
+
+        //noinspection unchecked
+        when(mockSendPasswordResetEmailTask.addOnCompleteListener(onComplete.capture()))
+                .thenReturn(mockSendPasswordResetEmailTask);
+    }
+
+    private void mockNotSuccessfulSendPasswordResetEmailResult(Exception exception) {
+        when(mockSendPasswordResetEmailTask.isSuccessful())
+                .thenReturn(false);
+
+        when(mockSendPasswordResetEmailTask.getException())
+                .thenReturn(exception);
+
+        //noinspection unchecked
+        when(mockSendPasswordResetEmailTask.addOnCompleteListener(onComplete.capture()))
+                .thenReturn(mockSendPasswordResetEmailTask);
+    }
+
+    private void mockSuccessfulFetchProvidersResult() {
+        when(mockFetchProvidersTask.isSuccessful())
+                .thenReturn(true);
+
+        //noinspection unchecked
+        when(mockFetchProvidersTask.addOnCompleteListener(onComplete.capture()))
+                .thenReturn(mockFetchProvidersTask);
+    }
+
+    private void mockNotSuccessfulFetchProvidersResult(Exception exception) {
+        when(mockFetchProvidersTask.isSuccessful())
+                .thenReturn(false);
+
+        when(mockFetchProvidersTask.getException())
+                .thenReturn(exception);
+
+        //noinspection unchecked
+        when(mockFetchProvidersTask.addOnCompleteListener(onComplete.capture()))
+                .thenReturn(mockFetchProvidersTask);
+    }
+
     @SuppressWarnings("unchecked")
-    private void callOnComplete() {
-        verify(mockAuthResultTask)
-                .addOnCompleteListener(authOnComplete.capture());
-        authOnComplete.getValue().onComplete(mockAuthResultTask);
+    private void callOnComplete(Task<?> task) {
+        verify(task)
+                .addOnCompleteListener(onComplete.capture());
+        onComplete.getValue().onComplete(task);
     }
 
     private void callOnAuthStateChanged() {

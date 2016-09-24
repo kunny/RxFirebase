@@ -13,16 +13,8 @@ public final class TaskResult {
         return new TaskResult(true, null);
     }
 
-    public static TaskResult failure() {
-        return failure(null);
-    }
-
     public static TaskResult failure(@Nullable Exception exception) {
-        if (null == exception) {
-            return new TaskResult(false, new Exception("Task failed"));
-        } else {
-            return new TaskResult(false, exception);
-        }
+        return new TaskResult(false, exception);
     }
 
     private TaskResult(boolean success, @Nullable Exception exception) {

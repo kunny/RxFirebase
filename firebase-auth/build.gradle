@@ -32,12 +32,54 @@ android {
 
 dependencies {
     compile rootProject.ext.firebaseAuth
+    compile rootProject.ext.retroOptional
     compile rootProject.ext.rxJava
     compile rootProject.ext.supportAnnotations
 
     testCompile rootProject.ext.assertj
     testCompile rootProject.ext.junit
     testCompile rootProject.ext.mockito
+}
+
+apply plugin: 'jacoco'
+
+jacoco {
+    reportsDir = file("${buildDir}/reports")
+}
+
+task coverageReport(type: JacocoReport, dependsOn: 'testDebugUnitTest') {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    def coverageSourceDirs = ['src/main/java']
+
+    classDirectories = fileTree(
+            dir: "${buildDir}/intermediates/classes/debug",
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*',
+                       'com/android/**/*.class']
+    )
+
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/coverageReport/coverageReport.xml"
+}
+
+tasks.coveralls {
+    dependsOn 'testDebugUnitTest'
+    onlyIf { System.env.'CI' }
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
