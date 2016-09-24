@@ -14,7 +14,7 @@ dependencies:
 
 test:
   override:
-    - ./gradlew test assembleDebug -PdisablePreDex
+    - ./gradlew check coveralls -PdisablePreDex
   post:
     # copy test report for Circle CI to display
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
