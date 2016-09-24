@@ -15,8 +15,4 @@ dependencies:
 
 test:
   override:
-    - ./gradlew check coverageReport coveralls
-  post:
-    # copy test report for Circle CI to display
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/build/test-results/debug/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - ./gradlew check coverageReport coveralls --console=plain

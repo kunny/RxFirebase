@@ -77,9 +77,4 @@ coveralls {
     jacocoReportPath = "${buildDir}/reports/coverageReport/coverageReport.xml"
 }
 
-tasks.coveralls {
-    dependsOn 'coverageReport'
-    onlyIf { System.env.'CI' }
-}
-
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
