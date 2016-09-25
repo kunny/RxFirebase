@@ -206,7 +206,7 @@ You can register snapshots repo as your project's remote repo as following:
 
 ```groovy
 repositories {
-    ... other remote repositories ..
+    ... other remote repositories ...
 
     // Add following line
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
@@ -220,7 +220,7 @@ compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0-SNAPSHOT'
 
 firebase-auth-kotlin:
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0-SNAPSHOT'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.6.0-SNAPSHOT'
 ```
 
 ## License
