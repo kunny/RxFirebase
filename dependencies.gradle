@@ -1,13 +1,14 @@
 ext {
 	// Build SDK versions
-	buildToolsVersion = '24.0.2'
-	minSdkVersion = 14
+
+    buildToolsVersion = '24.0.2'
+    minSdkVersion = 14
     compileSdkVersion = 24
 
-	// CI 
-	ci = 'true'.equals(System.getenv('CI'))
+    // CI
+    ci = 'true'.equals(System.getenv('CI'))
 
-	// Dependencies
+    // Dependencies
     assertj = 'org.assertj:assertj-core:1.2.0'
     firebaseAuth = 'com.google.firebase:firebase-auth:9.6.0'
     firebaseCore = 'com.google.firebase:firebase-core:9.6.0'
