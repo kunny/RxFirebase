@@ -29,6 +29,10 @@ inline fun FirebaseUser.rxReload()
         : Observable<TaskResult>
         = RxFirebaseUser.reload(this)
 
+inline fun FirebaseUser.rxSendEmailVerification()
+        : Observable<TaskResult>
+        = RxFirebaseUser.sendEmailVerification(this)
+
 inline fun FirebaseUser.rxUnlink(provider: String)
         : Observable<AuthResult>
         = RxFirebaseUser.unlink(this, provider)

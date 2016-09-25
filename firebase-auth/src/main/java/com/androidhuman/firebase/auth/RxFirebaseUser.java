@@ -49,6 +49,12 @@ public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
+    public static Observable<TaskResult> sendEmailVerification(@NonNull FirebaseUser user) {
+        return Observable.create(new UserSendEmailVerificationOnSubscribe(user));
+    }
+
+    @CheckResult
+    @NonNull
     public static Observable<AuthResult> unlink(
             @NonNull FirebaseUser user, @NonNull String provider) {
         return Observable.create(new UserUnlinkOnSubscribe(user, provider));

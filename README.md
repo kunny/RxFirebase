@@ -1,5 +1,5 @@
 # RxFirebase
-[![CircleCI](https://circleci.com/gh/kunny/RxFirebase.svg?style=svg)](https://circleci.com/gh/kunny/RxFirebase)
+[![CircleCI](https://circleci.com/gh/kunny/RxFirebase.svg?style=shield)](https://circleci.com/gh/kunny/RxFirebase)
 [![Coverage Status](https://coveralls.io/repos/github/kunny/RxFirebase/badge.svg?branch=master)](https://coveralls.io/github/kunny/RxFirebase?branch=master)
 
 RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
@@ -11,7 +11,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 RxJava bindings APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:0.1.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0'
 ```
 
 ### firebase-auth-kotlin
@@ -19,7 +19,208 @@ compile 'com.androidhuman.rxfirebase:firebase-auth:0.1.0'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:0.1.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.6.0'
+```
+
+### firebase-database
+
+Coming soon!
+
+### firebase-database-kotlin
+
+Coming soon!
+
+Each kotlin support module provides an extension function that maps all methods in Java module with 'rx' prefix.
+
+For more details, please refer to following 'Usage' section.
+
+## Usage
+
+Here are some usages of `RxFirebase`. Since it provides just a wrapper for Firebase Android SDK, see [official documentation](https://firebase.google.com/docs/) for the details.
+
+### Firebase Authentication
+
+#### Get the currently signed-in user (Listener)
+
+Get currently signed-in user by `Firebasebase.AuthStateChangeListener`.
+
+As a listener, it will emit `FirebaseAuth` object on each auth state changes until unsubscribed.
+
+Java:
+```java
+RxFirebaseAuth.authStateChanges(FirebaseAuth.getInstance())
+        .subscribe(new Action1<FirebaseAuth>() {
+            @Override
+            public void call(FirebaseAuth firebaseAuth) {
+                // Do something when auth state changes.
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                // Handle error
+            }
+        });
+```
+
+Kotlin:
+```kotlin
+FirebaseAuth.getInstance().rxAuthStateChanges()
+        .subscribe({
+            // Do something when auth state changes.
+        }, {
+            // Handle error
+        })
+```
+
+#### Get the currently signed-in user (getCurrentUser())
+
+Since `FirebaseAuth.getCurrentUser()` might return null when auth object has not finished initializing, it returns `Optional` wrapper of `FirebaseUser` object to prevent null pointer exception.
+
+Java:
+```java
+RxFirebaseAuth.getCurrentUser(FirebaseAuth.getInstance())
+        .subscribe(new Action1<Optional<FirebaseUser>>() {
+            @Override
+            public void call(Optional<FirebaseUser> user) {
+                if (user.isPresent()) {
+                    // Do something with user
+                } else {
+                    // There is not signed in user or
+                    // Firebase instance was not fully initialized.
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                // Handle error
+            }
+        });
+```
+In Kotlin support module, it converts `Optional` into its native nullable reference, `FirebaseUser?`.
+
+Kotlin:
+```kotlin
+FirebaseAuth.getInstance().rxGetCurrentUser()
+        .subscribe({
+            if (null != it) {
+                // Do something with user
+            } else {
+                // There is not signed in user or
+                // Firebase instance was not fully initialized.
+            }
+        }, {
+            // Handle error
+        })
+```
+
+#### Sign in anonymously
+
+Uses [Anonymous Authentication](https://firebase.google.com/docs/auth/android/anonymous-auth) for sign in. Note that it emits `FirebaseUser` object of currently signed-in user.
+
+Java:
+```java
+RxFirebaseAuth.signInAnonymous(FirebaseAuth.getInstance())
+        .subscribe(new Action1<FirebaseUser>() {
+            @Override
+            public void call(FirebaseUser user) {
+                // Do something with anonymous user
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                // Handle error
+            }
+        });
+```
+
+Kotlin:
+```kotlin
+FirebaseAuth.getInstance().rxSignInAnonymous()
+        .subscribe({
+            // Do something with anonymous user
+        }, {
+            // Handle error
+        })
+```
+
+#### Update a user's profile
+
+For a method which returns `Task<Void>` as a result, it is converted as `TaskResult`.
+
+Java:
+```java
+FirebaseUser user = ...;
+
+UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+        .setDisplayName("John Doe")
+        .setPhotoUri(Uri.parse("http://my.photo/johndoe"))
+        .build();
+
+RxFirebaseUser.updateProfile(user, request)
+        .subscribe(new Action1<TaskResult>() {
+            @Override
+            public void call(TaskResult result) {
+                if (result.isSuccess()) {
+                    // Update successful
+                } else {
+                    // Update was not successful
+                }
+            }
+        });
+```
+
+Kotlin:
+```kotlin
+val user: FirebaseUser = ...
+
+val request = UserProfileChangeRequest.Builder()
+        .setDisplayName("John Doe")
+        .setPhotoUri(Uri.parse("http://my.photo/johndoe"))
+        .build()
+
+user.rxUpdateProfile(request)
+        .subscribe {
+            if (it.isSuccess) {
+                // Update successful
+            } else {
+                // Update was not successful
+            }
+        }
+```
+
+## Firebase SDK version
+
+RxFirebase uses exact same version of Firebase.
+
+RxFirebase and corresponding Firebase version is as follows:
+
+| RxFirebase version | Firebase version |
+| :---: | :---: |
+| 9.6.0 | 9.6.0 |
+
+## Development Snapshot
+
+Snapshots of the development version are available in [Sonatype's `snapshots` repository](Sonatype's snapshots repository).
+
+You can register snapshots repo as your project's remote repo as following:
+
+```groovy
+repositories {
+    ... other remote repositories ..
+
+    // Add following line
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+```
+
+firebase-auth:
+```groovy
+compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0-SNAPSHOT'
+```
+
+firebase-auth-kotlin:
+```groovy
+compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0-SNAPSHOT'
 ```
 
 ## License

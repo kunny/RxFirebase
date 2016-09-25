@@ -6,7 +6,6 @@ import com.androidhuman.firebase.auth.model.TaskResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.memoizrlabs.retrooptional.Optional
 import rx.Observable
 
 inline fun FirebaseAuth.rxAuthStateChanges()
@@ -23,8 +22,9 @@ inline fun FirebaseAuth.rxFetchProvidersForEmail(email: String)
         .map { if (it.isPresent) it.get() else emptyList() }
 
 inline fun FirebaseAuth.rxGetCurrentUser()
-        : Observable<Optional<FirebaseUser>>
+        : Observable<FirebaseUser?>
         = RxFirebaseAuth.getCurrentUser(this)
+        .map { if (it.isPresent) it.get() else null }
 
 inline fun FirebaseAuth.rxSendPasswordResetEmail(email: String)
         : Observable<TaskResult>
@@ -49,3 +49,4 @@ inline fun FirebaseAuth.rxSignInWithEmailAndPassword(email: String, password: St
 inline fun FirebaseAuth.rxSignOut()
         : Observable<TaskResult>
         = RxFirebaseAuth.signOut(this)
+

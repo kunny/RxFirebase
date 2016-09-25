@@ -312,6 +312,60 @@ public class RxFirebaseUserTest {
     }
 
     @Test
+    public void testSendEmailVerification() {
+        mockVoidResult(true);
+        when(mockFirebaseUser.sendEmailVerification())
+                .thenReturn(mockVoidTaskResult);
+
+        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+
+        Subscription s = RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
+                .subscribe(sub);
+
+        callOnComplete(mockVoidTaskResult);
+        s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockVoidTaskResult);
+
+        sub.assertNoErrors();
+        sub.assertCompleted();
+        sub.assertValueCount(1);
+
+        TaskResult result = sub.getOnNextEvents().get(0);
+
+        assertThat(result.isSuccess())
+                .isTrue();
+    }
+
+    @Test
+    public void testSendEmailVerification_notSuccessful() {
+        mockVoidResult(false);
+        when(mockFirebaseUser.sendEmailVerification())
+                .thenReturn(mockVoidTaskResult);
+
+        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+
+        Subscription s = RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
+                .subscribe(sub);
+
+        callOnComplete(mockVoidTaskResult);
+        s.unsubscribe();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockVoidTaskResult);
+
+        sub.assertNoErrors();
+        sub.assertCompleted();
+        sub.assertValueCount(1);
+
+        TaskResult result = sub.getOnNextEvents().get(0);
+
+        assertThat(result.isSuccess())
+                .isFalse();
+    }
+
+    @Test
     public void testUnlink() {
         mockSuccessfulAuthResult();
         when(mockFirebaseUser.unlink("provider"))
