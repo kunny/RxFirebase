@@ -30,7 +30,7 @@ Coming soon!
 
 Coming soon!
 
-Each kotlin support module provides an extension function that maps all methods in Java module with 'rx' prefix.
+Each kotlin support module maps all methods in Java module into an extension function with 'rx' prefix.
 
 For more details, please refer to following 'Usage' section.
 
