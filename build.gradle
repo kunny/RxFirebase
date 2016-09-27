@@ -124,6 +124,10 @@ task mergeCoverageReport(type: JacocoReport) {
 apply plugin: 'com.github.kt3k.coveralls'
 
 coveralls {
+    group = "Reporting"
+    description = "Submit merged coverage reports to coveralls"
+
+    sourceDirs = subprojects.collect { "${it.projectDir}/src/main/java" }
     jacocoReportPath = "${buildDir}/reports/mergeCoverageReport/mergeCoverageReport.xml"
 }
 
