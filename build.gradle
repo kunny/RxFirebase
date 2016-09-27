@@ -54,7 +54,7 @@ subprojects {
 
     task coverageReport(type: JacocoReport) {
         group = "Reporting"
-        description = "Generate Jacoco coverage reports"
+        description = "Generate Jacoco coverage report"
 
         sourceDirectories = files(["${projectDir}/src/main/java"])
         classDirectories = fileTree(
@@ -124,9 +124,6 @@ task mergeCoverageReport(type: JacocoReport) {
 apply plugin: 'com.github.kt3k.coveralls'
 
 coveralls {
-    group = "Reporting"
-    description = "Submit merged coverage reports to coveralls"
-
     sourceDirs = subprojects.collect { "${it.projectDir}/src/main/java" }.toList()
     jacocoReportPath = "${buildDir}/reports/mergeCoverageReport/mergeCoverageReport.xml"
 }
