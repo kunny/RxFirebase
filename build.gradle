@@ -127,7 +127,7 @@ coveralls {
     group = "Reporting"
     description = "Submit merged coverage reports to coveralls"
 
-    sourceDirs = subprojects.collect { "${it.projectDir}/src/main/java" }
+    sourceDirs = subprojects.collect { "${it.projectDir}/src/main/java" }.toList()
     jacocoReportPath = "${buildDir}/reports/mergeCoverageReport/mergeCoverageReport.xml"
 }
 
