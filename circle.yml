@@ -15,4 +15,4 @@ dependencies:
 
 test:
   override:
-    - ./gradlew check coverageReport coveralls --console=plain
+    - ./gradlew check coverageReport mergeCoverageReport coveralls --console=plain

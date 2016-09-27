@@ -25,7 +25,7 @@ allprojects {
         configProperties.checkStyleConfigDir = rootProject.file('config/checkstyle')
     }
 
-    task('checkstyle', type: Checkstyle) {
+    task checkstyle(type: Checkstyle) {
         group = "Verification"
         description = "Runs checkstyle task."
 
@@ -41,14 +41,90 @@ allprojects {
     }
 
     afterEvaluate {
-        if (tasks.findByName('check')) {
-            check.dependsOn('checkstyle')
+        tasks.findByName('check')?.dependsOn('checkstyle')
+    }
+}
+
+subprojects {
+    apply plugin: 'jacoco'
+
+    jacoco {
+        reportsDir = file("${buildDir}/reports")
+    }
+
+    task coverageReport(type: JacocoReport) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports"
+
+        sourceDirectories = files(["${projectDir}/src/main/java"])
+        classDirectories = fileTree(
+                dir: "${buildDir}/intermediates/classes/debug",
+                excludes: ['**/R.class',
+                           '**/R$*.class',
+                           '**/BuildConfig.*',
+                           '**/Manifest*.*',
+                           'com/android/**/*.class'])
+        executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+
+        reports {
+            xml.enabled = true
+            html.enabled = true
         }
+    }
+
+    afterEvaluate {
+        tasks.findByName('coverageReport').dependsOn('test')
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+apply plugin: 'jacoco'
+
+jacoco {
+    reportsDir = file("${buildDir}/reports")
+}
+
+task mergeCoverageReport(type: JacocoReport) {
+    group = "Reporting"
+    description = "Merge Jacoco coverage reports"
+
+    def sources = []
+    def classDirs = files()
+    def executions = []
+
+    subprojects.each {
+        sources << "${it.projectDir}/src/main/java"
+        //noinspection GrReassignedInClosureLocalVar
+        classDirs += fileTree(
+                dir: "${it.buildDir}/intermediates/classes/debug",
+                excludes: ['**/R.class',
+                           '**/R$*.class',
+                           '**/BuildConfig.*',
+                           '**/Manifest*.*',
+                           'com/android/**/*.class'])
+        def executionFile = file("${it.buildDir}/jacoco/testDebugUnitTest.exec")
+        if (executionFile.exists()) {
+            executions << executionFile.path
+        }
+    }
+
+    sourceDirectories = files(sources as String[])
+    classDirectories = classDirs
+    executionData = files(executions as String[])
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/mergeCoverageReport/mergeCoverageReport.xml"
 }
 
 apply from: file('dependencies.gradle')

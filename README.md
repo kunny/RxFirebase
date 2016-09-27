@@ -8,7 +8,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
 ### firebase-auth
 
-RxJava bindings APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
+RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
 compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0'
@@ -24,13 +24,29 @@ compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.6.0'
 
 ### firebase-database
 
-Coming soon!
+RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
+
+```groovy
+compile 'com.androidhuman.rxfirebase:firebase-database:9.6.0'
+```
 
 ### firebase-database-kotlin
 
-Coming soon!
+```groovy
+compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:9.6.0'
+```
 
-Each kotlin support module maps all methods in Java module into an extension function with 'rx' prefix.
+Each kotlin support module maps all methods in Java module into an extension function on following classes:
+
+- firebase-auth-kotlin
+  - `FirebaseAuth`
+  - `FirebaseUser`
+- firebase-database-kotlin
+  - `DatabaseReference`
+
+Basically, extension function has same name of methods in `RxXXX` classes in Java module.
+
+If extension function conflicts with a method in a class that is being extended, it will be renamed with `rx` prefix.
 
 For more details, please refer to following 'Usage' section.
 
@@ -45,6 +61,8 @@ Here are some usages of `RxFirebase`. Since it provides just a wrapper for Fireb
 Get currently signed-in user by `Firebasebase.AuthStateChangeListener`.
 
 As a listener, it will emit `FirebaseAuth` object on each auth state changes until unsubscribed.
+
+Note that `RxFirebaseAuth.authStateChanges()` will emit initial value on subscribe.
 
 Java:
 ```java
@@ -64,7 +82,7 @@ RxFirebaseAuth.authStateChanges(FirebaseAuth.getInstance())
 
 Kotlin:
 ```kotlin
-FirebaseAuth.getInstance().rxAuthStateChanges()
+FirebaseAuth.getInstance().authStateChanges()
         .subscribe({
             // Do something when auth state changes.
         }, {
@@ -213,14 +231,16 @@ repositories {
 }
 ```
 
+Currently, there is no snapshot available.
+
 firebase-auth:
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0-SNAPSHOT'
+compile 'com.androidhuman.rxfirebase:firebase-auth:x.y.z-SNAPSHOT'
 ```
 
 firebase-auth-kotlin:
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.6.0-SNAPSHOT'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:x.y.z-SNAPSHOT'
 ```
 
 ## License

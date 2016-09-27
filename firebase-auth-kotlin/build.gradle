@@ -36,7 +36,9 @@ android {
 }
 
 dependencies {
+    compile project(':common')
     compile project(':firebase-auth')
+
     compile rootProject.ext.kotlin
 }
 

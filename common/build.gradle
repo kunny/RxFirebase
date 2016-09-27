@@ -31,13 +31,7 @@ android {
 }
 
 dependencies {
-    compile project (':common')
-
-    compile rootProject.ext.firebaseAuth
-
-    testCompile rootProject.ext.assertj
-    testCompile rootProject.ext.junit
-    testCompile rootProject.ext.mockito
+    compile rootProject.ext.retroOptional
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.supportAnnotations
 }
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
