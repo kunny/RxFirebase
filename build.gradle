@@ -96,18 +96,20 @@ task mergeCoverageReport(type: JacocoReport) {
     def executions = []
 
     subprojects.each {
-        sources << "${it.projectDir}/src/main/java"
-        //noinspection GrReassignedInClosureLocalVar
-        classDirs += fileTree(
-                dir: "${it.buildDir}/intermediates/classes/debug",
-                excludes: ['**/R.class',
-                           '**/R$*.class',
-                           '**/BuildConfig.*',
-                           '**/Manifest*.*',
-                           'com/android/**/*.class'])
-        def executionFile = file("${it.buildDir}/jacoco/testDebugUnitTest.exec")
-        if (executionFile.exists()) {
-            executions << executionFile.path
+        if (!it.name.contains('kotlin')) {
+            sources << "${it.projectDir}/src/main/java"
+            //noinspection GrReassignedInClosureLocalVar
+            classDirs += fileTree(
+                    dir: "${it.buildDir}/intermediates/classes/debug",
+                    excludes: ['**/R.class',
+                               '**/R$*.class',
+                               '**/BuildConfig.*',
+                               '**/Manifest*.*',
+                               'com/android/**/*.class'])
+            def executionFile = file("${it.buildDir}/jacoco/testDebugUnitTest.exec")
+            if (executionFile.exists()) {
+                executions << executionFile.path
+            }
         }
     }
 
