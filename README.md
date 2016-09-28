@@ -206,6 +206,10 @@ user.rxUpdateProfile(request)
         }
 ```
 
+### Firebase Realtime Database
+
+TBD
+
 ## Firebase SDK version
 
 RxFirebase uses exact same version of Firebase.
@@ -232,16 +236,6 @@ repositories {
 ```
 
 Currently, there is no snapshot available.
-
-firebase-auth:
-```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:x.y.z-SNAPSHOT'
-```
-
-firebase-auth-kotlin:
-```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:x.y.z-SNAPSHOT'
-```
 
 ## License
 

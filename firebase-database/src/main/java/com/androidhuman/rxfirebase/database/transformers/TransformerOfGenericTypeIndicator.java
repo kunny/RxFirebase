@@ -14,7 +14,7 @@ public final class TransformerOfGenericTypeIndicator<T>
     private GenericTypeIndicator<T> typeIndicator;
 
     public TransformerOfGenericTypeIndicator(GenericTypeIndicator<T> indicator) {
-        this.typeIndicator = typeIndicator;
+        this.typeIndicator = indicator;
     }
 
     @Override

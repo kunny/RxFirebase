@@ -31,6 +31,10 @@ inline fun <reified T : Any> DatabaseReference.dataOf(typeIndicator: GenericType
         : Observable<Optional<T>>
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
 
+inline fun DatabaseReference.rxChildEvents()
+        : Observable<ChildEvent>
+        = RxFirebaseDatabase.childEvents(this)
+
 inline fun DatabaseReference.rxRunTransaction(noinline task: (MutableData) -> Transaction.Result)
         : Observable<TaskResult>
         = RxFirebaseDatabase.runTransaction(this, task)

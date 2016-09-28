@@ -40,9 +40,12 @@ final class RunTransactionOnSubscribe implements Observable.OnSubscribe<TaskResu
             public void onComplete(DatabaseError databaseError, boolean committed,
                     DataSnapshot dataSnapshot) {
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(TaskResult.success());
-                } else {
-                    subscriber.onNext(TaskResult.failure(databaseError.toException()));
+                    if (null == databaseError) {
+                        subscriber.onNext(TaskResult.success());
+                    } else {
+                        subscriber.onNext(TaskResult.failure(databaseError.toException()));
+                    }
+                    subscriber.onCompleted();
                 }
             }
         };

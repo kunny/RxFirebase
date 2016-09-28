@@ -21,6 +21,12 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
+    public static Observable<ChildEvent> childEvents(@NonNull DatabaseReference ref) {
+        return Observable.create(new ChildEventsOnSubscribe(ref));
+    }
+
+    @NonNull
+    @CheckResult
     public static Observable<DataSnapshot> data(@NonNull DatabaseReference ref) {
         return Observable.create(new DataOnSubscribe(ref));
     }
@@ -72,5 +78,9 @@ public final class RxFirebaseDatabase {
             @NonNull DatabaseReference ref, boolean fireLocalEvents,
             @NonNull Func1<MutableData, Transaction.Result> task) {
         return Observable.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
+    }
+
+    private RxFirebaseDatabase() {
+        throw new AssertionError("No instances");
     }
 }
