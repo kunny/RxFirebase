@@ -13,14 +13,10 @@ dependencies:
     - if [ ! -d "/usr/local/android_sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
     - if [ ! -d "/usr/local/android_sdk/extras/google/m2repository/com/google/firebase/firebase-core/9.6.0" ]; then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
 
-general:
-  artifacts:
-    - "~/build/reports"
-    - "~/firebase-auth/build/reports"
-    - "~/firebase-auth/build/test-results"
-    - "~/firebase-database/build/reports"
-    - "~/firebase-database/build/test-results"
-
 test:
   override:
-    - ./gradlew check coverageReport mergeCoverageReport coveralls --console=plain
+    - ./gradlew check coverageReport coveralls --console=plain
+  post:
+    # copy test report for Circle CI to display
+    - mkdir -p $CIRCLE_ARTIFACTS/junit/
+    - find . -type f -regex ".*/build/test-results/debug/.*xml" -exec cp {} $CIRCLE_ARTIFACTS/junit/ \;

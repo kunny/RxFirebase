@@ -40,4 +40,10 @@ dependencies {
     testCompile rootProject.ext.mockito
 }
 
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/coverageReport/coverageReport.xml"
+}
+
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

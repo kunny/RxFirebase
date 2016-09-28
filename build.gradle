@@ -123,15 +123,4 @@ task mergeCoverageReport(type: JacocoReport) {
     }
 }
 
-apply plugin: 'com.github.kt3k.coveralls'
-
-coveralls {
-    subprojects.each {
-        def f = file("${it.projectDir}/src/main/java")
-        System.out.println("dir=${f.path} exists=${f.exists()}")
-    }
-    sourceDirs = subprojects.collect { "${it.projectDir}/src/main/java" }.toList()
-    jacocoReportPath = "${buildDir}/reports/mergeCoverageReport/mergeCoverageReport.xml"
-}
-
 apply from: file('dependencies.gradle')
