@@ -77,7 +77,7 @@ public final class RxFirebaseDatabase {
     @NonNull
     @CheckResult
     public static Observable<TaskResult> setPriority(
-            @NonNull DatabaseReference ref, @Nullable Object priority) {
+            @NonNull DatabaseReference ref, @NonNull Object priority) {
         return Observable.create(new SetPriorityOnSubscribe(ref, priority));
     }
 

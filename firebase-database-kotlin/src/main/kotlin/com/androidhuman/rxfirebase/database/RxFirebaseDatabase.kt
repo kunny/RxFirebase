@@ -7,6 +7,10 @@ import com.google.firebase.database.*
 import com.memoizrlabs.retrooptional.Optional
 import rx.Observable
 
+inline fun DatabaseReference.childEvents()
+        : Observable<ChildEvent>
+        = RxFirebaseDatabase.childEvents(this)
+
 inline fun DatabaseReference.data()
         : Observable<DataSnapshot>
         = RxFirebaseDatabase.data(this)
@@ -31,6 +35,18 @@ inline fun <reified T : Any> DatabaseReference.dataOf(typeIndicator: GenericType
         : Observable<Optional<T>>
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
 
+inline fun DatabaseReference.rxSetPriority(priority: Any)
+        : Observable<TaskResult>
+        = RxFirebaseDatabase.setPriority(this, priority)
+
+inline fun <reified T : Any> DatabaseReference.rxSetValue(value: T)
+        : Observable<TaskResult>
+        = RxFirebaseDatabase.setValue(this, value)
+
+inline fun <reified T : Any> DatabaseReference.rxSetValue(value: T, priority: Any)
+        : Observable<TaskResult>
+        = RxFirebaseDatabase.setValue(this, value, priority)
+
 inline fun DatabaseReference.rxChildEvents()
         : Observable<ChildEvent>
         = RxFirebaseDatabase.childEvents(this)
@@ -43,3 +59,7 @@ inline fun DatabaseReference.rxRunTransaction(
         fireLocalEvents: Boolean, noinline task: (MutableData) -> Transaction.Result)
         : Observable<TaskResult>
         = RxFirebaseDatabase.runTransaction(this, fireLocalEvents, task)
+
+inline fun DatabaseReference.rxUpdateChildren(update: Map<String, Any?>)
+        : Observable<TaskResult>
+        = RxFirebaseDatabase.updateChildren(this, update)
