@@ -34,17 +34,15 @@ public final class ChildChangeEvent extends ChildEvent {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        ChildChangeEvent that = (ChildChangeEvent) o;
-
-        //noinspection SimplifiableIfStatement
-        if (!dataSnapshot.equals(that.dataSnapshot)) {
+        if (!super.equals(o)) {
             return false;
         }
 
-        return previousChildName != null
-                ? previousChildName.equals(that.previousChildName)
+        ChildChangeEvent that = (ChildChangeEvent) o;
+
+        return previousChildName != null ? previousChildName.equals(that.previousChildName)
                 : that.previousChildName == null;
+
     }
 
     @Override

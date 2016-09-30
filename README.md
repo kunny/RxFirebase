@@ -11,7 +11,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth:{version}'
 ```
 
 ### firebase-auth-kotlin
@@ -19,7 +19,7 @@ compile 'com.androidhuman.rxfirebase:firebase-auth:9.6.0'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.6.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:{version}'
 ```
 
 ### firebase-database
@@ -27,13 +27,13 @@ compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.6.0'
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-database:9.6.0'
+compile 'com.androidhuman.rxfirebase:firebase-database:{version}'
 ```
 
 ### firebase-database-kotlin
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:9.6.0'
+compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:{version}'
 ```
 
 Each kotlin support module maps all methods in Java module into an extension function on following classes:
@@ -210,15 +210,15 @@ user.rxUpdateProfile(request)
 
 TBD
 
-## Firebase SDK version
+## Versioning
 
-RxFirebase uses exact same version of Firebase.
+RxFirebase uses a versioning rule that is related to corresponding Firebase's version by following rule:
 
-RxFirebase and corresponding Firebase version is as follows:
+```
+RxFirebaseVersion : {major}.{minor}.{patch} = {Firebase major}.{Firebase minor * 10 + Firebase patch}.{RxFirebase patch}
+```
 
-| RxFirebase version | Firebase version |
-| :---: | :---: |
-| 9.6.0 | 9.6.0 |
+For example, a library version that depends on `9.6.0` version of Firebase SDK, whose patch version is `1` will be `9.60.1`.
 
 ## Development Snapshot
 

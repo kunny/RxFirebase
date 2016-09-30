@@ -7,17 +7,17 @@ public final class TaskResult {
     private final boolean success;
 
     @Nullable
-    private final Exception exception;
+    private final Throwable exception;
 
     public static TaskResult success() {
         return new TaskResult(true, null);
     }
 
-    public static TaskResult failure(@Nullable Exception exception) {
+    public static TaskResult failure(@Nullable Throwable exception) {
         return new TaskResult(false, exception);
     }
 
-    private TaskResult(boolean success, @Nullable Exception exception) {
+    private TaskResult(boolean success, @Nullable Throwable exception) {
         this.success = success;
         this.exception = exception;
     }
@@ -27,7 +27,7 @@ public final class TaskResult {
     }
 
     @Nullable
-    public Exception getException() {
+    public Throwable getException() {
         return exception;
     }
 

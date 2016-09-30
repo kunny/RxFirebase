@@ -30,7 +30,7 @@ final class ChildEventsOnSubscribe implements Observable.OnSubscribe<ChildEvent>
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                if (subscriber.isUnsubscribed()) {
+                if (!subscriber.isUnsubscribed()) {
                     subscriber.onNext(ChildChangeEvent.create(dataSnapshot, previousChildName));
                 }
             }

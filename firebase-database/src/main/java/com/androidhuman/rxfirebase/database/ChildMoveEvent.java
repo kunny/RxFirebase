@@ -34,17 +34,15 @@ public final class ChildMoveEvent extends ChildEvent {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        ChildMoveEvent that = (ChildMoveEvent) o;
-
-        //noinspection SimplifiableIfStatement
-        if (!dataSnapshot.equals(that.dataSnapshot)) {
+        if (!super.equals(o)) {
             return false;
         }
 
-        return previousChildName != null
-                ? previousChildName.equals(that.previousChildName)
+        ChildMoveEvent that = (ChildMoveEvent) o;
+
+        return previousChildName != null ? previousChildName.equals(that.previousChildName)
                 : that.previousChildName == null;
+
     }
 
     @Override

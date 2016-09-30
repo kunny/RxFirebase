@@ -13,6 +13,9 @@ import com.memoizrlabs.retrooptional.Optional;
 
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import java.util.Map;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -67,6 +70,33 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
+    public static Observable<TaskResult> removeValue(@NonNull DatabaseReference ref) {
+        return Observable.create(new RemoveValueOnSubscribe(ref));
+    }
+
+    @NonNull
+    @CheckResult
+    public static Observable<TaskResult> setPriority(
+            @NonNull DatabaseReference ref, @Nullable Object priority) {
+        return Observable.create(new SetPriorityOnSubscribe(ref, priority));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Observable<TaskResult> setValue(
+            @NonNull DatabaseReference ref, @Nullable T value) {
+        return Observable.create(new SetValueOnSubscribe<T>(ref, value));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Observable<TaskResult> setValue(
+            @NonNull DatabaseReference ref, @Nullable T value, @NonNull Object priority) {
+        return Observable.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
+    }
+
+    @NonNull
+    @CheckResult
     public static Observable<TaskResult> runTransaction(
             @NonNull DatabaseReference ref, @NonNull Func1<MutableData, Transaction.Result> task) {
         return runTransaction(ref, true, task);
@@ -78,6 +108,13 @@ public final class RxFirebaseDatabase {
             @NonNull DatabaseReference ref, boolean fireLocalEvents,
             @NonNull Func1<MutableData, Transaction.Result> task) {
         return Observable.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
+    }
+
+    @NonNull
+    @CheckResult
+    public static Observable<TaskResult> updateChildren(
+            @NonNull DatabaseReference ref, @NonNull Map<String, Object> update) {
+        return Observable.create(new UpdateChildrenOnSubscribe(ref, update));
     }
 
     private RxFirebaseDatabase() {

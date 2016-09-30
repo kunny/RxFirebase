@@ -40,14 +40,8 @@ public final class ChildAddEvent extends ChildEvent {
 
         ChildAddEvent that = (ChildAddEvent) o;
 
-        //noinspection SimplifiableIfStatement
-        if (!dataSnapshot.equals(that.dataSnapshot)) {
-            return false;
-        }
-        return previousChildName != null
-                ? previousChildName.equals(that.previousChildName)
+        return previousChildName != null ? previousChildName.equals(that.previousChildName)
                 : that.previousChildName == null;
-
     }
 
     @Override
@@ -60,7 +54,7 @@ public final class ChildAddEvent extends ChildEvent {
 
     @Override
     public String toString() {
-        return "ChildAdd{"
+        return "ChildAddEvent{"
                 + "dataSnapshot=" + dataSnapshot
                 + ", previousChildName='" + previousChildName + '\''
                 + '}';

@@ -1,18 +1,20 @@
 ext {
 	// Build SDK versions
-
-    buildToolsVersion = '24.0.2'
+    buildToolsVersion = '24.0.3'
     minSdkVersion = 14
     compileSdkVersion = 24
 
     // CI
     ci = 'true'.equals(System.getenv('CI'))
 
+    // Firebase Version
+    firebaseVersion = '9.6.1'
+
     // Dependencies
     assertj = 'org.assertj:assertj-core:1.2.0'
-    firebaseAuth = 'com.google.firebase:firebase-auth:9.6.0'
-    firebaseCore = 'com.google.firebase:firebase-core:9.6.0'
-    firebaseDatabase = 'com.google.firebase:firebase-database:9.6.0'
+    firebaseAuth = "com.google.firebase:firebase-auth:${firebaseVersion}"
+    firebaseCore = "com.google.firebase:firebase-core:${firebaseVersion}"
+    firebaseDatabase = "com.google.firebase:firebase-database:${firebaseVersion}"
     junit = 'junit:junit:4.12'
     kotlin = 'org.jetbrains.kotlin:kotlin-stdlib:1.0.4'
     mockito = 'org.mockito:mockito-core:2.0.7-beta'
