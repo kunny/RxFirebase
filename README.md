@@ -208,7 +208,226 @@ user.rxUpdateProfile(request)
 
 ### Firebase Realtime Database
 
-TBD
+#### Write to your database
+
+Retrieve an instance of your database using `FirebaseDatabase.getInstance()` and pass the reference of the location to `RxFirebase.setValue()` with a value.
+
+Java:
+
+```java
+DatabaseReference ref = ...;
+
+RxFirebaseDatabase.setValue(ref, "Lorem ipsum")
+        .subscribe(new Action1<TaskResult>() {
+            @Override
+            public void call(TaskResult taskResult) {
+                if (taskResult.isSuccess()) {
+                    // Update successful
+                } else {
+                    // Something went wrong
+                }
+            }
+        });
+```
+
+Kotlin:
+
+```kotlin
+val ref: DatabaseReference = ...;
+ref.rxSetValue("Lorem ipsum")
+        .subscribe {
+            if (it.isSuccess) {
+                // Update successful
+            } else {
+                // Somthing went wrong
+            }
+        }
+```
+
+#### Update specific fields
+
+To simultaneously write to specific children of a note without overwriting other child nodes, use the `RxFirebase.updateChildren()` method.
+
+Java:
+
+```java
+DatabaseReference ref = ...;
+
+Map<String, Object> update = new HashMap<>();
+update.put("/posts/foo", /* Post values */);
+update.put("/user-posts/bar", /* Post values */);
+
+RxFirebaseDatabase.updateChildren(ref, update)
+        .subscribe(new Action1<TaskResult>() {
+            @Override
+            public void call(TaskResult taskResult) {
+                // Do something with result
+            }
+        });
+```
+Kotlin:
+
+```kotlin
+val ref: DatabaseReference = FirebaseDatabase.getInstance().getReference()
+
+val update = mapOf(
+              "/posts/foo" to /* Post values */,
+              "user-posts/bar" to /* Post values */)
+
+ref.rxUpdateChildren(update)
+        .subscribe {
+            // Do something with result
+        }
+```
+
+### Read from your database
+
+#### Listen for value events
+
+You can use the `RxFirebase.dataChanges()` method to get a `Optional` wrapper of static snapshot(`DataSnapshot`) of the contents at a given path, as they existed at the time of the event.
+
+This method will emit an event once when subscribed, and again every time the data, including children, changes.
+
+If there is no data, the event emitted is `Optional.empty()` so you can check whether data exists or not by `Optional.isPresent()`.
+
+Java:
+
+```java
+DatabaseReference ref = ...;
+
+RxFirebaseDatabase.dataChanges(ref)
+        .subscribe(new Action1<Optional<DataSnapshot>>() {
+            @Override
+            public void call(Optional<DataSnapshot> dataSnapshot) {
+                if (dataSnapshot.isPresent()) {
+                    // Do something with data
+                } else {
+                    // Data does not exists
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                // Handle error
+            }
+        });
+```
+
+Kotlin:
+
+```kotlin
+val ref: DatabaseReference = ...
+
+ref.dataChanges()
+        .subscribe({
+            if (null != it) {
+                // Do something with data
+            } else {
+                // Data does not exists
+            }
+        }) {
+            // Handle error
+        }
+```
+
+If you want to get a data as a native object, you can use `RxFirebaseDatabase.dataChangesOf(Class<T>)` or `RxFirebaseDatabase.dataChangesOf(GenericTypeIndicator<T>)`.
+
+You *must* unsubscribe an observable once you're done with listening value events to prevent memory leak.
+
+#### Listen for child events
+
+Child events are trigger in response to specific operations that happen to the children of a node from an operation such as a new child added through the `push()` method or a child being update through the `updateChildren()` method.
+
+You can listen for child events by `RxFirebaseDatabase.childEvents()` method, which emits an event as following:
+
+- `ChildAddEvent` - Emitted on `ChildEventListener.onChildAdded()` call
+- `ChildChangeEvent` - Emitted on `ChildEventListener.onChildChanged()` call
+- `ChildMoveEvent` - Emitted on `ChildEventListener.onChildMoved()` call
+- `ChildRemoveEvent` - Emitted on `ChildEventListener.onChildRemoved()` call
+
+`RxFirebaseDatabase.childEvents()` will emit all types of event by default. If you need to listen for specific event, you can filter by using `ofType()` operator in `RxJava` as following:
+
+Java:
+
+```java
+DatabaseReference ref = ...;
+
+RxFirebaseDatabase.childEvents(ref)
+        .ofType(ChildAddEvent.class)
+        .subscribe(new Action1<ChildAddEvent>() {
+            @Override
+            public void call(ChildAddEvent childAddEvent) {
+                // Handle for Child add event
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                // Handle error
+            }
+        });
+```
+
+Kotlin:
+
+```kotlin
+val ref: DatabaseReference = ...
+
+ref.childEvents()
+        .ofType(ChildAddEvent::class.java)
+        .subscribe({
+            // Handle for child add event
+        }) {
+            // Handle error
+        }
+```
+
+You *must* unsubscribe an observable once you're done with listening child events to prevent memory leak.
+
+#### Read data once
+
+This is useful for data that only needs to be loaded once and isn't expected to change frequently or require active listening.
+
+Similar to listening for the data changes, you can use `RxFirebaseDatabase.data()` method to get an `Optional` wrapper of static snapshot of the contents.
+
+Java:
+
+```java
+DatabaseReference ref = ...;
+
+RxFirebaseDatabase.data(ref)
+        .subscribe(new Action1<Optional<DataSnapshot>>() {
+            @Override
+            public void call(Optional<DataSnapshot> dataSnapshot) {
+                if (dataSnapshot.isPresent()) {
+                    // Do something with data
+                } else {
+                    // Data does not exists
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                // Handle error
+            }
+        });
+```
+
+Kotlin:
+
+```kotlin
+val ref: DatabaseReference = FirebaseDatabase.getInstance().getReference()
+
+ref.data()
+        .subscribe({
+            if (null != it) {
+                // Do something with data
+            } else {
+                // Data does not exists
+            }
+        }) {
+            // Handle error
+        }
+```
 
 ## Versioning
 

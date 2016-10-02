@@ -129,7 +129,7 @@ public class RxFirebaseDatabaseTest {
 
         s.unsubscribe();
 
-        callOnChildAdded("baz");
+        callOnChildChanged("foo");
 
         // Ensure no more values are emitted after unsubscrube
         sub.assertValueCount(2);
@@ -158,7 +158,7 @@ public class RxFirebaseDatabaseTest {
 
         s.unsubscribe();
 
-        callOnChildAdded("baz");
+        callOnChildRemoved();
 
         // Ensure no more values are emitted after unsubscrube
         sub.assertValueCount(2);
@@ -189,7 +189,7 @@ public class RxFirebaseDatabaseTest {
 
         s.unsubscribe();
 
-        callOnChildAdded("baz");
+        callOnChildMoved("foo");
 
         // Ensure no more values are emitted after unsubscrube
         sub.assertValueCount(2);
@@ -220,7 +220,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testData() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.data(mockDatabaseReference)
                 .subscribe(sub);
@@ -239,7 +239,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testData_onCancelled() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.data(mockDatabaseReference)
                 .subscribe(sub);
@@ -262,7 +262,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataChanges() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataChanges(mockDatabaseReference)
                 .subscribe(sub);
@@ -283,7 +283,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataChanges_onCancelled() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataChanges(mockDatabaseReference)
                 .subscribe(sub);
