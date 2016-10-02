@@ -32,6 +32,8 @@ compile 'com.androidhuman.rxfirebase:firebase-database:{version}'
 
 ### firebase-database-kotlin
 
+Kotlin support module for `firebase-database`
+
 ```groovy
 compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:{version}'
 ```
@@ -332,7 +334,7 @@ ref.dataChanges()
 
 If you want to get a data as a native object, you can use `RxFirebaseDatabase.dataChangesOf(Class<T>)` or `RxFirebaseDatabase.dataChangesOf(GenericTypeIndicator<T>)`.
 
-You *must* unsubscribe an observable once you're done with listening value events to prevent memory leak.
+You *must* unsubscribe a subscription once you're done with listening value events to prevent memory leak.
 
 #### Listen for child events
 
@@ -381,7 +383,7 @@ ref.childEvents()
         }
 ```
 
-You *must* unsubscribe an observable once you're done with listening child events to prevent memory leak.
+You *must* unsubscribe a subscription once you're done with listening child events to prevent memory leak.
 
 #### Read data once
 
@@ -434,7 +436,8 @@ ref.data()
 RxFirebase uses a versioning rule that is related to corresponding Firebase's version by following rule:
 
 ```
-RxFirebaseVersion : {major}.{minor}.{patch} = {Firebase major}.{Firebase minor * 10 + Firebase patch}.{RxFirebase patch}
+RxFirebaseVersion : {major}.{minor}.{patch} =
+    {Firebase major}.{Firebase minor * 10 + Firebase patch}.{RxFirebase patch}
 ```
 
 For example, a library version that depends on `9.6.0` version of Firebase SDK, whose patch version is `1` will be `9.60.1`.
