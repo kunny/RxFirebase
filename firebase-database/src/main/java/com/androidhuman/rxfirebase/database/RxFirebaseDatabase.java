@@ -30,13 +30,13 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static Observable<Optional<DataSnapshot>> data(@NonNull DatabaseReference ref) {
+    public static Observable<DataSnapshot> data(@NonNull DatabaseReference ref) {
         return Observable.create(new DataOnSubscribe(ref));
     }
 
     @NonNull
     @CheckResult
-    public static Observable<Optional<DataSnapshot>> dataChanges(@NonNull DatabaseReference ref) {
+    public static Observable<DataSnapshot> dataChanges(@NonNull DatabaseReference ref) {
         return Observable.create(new DataChangesOnSubscribe(ref));
     }
 

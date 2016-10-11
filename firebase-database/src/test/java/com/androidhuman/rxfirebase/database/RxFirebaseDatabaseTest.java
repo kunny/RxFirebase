@@ -220,7 +220,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testData() {
-        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
+        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.data(mockDatabaseReference)
                 .subscribe(sub);
@@ -239,7 +239,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testData_onCancelled() {
-        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
+        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.data(mockDatabaseReference)
                 .subscribe(sub);
@@ -262,7 +262,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataChanges() {
-        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
+        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataChanges(mockDatabaseReference)
                 .subscribe(sub);
@@ -283,7 +283,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataChanges_onCancelled() {
-        TestSubscriber<Optional<DataSnapshot>> sub = new TestSubscriber<>();
+        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataChanges(mockDatabaseReference)
                 .subscribe(sub);

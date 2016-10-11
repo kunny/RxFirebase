@@ -5,14 +5,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import com.memoizrlabs.retrooptional.Optional;
-
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 import rx.subscriptions.Subscriptions;
 
-final class DataChangesOnSubscribe implements Observable.OnSubscribe<Optional<DataSnapshot>> {
+final class DataChangesOnSubscribe implements Observable.OnSubscribe<DataSnapshot> {
 
     private final DatabaseReference ref;
 
@@ -21,12 +19,12 @@ final class DataChangesOnSubscribe implements Observable.OnSubscribe<Optional<Da
     }
 
     @Override
-    public void call(final Subscriber<? super Optional<DataSnapshot>> subscriber) {
+    public void call(final Subscriber<? super DataSnapshot> subscriber) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(Optional.of(dataSnapshot));
+                    subscriber.onNext(dataSnapshot);
                 }
             }
 

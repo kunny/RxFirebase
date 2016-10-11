@@ -16,11 +16,11 @@ inline fun DatabaseReference.childEvents()
         = RxFirebaseDatabase.childEvents(this)
 
 inline fun DatabaseReference.data()
-        : Observable<Optional<DataSnapshot>>
+        : Observable<DataSnapshot>
         = RxFirebaseDatabase.data(this)
 
 inline fun DatabaseReference.dataChanges()
-        : Observable<Optional<DataSnapshot>>
+        : Observable<DataSnapshot>
         = RxFirebaseDatabase.dataChanges(this)
 
 inline fun <reified T : Any> DatabaseReference.dataChangesOf()
