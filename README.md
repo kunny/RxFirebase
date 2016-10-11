@@ -1,6 +1,7 @@
 # RxFirebase
 [![CircleCI](https://circleci.com/gh/kunny/RxFirebase.svg?style=shield)](https://circleci.com/gh/kunny/RxFirebase)
 [![Coverage Status](https://coveralls.io/repos/github/kunny/RxFirebase/badge.svg?branch=master)](https://coveralls.io/github/kunny/RxFirebase?branch=master)
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase/common/badge.svg)
 
 RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
@@ -11,7 +12,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:{version}'
+compile 'com.androidhuman.rxfirebase:firebase-auth:9.61.0'
 ```
 
 ### firebase-auth-kotlin
@@ -19,7 +20,7 @@ compile 'com.androidhuman.rxfirebase:firebase-auth:{version}'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:{version}'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.61.0'
 ```
 
 ### firebase-database
@@ -27,7 +28,7 @@ compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:{version}'
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-database:{version}'
+compile 'com.androidhuman.rxfirebase:firebase-database:9.61.0'
 ```
 
 ### firebase-database-kotlin
@@ -35,7 +36,7 @@ compile 'com.androidhuman.rxfirebase:firebase-database:{version}'
 Kotlin support module for `firebase-database`
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:{version}'
+compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:9.61.0'
 ```
 
 Each kotlin support module maps all methods in Java module into an extension function on following classes:
