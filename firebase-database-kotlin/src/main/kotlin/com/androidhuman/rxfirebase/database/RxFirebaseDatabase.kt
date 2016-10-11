@@ -3,7 +3,12 @@
 package com.androidhuman.rxfirebase.database
 
 import com.androidhuman.rxfirebase.common.model.TaskResult
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
+import com.memoizrlabs.retrooptional.Optional
 import rx.Observable
 
 inline fun DatabaseReference.childEvents()
@@ -11,34 +16,28 @@ inline fun DatabaseReference.childEvents()
         = RxFirebaseDatabase.childEvents(this)
 
 inline fun DatabaseReference.data()
-        : Observable<DataSnapshot?>
+        : Observable<Optional<DataSnapshot>>
         = RxFirebaseDatabase.data(this)
-        .map { if (it.isPresent) it.get() else null }
 
 inline fun DatabaseReference.dataChanges()
-        : Observable<DataSnapshot?>
+        : Observable<Optional<DataSnapshot>>
         = RxFirebaseDatabase.dataChanges(this)
-        .map { if (it.isPresent) it.get() else null }
 
 inline fun <reified T : Any> DatabaseReference.dataChangesOf()
-        : Observable<T?>
+        : Observable<Optional<T>>
         = RxFirebaseDatabase.dataChangesOf(this, T::class.java)
-        .map { if (it.isPresent) it.get() else null }
 
 inline fun <reified T : Any> DatabaseReference.dataChangesOf(typeIndicator: GenericTypeIndicator<T>)
-        : Observable<T?>
+        : Observable<Optional<T>>
         = RxFirebaseDatabase.dataChangesOf(this, typeIndicator)
-        .map { if (it.isPresent) it.get() else null }
 
 inline fun <reified T : Any> DatabaseReference.dataOf()
-        : Observable<T?>
+        : Observable<Optional<T>>
         = RxFirebaseDatabase.dataOf(this, T::class.java)
-        .map { if (it.isPresent) it.get() else null }
 
 inline fun <reified T : Any> DatabaseReference.dataOf(typeIndicator: GenericTypeIndicator<T>)
-        : Observable<T?>
+        : Observable<Optional<T>>
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
-        .map { if (it.isPresent) it.get() else null }
 
 inline fun DatabaseReference.rxSetPriority(priority: Any)
         : Observable<TaskResult>

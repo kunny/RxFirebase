@@ -116,13 +116,13 @@ RxFirebaseAuth.getCurrentUser(FirebaseAuth.getInstance())
             }
         });
 ```
-In Kotlin support module, it converts `Optional` into its native nullable reference, `FirebaseUser?`.
+
 
 Kotlin:
 ```kotlin
 FirebaseAuth.getInstance().rxGetCurrentUser()
         .subscribe({
-            if (null != it) {
+            if (user.isPresent) {
                 // Do something with user
             } else {
                 // There is not signed in user or
@@ -322,7 +322,7 @@ val ref: DatabaseReference = ...
 
 ref.dataChanges()
         .subscribe({
-            if (null != it) {
+            if (it.isPresent) {
                 // Do something with data
             } else {
                 // Data does not exists
