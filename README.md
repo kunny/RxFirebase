@@ -286,11 +286,9 @@ ref.rxUpdateChildren(update)
 
 #### Listen for value events
 
-You can use the `RxFirebase.dataChanges()` method to get a `Optional` wrapper of static snapshot(`DataSnapshot`) of the contents at a given path, as they existed at the time of the event.
+You can use the `RxFirebase.dataChanges()` method to get a snapshot(`DataSnapshot`) of the contents at a given path, as they existed at the time of the event.
 
 This method will emit an event once when subscribed, and again every time the data, including children, changes.
-
-If there is no data, the event emitted is `Optional.empty()` so you can check whether data exists or not by `Optional.isPresent()`.
 
 Java:
 
@@ -298,10 +296,10 @@ Java:
 DatabaseReference ref = ...;
 
 RxFirebaseDatabase.dataChanges(ref)
-        .subscribe(new Action1<Optional<DataSnapshot>>() {
+        .subscribe(new Action1<DataSnapshot>() {
             @Override
-            public void call(Optional<DataSnapshot> dataSnapshot) {
-                if (dataSnapshot.isPresent()) {
+            public void call(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
                     // Do something with data
                 } else {
                     // Data does not exists
@@ -322,7 +320,7 @@ val ref: DatabaseReference = ...
 
 ref.dataChanges()
         .subscribe({
-            if (it.isPresent) {
+            if (it.exists()) {
                 // Do something with data
             } else {
                 // Data does not exists
@@ -397,10 +395,10 @@ Java:
 DatabaseReference ref = ...;
 
 RxFirebaseDatabase.data(ref)
-        .subscribe(new Action1<Optional<DataSnapshot>>() {
+        .subscribe(new Action1<DataSnapshot>() {
             @Override
-            public void call(Optional<DataSnapshot> dataSnapshot) {
-                if (dataSnapshot.isPresent()) {
+            public void call(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
                     // Do something with data
                 } else {
                     // Data does not exists
@@ -421,7 +419,7 @@ val ref: DatabaseReference = FirebaseDatabase.getInstance().getReference()
 
 ref.data()
         .subscribe({
-            if (null != it) {
+            if (it.exists()) {
                 // Do something with data
             } else {
                 // Data does not exists
