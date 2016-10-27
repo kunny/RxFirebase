@@ -8,7 +8,7 @@ ext {
     ci = 'true'.equals(System.getenv('CI'))
 
     // Firebase Version
-    firebaseVersion = '9.6.1'
+    firebaseVersion = '9.8.0'
 
     // Dependencies
     assertj = 'org.assertj:assertj-core:1.2.0'
