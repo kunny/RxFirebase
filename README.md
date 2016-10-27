@@ -13,7 +13,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth:9.61.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth:9.80.0'
 ```
 
 ### firebase-auth-kotlin
@@ -21,7 +21,7 @@ compile 'com.androidhuman.rxfirebase:firebase-auth:9.61.0'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.61.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.80.0'
 ```
 
 ### firebase-database
@@ -29,7 +29,7 @@ compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:9.61.0'
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-database:9.61.0'
+compile 'com.androidhuman.rxfirebase:firebase-database:9.80.0'
 ```
 
 ### firebase-database-kotlin
@@ -37,7 +37,7 @@ compile 'com.androidhuman.rxfirebase:firebase-database:9.61.0'
 Kotlin support module for `firebase-database`
 
 ```groovy
-compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:9.61.0'
+compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:9.80.0'
 ```
 
 Each kotlin support module maps all methods in Java module into an extension function on following classes:
