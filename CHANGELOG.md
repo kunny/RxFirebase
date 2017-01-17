@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 10.1.0 *(2017/01/17)*
+
+Update Firebase SDK version to 10.0.1.
+
 ## Version 10.0.0 *(2017/01/17)*
 
 Update Firebase SDK version to 10.0.0.

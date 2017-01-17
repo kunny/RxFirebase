@@ -17,7 +17,7 @@ Currently, it supports RxJava 1.x only.
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile ('com.androidhuman.rxfirebase:firebase-auth:10.0.0') {
+compile ('com.androidhuman.rxfirebase:firebase-auth:10.1.0') {
     transitive = false
 }
 ```
@@ -27,7 +27,7 @@ compile ('com.androidhuman.rxfirebase:firebase-auth:10.0.0') {
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-compile ('com.androidhuman.rxfirebase:firebase-auth-kotlin:10.0.0') {
+compile ('com.androidhuman.rxfirebase:firebase-auth-kotlin:10.1.0') {
     transitive = false
 }
 ```
@@ -37,7 +37,7 @@ compile ('com.androidhuman.rxfirebase:firebase-auth-kotlin:10.0.0') {
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-compile ('com.androidhuman.rxfirebase:firebase-database:10.0.0') {
+compile ('com.androidhuman.rxfirebase:firebase-database:10.1.0') {
     transitive = false
 }
 ```
@@ -47,7 +47,7 @@ compile ('com.androidhuman.rxfirebase:firebase-database:10.0.0') {
 Kotlin support module for `firebase-database`
 
 ```groovy
-compile ('com.androidhuman.rxfirebase:firebase-database-kotlin:10.0.0') {
+compile ('com.androidhuman.rxfirebase:firebase-database-kotlin:10.1.0') {
     transitive = false
 }
 ```
