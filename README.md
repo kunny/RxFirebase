@@ -6,6 +6,10 @@
 
 RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
+## RxJava Version
+
+Currently, it supports RxJava 1.x only.
+
 ## Modules
 
 ### firebase-auth
