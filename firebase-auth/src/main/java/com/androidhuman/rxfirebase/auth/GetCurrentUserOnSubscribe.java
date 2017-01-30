@@ -5,10 +5,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import com.memoizrlabs.retrooptional.Optional;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
-final class GetCurrentUserOnSubscribe implements Observable.OnSubscribe<Optional<FirebaseUser>> {
+final class GetCurrentUserOnSubscribe implements SingleOnSubscribe<Optional<FirebaseUser>> {
 
     private FirebaseAuth instance;
 
@@ -17,10 +17,9 @@ final class GetCurrentUserOnSubscribe implements Observable.OnSubscribe<Optional
     }
 
     @Override
-    public void call(Subscriber<? super Optional<FirebaseUser>> subscriber) {
-        if (!subscriber.isUnsubscribed()) {
-            subscriber.onNext(Optional.of(instance.getCurrentUser()));
-            subscriber.onCompleted();
+    public void subscribe(SingleEmitter<Optional<FirebaseUser>> emitter) {
+        if (!emitter.isDisposed()) {
+            emitter.onSuccess(Optional.of(instance.getCurrentUser()));
         }
     }
 }

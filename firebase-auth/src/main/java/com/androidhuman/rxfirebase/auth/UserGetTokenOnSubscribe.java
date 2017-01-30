@@ -7,10 +7,10 @@ import com.google.firebase.auth.GetTokenResult;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
-final class UserGetTokenOnSubscribe implements Observable.OnSubscribe<String> {
+final class UserGetTokenOnSubscribe implements SingleOnSubscribe<String> {
 
     private final FirebaseUser user;
 
@@ -22,20 +22,19 @@ final class UserGetTokenOnSubscribe implements Observable.OnSubscribe<String> {
     }
 
     @Override
-    public void call(final Subscriber<? super String> subscriber) {
+    public void subscribe(final SingleEmitter<String> emitter) {
         OnCompleteListener<GetTokenResult> listener = new OnCompleteListener<GetTokenResult>() {
             @Override
             public void onComplete(@NonNull Task<GetTokenResult> task) {
                 if (!task.isSuccessful()) {
-                    if (!subscriber.isUnsubscribed()) {
-                        subscriber.onError(task.getException());
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(task.getException());
                     }
                     return;
                 }
 
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult().getToken());
-                    subscriber.onCompleted();
+                if (!emitter.isDisposed()) {
+                    emitter.onSuccess(task.getResult().getToken());
                 }
             }
         };

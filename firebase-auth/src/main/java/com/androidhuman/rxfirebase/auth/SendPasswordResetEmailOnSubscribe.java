@@ -4,15 +4,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-
 import com.androidhuman.rxfirebase.common.model.TaskResult;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
-final class SendPasswordResetEmailOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class SendPasswordResetEmailOnSubscribe implements SingleOnSubscribe<TaskResult> {
 
     private final FirebaseAuth instance;
 
@@ -24,18 +23,16 @@ final class SendPasswordResetEmailOnSubscribe implements Observable.OnSubscribe<
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void subscribe(final SingleEmitter<TaskResult> emitter) {
         final OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
-                    subscriber.onNext(TaskResult.failure(task.getException()));
-                    subscriber.onCompleted();
+                    emitter.onSuccess(TaskResult.failure(task.getException()));
                     return;
                 }
 
-                subscriber.onNext(TaskResult.success());
-                subscriber.onCompleted();
+                emitter.onSuccess(TaskResult.success());
             }
         };
 

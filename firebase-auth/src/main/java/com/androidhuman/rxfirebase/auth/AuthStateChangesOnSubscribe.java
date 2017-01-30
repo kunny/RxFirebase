@@ -4,12 +4,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.subscriptions.Subscriptions;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposables;
+import io.reactivex.functions.Action;
 
-final class AuthStateChangesOnSubscribe implements Observable.OnSubscribe<FirebaseAuth> {
+
+final class AuthStateChangesOnSubscribe implements ObservableOnSubscribe<FirebaseAuth> {
 
     private final FirebaseAuth instance;
 
@@ -18,21 +19,21 @@ final class AuthStateChangesOnSubscribe implements Observable.OnSubscribe<Fireba
     }
 
     @Override
-    public void call(final Subscriber<? super FirebaseAuth> subscriber) {
+    public void subscribe(final ObservableEmitter<FirebaseAuth> emitter) {
         final FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(firebaseAuth);
+                if (!emitter.isDisposed()) {
+                    emitter.onNext(firebaseAuth);
                 }
             }
         };
 
         instance.addAuthStateListener(listener);
 
-        subscriber.add(Subscriptions.create(new Action0() {
+        emitter.setDisposable(Disposables.fromAction(new Action() {
             @Override
-            public void call() {
+            public void run() throws Exception {
                 instance.removeAuthStateListener(listener);
             }
         }));

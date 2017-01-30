@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.4'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
     }
 }
@@ -77,9 +77,10 @@ subprojects {
     }
 }
 
-task clean(type: Delete) {
+task cleanBuildDir(type: Delete) {
     delete rootProject.buildDir
 }
+clean.dependsOn += cleanBuildDir
 
 apply plugin: 'jacoco'
 

@@ -8,10 +8,10 @@ import com.androidhuman.rxfirebase.common.model.TaskResult;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
-final class UserReloadOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class UserReloadOnSubscribe implements SingleOnSubscribe<TaskResult> {
 
     private final FirebaseUser user;
 
@@ -20,17 +20,16 @@ final class UserReloadOnSubscribe implements Observable.OnSubscribe<TaskResult> 
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void subscribe(final SingleEmitter<TaskResult> emitter) {
         OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (!subscriber.isUnsubscribed()) {
+                if (!emitter.isDisposed()) {
                     if (!task.isSuccessful()) {
-                        subscriber.onNext(TaskResult.failure(task.getException()));
+                        emitter.onSuccess(TaskResult.failure(task.getException()));
                     } else {
-                        subscriber.onNext(TaskResult.success());
+                        emitter.onSuccess(TaskResult.success());
                     }
-                    subscriber.onCompleted();
                 }
             }
         };

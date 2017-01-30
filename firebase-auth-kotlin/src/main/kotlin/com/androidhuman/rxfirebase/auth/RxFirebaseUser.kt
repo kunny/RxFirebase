@@ -7,45 +7,45 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
-import rx.Observable
+import io.reactivex.Single
 
 inline fun FirebaseUser.rxDelete()
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.delete(this)
 
 inline fun FirebaseUser.rxGetToken(forceRefresh: Boolean)
-        : Observable<String>
+        : Single<String>
         = RxFirebaseUser.getToken(this, forceRefresh)
 
 inline fun FirebaseUser.rxLinkWithCredential(credential: AuthCredential)
-        : Observable<AuthResult>
+        : Single<AuthResult>
         = RxFirebaseUser.linkWithCredential(this, credential)
 
 inline fun FirebaseUser.rxReauthenticate(credential: AuthCredential)
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.reauthenticate(this, credential)
 
 inline fun FirebaseUser.rxReload()
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.reload(this)
 
 inline fun FirebaseUser.rxSendEmailVerification()
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.sendEmailVerification(this)
 
 inline fun FirebaseUser.rxUnlink(provider: String)
-        : Observable<AuthResult>
+        : Single<AuthResult>
         = RxFirebaseUser.unlink(this, provider)
 
 inline fun FirebaseUser.rxUpdateEmail(email: String)
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.updateEmail(this, email)
 
 inline fun FirebaseUser.rxUpdatePassword(password: String)
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.updatePassword(this, password)
 
 inline fun FirebaseUser.rxUpdateProfile(request: UserProfileChangeRequest)
-        : Observable<TaskResult>
+        : Single<TaskResult>
         = RxFirebaseUser.updateProfile(this, request)
 

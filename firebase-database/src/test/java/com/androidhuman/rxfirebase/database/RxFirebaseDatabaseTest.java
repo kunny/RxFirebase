@@ -21,14 +21,16 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Subscription;
-import rx.functions.Func1;
-import rx.observers.TestSubscriber;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.observers.TestObserver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyBoolean;
@@ -50,7 +52,7 @@ public class RxFirebaseDatabaseTest {
     MutableData mockMutableData;
 
     @Mock
-    Func1<MutableData, Transaction.Result> mockTransactionTask;
+    Function<MutableData, Transaction.Result> mockTransactionTask;
 
     @Mock
     Task<Void> mockTask;
@@ -75,28 +77,29 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testChildEvents_add() {
-        TestSubscriber<ChildEvent> sub = new TestSubscriber<>();
+        TestObserver<ChildEvent> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.childEvents(mockDatabaseReference)
+        RxFirebaseDatabase.childEvents(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddChildEventListener();
         callOnChildAdded("foo");
         callOnChildAdded("foo");
 
-        sub.assertNotCompleted();
+        sub.assertNotComplete();
         sub.assertNoErrors();
         sub.assertValueCount(2);
 
-        List<ChildEvent> events = sub.getOnNextEvents();
-        for (ChildEvent event : events) {
+        List events = sub.getEvents().get(0);
+        for (Object event : events) {
+            assertThat(event).isInstanceOf(ChildEvent.class);
             assertThat(event)
                     .isInstanceOf(ChildAddEvent.class);
             assertThat(((ChildAddEvent) event).previousChildName())
                     .isEqualTo("foo");
         }
 
-        s.unsubscribe();
+        sub.dispose();
 
         callOnChildAdded("baz");
 
@@ -106,28 +109,29 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testChildEvents_change() {
-        TestSubscriber<ChildEvent> sub = new TestSubscriber<>();
+        TestObserver<ChildEvent> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.childEvents(mockDatabaseReference)
+        RxFirebaseDatabase.childEvents(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddChildEventListener();
         callOnChildChanged("foo");
         callOnChildChanged("foo");
 
-        sub.assertNotCompleted();
+        sub.assertNotComplete();
         sub.assertNoErrors();
         sub.assertValueCount(2);
 
-        List<ChildEvent> events = sub.getOnNextEvents();
-        for (ChildEvent event : events) {
+        List events = sub.getEvents().get(0);
+        for (Object event : events) {
+            assertThat(event).isInstanceOf(ChildEvent.class);
             assertThat(event)
                     .isInstanceOf(ChildChangeEvent.class);
             assertThat(((ChildChangeEvent) event).previousChildName())
                     .isEqualTo("foo");
         }
 
-        s.unsubscribe();
+        sub.dispose();
 
         callOnChildChanged("foo");
 
@@ -137,26 +141,27 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testChildEvents_remove() {
-        TestSubscriber<ChildEvent> sub = new TestSubscriber<>();
+        TestObserver<ChildEvent> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.childEvents(mockDatabaseReference)
+        RxFirebaseDatabase.childEvents(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddChildEventListener();
         callOnChildRemoved();
         callOnChildRemoved();
 
-        sub.assertNotCompleted();
+        sub.assertNotComplete();
         sub.assertNoErrors();
         sub.assertValueCount(2);
 
-        List<ChildEvent> events = sub.getOnNextEvents();
-        for (ChildEvent event : events) {
+        List events = sub.getEvents().get(0);
+        for (Object event : events) {
+            assertThat(event).isInstanceOf(ChildEvent.class);
             assertThat(event)
                     .isInstanceOf(ChildRemoveEvent.class);
         }
 
-        s.unsubscribe();
+        sub.dispose();
 
         callOnChildRemoved();
 
@@ -166,28 +171,29 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testChildEvents_move() {
-        TestSubscriber<ChildEvent> sub = new TestSubscriber<>();
+        TestObserver<ChildEvent> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.childEvents(mockDatabaseReference)
+        RxFirebaseDatabase.childEvents(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddChildEventListener();
         callOnChildMoved("foo");
         callOnChildMoved("foo");
 
-        sub.assertNotCompleted();
+        sub.assertNotComplete();
         sub.assertNoErrors();
         sub.assertValueCount(2);
 
-        List<ChildEvent> events = sub.getOnNextEvents();
-        for (ChildEvent event : events) {
+        List events = sub.getEvents().get(0);
+        for (Object event : events) {
+            assertThat(event).isInstanceOf(ChildEvent.class);
             assertThat(event)
                     .isInstanceOf(ChildMoveEvent.class);
             assertThat(((ChildMoveEvent) event).previousChildName())
                     .isEqualTo("foo");
         }
 
-        s.unsubscribe();
+        sub.dispose();
 
         callOnChildMoved("foo");
 
@@ -197,51 +203,50 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testChildEvents_notSuccessful() {
-        TestSubscriber<ChildEvent> sub = new TestSubscriber<>();
+        TestObserver<ChildEvent> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.childEvents(mockDatabaseReference)
+        RxFirebaseDatabase.childEvents(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddChildEventListener();
         callChildOnCancelled();
 
         sub.assertNoValues();
-        assertThat(sub.getOnErrorEvents())
-                .hasSize(1);
+        assertThat(sub.errorCount()).isEqualTo(1);
 
-        s.unsubscribe();
+        sub.dispose();
 
         callChildOnCancelled();
 
         // Ensure no more values are emitted after unsubscribe
-        assertThat(sub.getOnErrorEvents())
-                .hasSize(1);
+        assertThat(sub.errorCount())
+                .isEqualTo(1);
     }
 
     @Test
     public void testData() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestObserver<DataSnapshot> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.data(mockDatabaseReference)
+        RxFirebaseDatabase.data(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddListenerForSingleValueEvent();
         callValueEventOnDataChange("Foo");
-        s.unsubscribe();
+        sub.dispose();
 
         // Ensure no more values are emitted after unsubscribe
         callValueEventOnDataChange("Foo");
 
         sub.assertNoErrors();
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertValueCount(1);
     }
 
     @Test
     public void testData_onCancelled() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestObserver<DataSnapshot> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.data(mockDatabaseReference)
+        RxFirebaseDatabase.data(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddListenerForSingleValueEvent();
@@ -250,30 +255,30 @@ public class RxFirebaseDatabaseTest {
         sub.assertError(DatabaseException.class);
         sub.assertNoValues();
 
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnCancelled(new DatabaseException("foo"));
 
         // Ensure no more values are emitted after unsubscribe
-        assertThat(sub.getOnErrorEvents())
-                .hasSize(1);
+        assertThat(sub.errorCount())
+                .isEqualTo(1);
 
     }
 
     @Test
     public void testDataChanges() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestObserver<DataSnapshot> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.dataChanges(mockDatabaseReference)
+        RxFirebaseDatabase.dataChanges(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddValueEventListener();
         callValueEventOnDataChange("Foo");
 
-        sub.assertNotCompleted();
+        sub.assertNotComplete();
         sub.assertValueCount(1);
 
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnDataChange("Foo");
 
@@ -283,9 +288,9 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataChanges_onCancelled() {
-        TestSubscriber<DataSnapshot> sub = new TestSubscriber<>();
+        TestObserver<DataSnapshot> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.dataChanges(mockDatabaseReference)
+        RxFirebaseDatabase.dataChanges(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddValueEventListener();
@@ -294,37 +299,36 @@ public class RxFirebaseDatabaseTest {
         sub.assertError(DatabaseException.class);
         sub.assertNoValues();
 
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnCancelled(new DatabaseException("foo"));
 
         // Ensure no more values are emitted after unsubscribe
-        assertThat(sub.getOnErrorEvents())
-                .hasSize(1);
+        assertThat(sub.errorCount())
+                .isEqualTo(1);
     }
 
     @Test
     public void testDataChangesOfClazz() {
-        TestSubscriber<Optional<String>> sub = new TestSubscriber<>();
+        TestObserver<Optional<String>> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.dataChangesOf(mockDatabaseReference, String.class)
+        RxFirebaseDatabase.dataChangesOf(mockDatabaseReference, String.class)
                 .subscribe(sub);
 
         verifyAddValueEventListener();
         callValueEventOnDataChange("Foo");
 
-        sub.assertNotCompleted();
+        sub.assertNotComplete();
         sub.assertValueCount(1);
+        sub.assertValue(new Predicate<Optional<String>>() {
+            @Override
+            public boolean test(Optional<String> stringOptional) throws Exception {
+                return stringOptional.isPresent() && "Foo".equals(stringOptional.get());
 
-        Optional<String> value = sub.getOnNextEvents().get(0);
+            }
+        });
 
-        assertThat(value.isPresent())
-                .isTrue();
-
-        assertThat(value.get())
-                .isEqualTo("Foo");
-
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnDataChange("Foo");
 
@@ -342,26 +346,26 @@ public class RxFirebaseDatabaseTest {
                 new GenericTypeIndicator<List<String>>() {
                 };
 
-        TestSubscriber<Optional<List<String>>> sub = new TestSubscriber<>();
+        TestObserver<Optional<List<String>>> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.dataChangesOf(mockDatabaseReference, typeIndicator)
+        RxFirebaseDatabase.dataChangesOf(mockDatabaseReference, typeIndicator)
                 .subscribe(sub);
 
         verifyAddValueEventListener();
         callValueEventOnDataChange(typeIndicator, values);
 
-        sub.assertNotCompleted();
-        sub.assertValueCount(1);
+        sub.assertNotComplete();
 
-        Optional<List<String>> value = sub.getOnNextEvents().get(0);
+        sub.assertValue(new Predicate<Optional<List<String>>>() {
+            @Override
+            public boolean test(Optional<List<String>> listOptional) throws Exception {
+                return listOptional.isPresent()
+                        && "Foo".equals(listOptional.get().get(0))
+                        && "Bar".equals(listOptional.get().get(1));
+            }
+        });
 
-        assertThat(value.isPresent())
-                .isTrue();
-
-        assertThat(value.get())
-                .containsExactly("Foo", "Bar");
-
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnDataChange(typeIndicator, values);
 
@@ -371,27 +375,25 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataOfClazz() {
-        TestSubscriber<Optional<String>> sub = new TestSubscriber<>();
+        TestObserver<Optional<String>> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.dataOf(mockDatabaseReference, String.class)
+        RxFirebaseDatabase.dataOf(mockDatabaseReference, String.class)
                 .subscribe(sub);
 
         verifyAddListenerForSingleValueEvent();
         callValueEventOnDataChange("Foo");
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        Optional<String> value = sub.getOnNextEvents().get(0);
+        sub.assertValue(new Predicate<Optional<String>>() {
+            @Override
+            public boolean test(Optional<String> stringOptional) throws Exception {
+                return stringOptional.isPresent() && "Foo".equals(stringOptional.get());
+            }
+        });
 
-        assertThat(value.isPresent())
-                .isTrue();
-
-        assertThat(value.get())
-                .isEqualTo("Foo");
-
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnDataChange("Foo");
 
@@ -409,27 +411,27 @@ public class RxFirebaseDatabaseTest {
                 new GenericTypeIndicator<List<String>>() {
                 };
 
-        TestSubscriber<Optional<List<String>>> sub = new TestSubscriber<>();
+        TestObserver<Optional<List<String>>> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.dataOf(mockDatabaseReference, typeIndicator)
+        RxFirebaseDatabase.dataOf(mockDatabaseReference, typeIndicator)
                 .subscribe(sub);
 
         verifyAddListenerForSingleValueEvent();
         callValueEventOnDataChange(typeIndicator, values);
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        Optional<List<String>> value = sub.getOnNextEvents().get(0);
+        sub.assertValue(new Predicate<Optional<List<String>>>() {
+            @Override
+            public boolean test(Optional<List<String>> listOptional) throws Exception {
+                return listOptional.isPresent()
+                        && "Foo".equals(listOptional.get().get(0))
+                        && "Bar".equals(listOptional.get().get(1));
+            }
+        });
 
-        assertThat(value.isPresent())
-                .isTrue();
-
-        assertThat(value.get())
-                .containsExactly("Foo", "Bar");
-
-        s.unsubscribe();
+        sub.dispose();
 
         callValueEventOnDataChange(typeIndicator, values);
 
@@ -442,24 +444,20 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.removeValue())
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.removeValue(mockDatabaseReference)
+        RxFirebaseDatabase.removeValue(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnComplete();
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskSuccess());
 
-        assertThat(result.isSuccess())
-                .isTrue();
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnComplete();
 
@@ -472,27 +470,20 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.removeValue())
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.removeValue(mockDatabaseReference)
+        RxFirebaseDatabase.removeValue(mockDatabaseReference)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnCompleteWithError(new IllegalStateException());
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskError(IllegalStateException.class));
 
-        assertThat(result.isSuccess())
-                .isFalse();
-
-        assertThat(result.getException())
-                .isInstanceOf(IllegalStateException.class);
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnCompleteWithError(new IllegalStateException());
 
@@ -505,24 +496,21 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.setPriority(1))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.setPriority(mockDatabaseReference, 1)
+        RxFirebaseDatabase.setPriority(mockDatabaseReference, 1)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnComplete();
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskSuccess());
 
-        assertThat(result.isSuccess())
-                .isTrue();
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnComplete();
 
@@ -535,27 +523,20 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.setPriority(1))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.setPriority(mockDatabaseReference, 1)
+        RxFirebaseDatabase.setPriority(mockDatabaseReference, 1)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnCompleteWithError(new IllegalStateException());
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskError(IllegalStateException.class));
 
-        assertThat(result.isSuccess())
-                .isFalse();
-
-        assertThat(result.getException())
-                .isInstanceOf(IllegalStateException.class);
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnCompleteWithError(new IllegalStateException());
 
@@ -568,24 +549,26 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.setValue(1))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.setValue(mockDatabaseReference, 1)
+        RxFirebaseDatabase.setValue(mockDatabaseReference, 1)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnComplete();
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(new Predicate<TaskResult>() {
+            @Override
+            public boolean test(TaskResult taskResult) throws Exception {
+                return taskResult.isSuccess();
+            }
+        });
 
-        assertThat(result.isSuccess())
-                .isTrue();
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnComplete();
 
@@ -598,27 +581,20 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.setValue(1))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.setValue(mockDatabaseReference, 1)
+        RxFirebaseDatabase.setValue(mockDatabaseReference, 1)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnCompleteWithError(new IllegalStateException());
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskError(IllegalStateException.class));
 
-        assertThat(result.isSuccess())
-                .isFalse();
-
-        assertThat(result.getException())
-                .isInstanceOf(IllegalStateException.class);
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnCompleteWithError(new IllegalStateException());
 
@@ -631,24 +607,20 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.setValue(1, 1))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.setValue(mockDatabaseReference, 1, 1)
+        RxFirebaseDatabase.setValue(mockDatabaseReference, 1, 1)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnComplete();
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskSuccess());
 
-        assertThat(result.isSuccess())
-                .isTrue();
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnComplete();
 
@@ -661,27 +633,21 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.setValue(1, 1))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.setValue(mockDatabaseReference, 1, 1)
+        RxFirebaseDatabase.setValue(mockDatabaseReference, 1, 1)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnCompleteWithError(new IllegalStateException());
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskError(IllegalStateException.class));
 
-        assertThat(result.isSuccess())
-                .isFalse();
-
-        assertThat(result.getException())
-                .isInstanceOf(IllegalStateException.class);
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnCompleteWithError(new IllegalStateException());
 
@@ -696,24 +662,21 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.updateChildren(map))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.updateChildren(mockDatabaseReference, map)
+        RxFirebaseDatabase.updateChildren(mockDatabaseReference, map)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnComplete();
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskSuccess());
 
-        assertThat(result.isSuccess())
-                .isTrue();
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnComplete();
 
@@ -728,27 +691,20 @@ public class RxFirebaseDatabaseTest {
         when(mockDatabaseReference.updateChildren(map))
                 .thenReturn(mockTask);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase.updateChildren(mockDatabaseReference, map)
+        RxFirebaseDatabase.updateChildren(mockDatabaseReference, map)
                 .subscribe(sub);
 
         verifyAddOnCompleteListenerForTask();
         callTaskOnCompleteWithError(new IllegalStateException());
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskError(IllegalStateException.class));
 
-        assertThat(result.isSuccess())
-                .isFalse();
-
-        assertThat(result.getException())
-                .isInstanceOf(IllegalStateException.class);
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTaskOnCompleteWithError(new IllegalStateException());
 
@@ -757,10 +713,10 @@ public class RxFirebaseDatabaseTest {
     }
 
     @Test
-    public void testRunTransaction() {
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+    public void testRunTransaction() throws Exception {
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase
+        RxFirebaseDatabase
                 .runTransaction(mockDatabaseReference, mockTransactionTask)
                 .subscribe(sub);
 
@@ -769,16 +725,12 @@ public class RxFirebaseDatabaseTest {
         callTransactionOnComplete();
         verifyTransactionTaskCall();
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskSuccess());
 
-        assertThat(result.isSuccess())
-                .isTrue();
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTransactionOnComplete();
 
@@ -788,9 +740,9 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testRunTransaction_onError() {
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestObserver<TaskResult> sub = TestObserver.create();
 
-        Subscription s = RxFirebaseDatabase
+        RxFirebaseDatabase
                 .runTransaction(mockDatabaseReference, mockTransactionTask)
                 .subscribe(sub);
 
@@ -798,19 +750,12 @@ public class RxFirebaseDatabaseTest {
 
         callTransactionOnCompleteWithError(new DatabaseException("Foo"));
 
-        sub.assertCompleted();
+        sub.assertComplete();
         sub.assertNoErrors();
-        sub.assertValueCount(1);
 
-        TaskResult result = sub.getOnNextEvents().get(0);
+        sub.assertValue(assertTaskError(DatabaseException.class));
 
-        assertThat(result.isSuccess())
-                .isFalse();
-
-        assertThat(result.getException())
-                .isInstanceOf(DatabaseException.class);
-
-        s.unsubscribe();
+        sub.dispose();
 
         callTransactionOnComplete();
 
@@ -838,9 +783,9 @@ public class RxFirebaseDatabaseTest {
                 .runTransaction(transactionHandler.capture(), anyBoolean());
     }
 
-    private void verifyTransactionTaskCall() {
+    private void verifyTransactionTaskCall() throws Exception {
         verify(mockTransactionTask)
-                .call(mockMutableData);
+                .apply(mockMutableData);
     }
 
     private void verifyAddOnCompleteListenerForTask() {
@@ -919,5 +864,25 @@ public class RxFirebaseDatabaseTest {
 
         //noinspection unchecked
         onCompleteListener.getValue().onComplete(mockTask);
+    }
+
+    private Predicate<TaskResult> assertTaskSuccess() {
+        return new Predicate<TaskResult>() {
+            @Override
+            public boolean test(TaskResult taskResult) throws Exception {
+                return taskResult.isSuccess();
+            }
+        };
+    }
+
+    private Predicate<TaskResult> assertTaskError(
+            @NonNull final Class<? extends Throwable> errorClass) {
+        return new Predicate<TaskResult>() {
+            @Override
+            public boolean test(TaskResult taskResult) throws Exception {
+                return !taskResult.isSuccess() && errorClass
+                        .isAssignableFrom(taskResult.getException().getClass());
+            }
+        };
     }
 }
