@@ -4,7 +4,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
 import com.memoizrlabs.retrooptional.Optional;
 
 import android.support.annotation.CheckResult;
@@ -12,6 +11,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -48,9 +48,9 @@ public final class RxFirebaseAuth {
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> sendPasswordResetEmail(
+    public static Completable sendPasswordResetEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return Single.create(new SendPasswordResetEmailOnSubscribe(instance, email));
+        return Completable.create(new SendPasswordResetEmailOnSubscribe(instance, email));
     }
 
     @CheckResult
@@ -84,8 +84,8 @@ public final class RxFirebaseAuth {
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> signOut(@NonNull FirebaseAuth instance) {
-        return Single.create(new SignOutOnSubscribe(instance));
+    public static Completable signOut(@NonNull FirebaseAuth instance) {
+        return Completable.create(new SignOutOnSubscribe(instance));
     }
 
     private RxFirebaseAuth() {

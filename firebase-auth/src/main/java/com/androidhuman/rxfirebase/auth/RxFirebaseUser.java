@@ -5,11 +5,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 
@@ -17,8 +16,8 @@ public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> delete(@NonNull FirebaseUser user) {
-        return Single.create(new UserDeleteOnSubscribe(user));
+    public static Completable delete(@NonNull FirebaseUser user) {
+        return Completable.create(new UserDeleteOnSubscribe(user));
     }
 
     @CheckResult
@@ -37,21 +36,21 @@ public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> reauthenticate(
+    public static Completable reauthenticate(
             @NonNull FirebaseUser user, @NonNull AuthCredential credential) {
-        return Single.create(new UserReauthenticateOnSubscribe(user, credential));
+        return Completable.create(new UserReauthenticateOnSubscribe(user, credential));
     }
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> reload(@NonNull FirebaseUser user) {
-        return Single.create(new UserReloadOnSubscribe(user));
+    public static Completable reload(@NonNull FirebaseUser user) {
+        return Completable.create(new UserReloadOnSubscribe(user));
     }
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> sendEmailVerification(@NonNull FirebaseUser user) {
-        return Single.create(new UserSendEmailVerificationOnSubscribe(user));
+    public static Completable sendEmailVerification(@NonNull FirebaseUser user) {
+        return Completable.create(new UserSendEmailVerificationOnSubscribe(user));
     }
 
     @CheckResult
@@ -63,23 +62,23 @@ public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> updateEmail(
+    public static Completable updateEmail(
             @NonNull FirebaseUser user, @NonNull String email) {
-        return Single.create(new UserUpdateEmailOnSubscribe(user, email));
+        return Completable.create(new UserUpdateEmailOnSubscribe(user, email));
     }
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> updatePassword(
+    public static Completable updatePassword(
             @NonNull FirebaseUser user, @NonNull String password) {
-        return Single.create(new UserUpdatePasswordOnSubscribe(user, password));
+        return Completable.create(new UserUpdatePasswordOnSubscribe(user, password));
     }
 
     @CheckResult
     @NonNull
-    public static Single<TaskResult> updateProfile(
+    public static Completable updateProfile(
             @NonNull FirebaseUser user, @NonNull UserProfileChangeRequest request) {
-        return Single.create(new UserUpdateProfileOnSubscribe(user, request));
+        return Completable.create(new UserUpdateProfileOnSubscribe(user, request));
     }
 
     private RxFirebaseUser() {

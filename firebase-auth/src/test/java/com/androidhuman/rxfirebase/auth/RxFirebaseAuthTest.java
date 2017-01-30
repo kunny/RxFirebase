@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.ProviderQueryResult;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
 import com.memoizrlabs.retrooptional.Optional;
 
 import org.junit.Before;
@@ -16,8 +15,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import android.support.annotation.NonNull;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -269,7 +266,7 @@ public class RxFirebaseAuthTest {
 
         mockSuccessfulSendPasswordResetEmailResult();
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseAuth
                 .sendPasswordResetEmail(mockFirebaseAuth, "email")
@@ -286,7 +283,7 @@ public class RxFirebaseAuthTest {
 
         obs.assertNoErrors();
 
-        obs.assertValue(assertTaskSuccess());
+        obs.assertComplete();
     }
 
     @Test
@@ -296,7 +293,7 @@ public class RxFirebaseAuthTest {
 
         mockNotSuccessfulSendPasswordResetEmailResult(new IllegalStateException());
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseAuth
                 .sendPasswordResetEmail(mockFirebaseAuth, "email")
@@ -311,10 +308,8 @@ public class RxFirebaseAuthTest {
         verify(mockFirebaseAuth)
                 .sendPasswordResetEmail("email");
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(assertTaskError(IllegalStateException.class));
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -513,7 +508,7 @@ public class RxFirebaseAuthTest {
 
     @Test
     public void testSignOut() {
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseAuth.signOut(mockFirebaseAuth)
                 .subscribe(obs);
@@ -525,13 +520,6 @@ public class RxFirebaseAuthTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return taskResult.isSuccess();
-            }
-        });
     }
 
     private void mockSuccessfulAuthResult() {
@@ -615,26 +603,4 @@ public class RxFirebaseAuthTest {
                 .addAuthStateListener(authStateChange.capture());
         authStateChange.getValue().onAuthStateChanged(mockFirebaseAuth);
     }
-
-    private Predicate<TaskResult> assertTaskSuccess() {
-        return new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return taskResult.isSuccess();
-            }
-        };
-    }
-
-    private Predicate<TaskResult> assertTaskError(
-            @NonNull final Class<? extends Throwable> errorClass) {
-        return new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return !taskResult.isSuccess() && errorClass
-                        .isAssignableFrom(taskResult.getException().getClass());
-            }
-        };
-    }
-
-
 }

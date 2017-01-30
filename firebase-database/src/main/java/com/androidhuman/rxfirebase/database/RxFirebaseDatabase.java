@@ -6,7 +6,6 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
 import com.androidhuman.rxfirebase.database.transformers.ObsTransformerOfClazz;
 import com.androidhuman.rxfirebase.database.transformers.ObsTransformerOfGenericTypeIndicator;
 import com.androidhuman.rxfirebase.database.transformers.SingleTransformerOfClazz;
@@ -19,6 +18,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Map;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -75,34 +75,34 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static Single<TaskResult> removeValue(@NonNull DatabaseReference ref) {
-        return Single.create(new RemoveValueOnSubscribe(ref));
+    public static Completable removeValue(@NonNull DatabaseReference ref) {
+        return Completable.create(new RemoveValueOnSubscribe(ref));
     }
 
     @NonNull
     @CheckResult
-    public static Single<TaskResult> setPriority(
+    public static Completable setPriority(
             @NonNull DatabaseReference ref, @NonNull Object priority) {
-        return Single.create(new SetPriorityOnSubscribe(ref, priority));
+        return Completable.create(new SetPriorityOnSubscribe(ref, priority));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<TaskResult> setValue(
+    public static <T> Completable setValue(
             @NonNull DatabaseReference ref, @Nullable T value) {
-        return Single.create(new SetValueOnSubscribe<T>(ref, value));
+        return Completable.create(new SetValueOnSubscribe<T>(ref, value));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<TaskResult> setValue(
+    public static <T> Completable setValue(
             @NonNull DatabaseReference ref, @Nullable T value, @NonNull Object priority) {
-        return Single.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
+        return Completable.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
     }
 
     @NonNull
     @CheckResult
-    public static Single<TaskResult> runTransaction(
+    public static Completable runTransaction(
             @NonNull DatabaseReference ref,
             @NonNull Function<MutableData, Transaction.Result> task) {
         return runTransaction(ref, true, task);
@@ -110,17 +110,17 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static Single<TaskResult> runTransaction(
+    public static Completable runTransaction(
             @NonNull DatabaseReference ref, boolean fireLocalEvents,
             @NonNull Function<MutableData, Transaction.Result> task) {
-        return Single.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
+        return Completable.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
     }
 
     @NonNull
     @CheckResult
-    public static Single<TaskResult> updateChildren(
+    public static Completable updateChildren(
             @NonNull DatabaseReference ref, @NonNull Map<String, Object> update) {
-        return Single.create(new UpdateChildrenOnSubscribe(ref, update));
+        return Completable.create(new UpdateChildrenOnSubscribe(ref, update));
     }
 
     private RxFirebaseDatabase() {

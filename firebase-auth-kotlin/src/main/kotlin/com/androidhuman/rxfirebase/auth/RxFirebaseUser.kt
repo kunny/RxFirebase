@@ -2,15 +2,15 @@
 
 package com.androidhuman.rxfirebase.auth
 
-import com.androidhuman.rxfirebase.common.model.TaskResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
+import io.reactivex.Completable
 import io.reactivex.Single
 
 inline fun FirebaseUser.rxDelete()
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.delete(this)
 
 inline fun FirebaseUser.rxGetToken(forceRefresh: Boolean)
@@ -22,15 +22,15 @@ inline fun FirebaseUser.rxLinkWithCredential(credential: AuthCredential)
         = RxFirebaseUser.linkWithCredential(this, credential)
 
 inline fun FirebaseUser.rxReauthenticate(credential: AuthCredential)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.reauthenticate(this, credential)
 
 inline fun FirebaseUser.rxReload()
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.reload(this)
 
 inline fun FirebaseUser.rxSendEmailVerification()
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.sendEmailVerification(this)
 
 inline fun FirebaseUser.rxUnlink(provider: String)
@@ -38,14 +38,14 @@ inline fun FirebaseUser.rxUnlink(provider: String)
         = RxFirebaseUser.unlink(this, provider)
 
 inline fun FirebaseUser.rxUpdateEmail(email: String)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.updateEmail(this, email)
 
 inline fun FirebaseUser.rxUpdatePassword(password: String)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.updatePassword(this, password)
 
 inline fun FirebaseUser.rxUpdateProfile(request: UserProfileChangeRequest)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseUser.updateProfile(this, request)
 

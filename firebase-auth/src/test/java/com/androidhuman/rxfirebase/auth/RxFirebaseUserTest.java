@@ -8,17 +8,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import android.support.annotation.NonNull;
-
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 
 import static org.mockito.Mockito.verify;
@@ -65,7 +60,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.delete())
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.delete(mockFirebaseUser)
                 .subscribe(obs);
@@ -78,17 +73,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testDelete_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.delete())
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.delete(mockFirebaseUser)
                 .subscribe(obs);
@@ -99,15 +92,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return !taskResult.isSuccess();
-            }
-        });
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -202,7 +188,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.reauthenticate(mockAuthCredential))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.reauthenticate(mockFirebaseUser, mockAuthCredential)
                 .subscribe(obs);
@@ -215,17 +201,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testReauthenticate_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.reauthenticate(mockAuthCredential))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.reauthenticate(mockFirebaseUser, mockAuthCredential)
                 .subscribe(obs);
@@ -236,14 +220,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-        obs.assertValue(new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return !taskResult.isSuccess();
-            }
-        });
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -252,7 +230,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.reload())
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.reload(mockFirebaseUser)
                 .subscribe(obs);
@@ -265,16 +243,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testReload_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.reload())
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.reload(mockFirebaseUser)
                 .subscribe(obs);
@@ -285,15 +262,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return !taskResult.isSuccess();
-            }
-        });
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -302,7 +272,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.sendEmailVerification())
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
                 .subscribe(obs);
@@ -315,17 +285,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testSendEmailVerification_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.sendEmailVerification())
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
                 .subscribe(obs);
@@ -336,10 +304,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(assertTaskError());
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -391,7 +357,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.updateEmail("foo@bar.com"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.updateEmail(mockFirebaseUser, "foo@bar.com")
                 .subscribe(obs);
@@ -404,17 +370,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testUpdateEmail_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.updateEmail("foo@bar.com"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.updateEmail(mockFirebaseUser, "foo@bar.com")
                 .subscribe(obs);
@@ -425,10 +389,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(assertTaskError());
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -437,7 +399,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.updatePassword("password"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.updatePassword(mockFirebaseUser, "password")
                 .subscribe(obs);
@@ -450,17 +412,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testUpdatePassword_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.updatePassword("password"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.updatePassword(mockFirebaseUser, "password")
                 .subscribe(obs);
@@ -471,10 +431,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(assertTaskError());
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     @Test
@@ -483,7 +441,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.updateProfile(mockProfileChangeRequest))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.updateProfile(mockFirebaseUser, mockProfileChangeRequest)
                 .subscribe(obs);
@@ -496,17 +454,15 @@ public class RxFirebaseUserTest {
 
         obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(assertTaskSuccess());
     }
 
     @Test
     public void testUpdateProfile_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.updateProfile(mockProfileChangeRequest))
                 .thenReturn(mockVoidTaskResult);
 
-        TestObserver<TaskResult> obs = TestObserver.create();
+        TestObserver obs = TestObserver.create();
 
         RxFirebaseUser.updateProfile(mockFirebaseUser, mockProfileChangeRequest)
                 .subscribe(obs);
@@ -517,10 +473,8 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
-        obs.assertComplete();
-
-        obs.assertValue(assertTaskError());
+        obs.assertError(IllegalStateException.class);
+        obs.assertNotComplete();
     }
 
     private void mockVoidResult(boolean success) {
@@ -589,28 +543,18 @@ public class RxFirebaseUserTest {
                 .thenReturn(mockAuthTaskResult);
     }
 
+    private void mockNotSuccessfulVoidResult(Exception exception) {
+        when(mockVoidTaskResult.isSuccessful())
+                .thenReturn(false);
+
+        when(mockVoidTaskResult.getException())
+                .thenReturn(exception);
+    }
+
     @SuppressWarnings("unchecked")
     private void callOnComplete(Task<?> task) {
         verify(task)
                 .addOnCompleteListener(onComplete.capture());
         onComplete.getValue().onComplete(task);
-    }
-
-    private Predicate<TaskResult> assertTaskSuccess() {
-        return new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return taskResult.isSuccess();
-            }
-        };
-    }
-
-    private Predicate<TaskResult> assertTaskError() {
-        return new Predicate<TaskResult>() {
-            @Override
-            public boolean test(TaskResult taskResult) throws Exception {
-                return !taskResult.isSuccess();
-            }
-        };
     }
 }

@@ -2,11 +2,11 @@
 
 package com.androidhuman.rxfirebase.auth
 
-import com.androidhuman.rxfirebase.common.model.TaskResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.memoizrlabs.retrooptional.Optional
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -28,7 +28,7 @@ inline fun FirebaseAuth.rxGetCurrentUser()
         = RxFirebaseAuth.getCurrentUser(this)
 
 inline fun FirebaseAuth.rxSendPasswordResetEmail(email: String)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseAuth.sendPasswordResetEmail(this, email)
 
 inline fun FirebaseAuth.rxSignInAnonymous()
@@ -48,5 +48,5 @@ inline fun FirebaseAuth.rxSignInWithEmailAndPassword(email: String, password: St
         = RxFirebaseAuth.signInWithEmailAndPassword(this, email, password)
 
 inline fun FirebaseAuth.rxSignOut()
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseAuth.signOut(this)

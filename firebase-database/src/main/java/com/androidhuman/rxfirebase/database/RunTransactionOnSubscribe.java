@@ -6,13 +6,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.functions.Function;
 
-final class RunTransactionOnSubscribe implements SingleOnSubscribe<TaskResult> {
+final class RunTransactionOnSubscribe implements CompletableOnSubscribe {
 
     private final DatabaseReference ref;
 
@@ -29,7 +27,7 @@ final class RunTransactionOnSubscribe implements SingleOnSubscribe<TaskResult> {
     }
 
     @Override
-    public void subscribe(final SingleEmitter<TaskResult> emitter) {
+    public void subscribe(final CompletableEmitter emitter) {
         final Transaction.Handler handler = new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -46,9 +44,9 @@ final class RunTransactionOnSubscribe implements SingleOnSubscribe<TaskResult> {
                     DataSnapshot dataSnapshot) {
                 if (!emitter.isDisposed()) {
                     if (null == databaseError) {
-                        emitter.onSuccess(TaskResult.success());
+                        emitter.onComplete();
                     } else {
-                        emitter.onSuccess(TaskResult.failure(databaseError.toException()));
+                        emitter.onError(databaseError.toException());
                     }
                 }
             }

@@ -5,14 +5,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import android.support.annotation.NonNull;
 
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 
-final class UserReauthenticateOnSubscribe implements SingleOnSubscribe<TaskResult> {
+final class UserReauthenticateOnSubscribe implements CompletableOnSubscribe {
 
     private final FirebaseUser user;
 
@@ -24,15 +22,15 @@ final class UserReauthenticateOnSubscribe implements SingleOnSubscribe<TaskResul
     }
 
     @Override
-    public void subscribe(final SingleEmitter<TaskResult> emitter) {
+    public void subscribe(final CompletableEmitter emitter) {
         OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!emitter.isDisposed()) {
                     if (!task.isSuccessful()) {
-                        emitter.onSuccess(TaskResult.failure(task.getException()));
+                        emitter.onError(task.getException());
                     } else {
-                        emitter.onSuccess(TaskResult.success());
+                        emitter.onComplete();
                     }
                 }
             }

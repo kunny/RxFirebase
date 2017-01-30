@@ -2,13 +2,13 @@
 
 package com.androidhuman.rxfirebase.database
 
-import com.androidhuman.rxfirebase.common.model.TaskResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.memoizrlabs.retrooptional.Optional
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -41,15 +41,15 @@ inline fun <reified T : Any> DatabaseReference.dataOf(typeIndicator: GenericType
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
 
 inline fun DatabaseReference.rxSetPriority(priority: Any)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseDatabase.setPriority(this, priority)
 
 inline fun <reified T : Any> DatabaseReference.rxSetValue(value: T)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseDatabase.setValue(this, value)
 
 inline fun <reified T : Any> DatabaseReference.rxSetValue(value: T, priority: Any)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseDatabase.setValue(this, value, priority)
 
 inline fun DatabaseReference.rxChildEvents()
@@ -57,14 +57,14 @@ inline fun DatabaseReference.rxChildEvents()
         = RxFirebaseDatabase.childEvents(this)
 
 inline fun DatabaseReference.rxRunTransaction(noinline task: (MutableData) -> Transaction.Result)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseDatabase.runTransaction(this, task)
 
 inline fun DatabaseReference.rxRunTransaction(
         fireLocalEvents: Boolean, noinline task: (MutableData) -> Transaction.Result)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseDatabase.runTransaction(this, fireLocalEvents, task)
 
 inline fun DatabaseReference.rxUpdateChildren(update: Map<String, Any?>)
-        : Single<TaskResult>
+        : Completable
         = RxFirebaseDatabase.updateChildren(this, update)
