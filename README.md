@@ -82,18 +82,18 @@ Note that `RxFirebaseAuth.authStateChanges()` will emit initial value on subscri
 
 Java:
 ```java
-RxFirebaseAuth.authStateChanges(FirebaseAuth.getInstance())
-        .subscribe(new Action1<FirebaseAuth>() {
-            @Override
-            public void call(FirebaseAuth firebaseAuth) {
-                // Do something when auth state changes.
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                // Handle error
-            }
-        });
+RxFirebaseAuth.authStateChanges(FirebaseAuth.getInstance()).subscribe(
+                new Consumer<FirebaseAuth>() {
+                    @Override
+                    public void accept(FirebaseAuth firebaseAuth) throws Exception {
+                        // Do something when auth state changes.
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Handle error
+                    }
+                });
 ```
 
 Kotlin:
@@ -112,23 +112,24 @@ Since `FirebaseAuth.getCurrentUser()` might return null when auth object has not
 
 Java:
 ```java
-RxFirebaseAuth.getCurrentUser(FirebaseAuth.getInstance())
-        .subscribe(new Action1<Optional<FirebaseUser>>() {
-            @Override
-            public void call(Optional<FirebaseUser> user) {
-                if (user.isPresent()) {
-                    // Do something with user
-                } else {
-                    // There is not signed in user or
-                    // Firebase instance was not fully initialized.
-                }
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                // Handle error
-            }
-        });
+ RxFirebaseAuth.getCurrentUser(FirebaseAuth.getInstance())
+                .subscribe(new Consumer<Optional<FirebaseUser>>() {
+                    @Override
+                    public void accept(Optional<FirebaseUser> user)
+                            throws Exception {
+                        if (user.isPresent()) {
+                            // Do something with user
+                        } else {
+                            // There is not signed in user or
+                            // Firebase instance was not fully initialized.
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Handle error
+                    }
+                });
 ```
 
 
@@ -154,17 +155,17 @@ Uses [Anonymous Authentication](https://firebase.google.com/docs/auth/android/an
 Java:
 ```java
 RxFirebaseAuth.signInAnonymous(FirebaseAuth.getInstance())
-        .subscribe(new Action1<FirebaseUser>() {
-            @Override
-            public void call(FirebaseUser user) {
-                // Do something with anonymous user
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                // Handle error
-            }
-        });
+                .subscribe(new Consumer<FirebaseUser>() {
+                    @Override
+                    public void accept(FirebaseUser firebaseUser) throws Exception {
+                        // Do something with anonymous user
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Handle error
+                    }
+                });
 ```
 
 Kotlin:
@@ -179,7 +180,7 @@ FirebaseAuth.getInstance().rxSignInAnonymous()
 
 #### Update a user's profile
 
-For a method which returns `Task<Void>` as a result, it is converted as `TaskResult`.
+For a method which returns `Task<Void>` as a result, `Completable` is used.
 
 Java:
 ```java
@@ -190,17 +191,18 @@ UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
         .setPhotoUri(Uri.parse("http://my.photo/johndoe"))
         .build();
 
-RxFirebaseUser.updateProfile(user, request)
-        .subscribe(new Action1<TaskResult>() {
-            @Override
-            public void call(TaskResult result) {
-                if (result.isSuccess()) {
-                    // Update successful
-                } else {
-                    // Update was not successful
-                }
-            }
-        });
+ RxFirebaseUser.updateProfile(user, request)
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        // Update successful
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Update was not successful
+                    }
+                });
 ```
 
 Kotlin:
@@ -213,13 +215,11 @@ val request = UserProfileChangeRequest.Builder()
         .build()
 
 user.rxUpdateProfile(request)
-        .subscribe {
-            if (it.isSuccess) {
-                // Update successful
-            } else {
-                // Update was not successful
-            }
-        }
+        .subscribe({
+            // Update successful
+        }, { 
+            // Handle error
+        })
 ```
 
 ### Firebase Realtime Database
@@ -234,16 +234,17 @@ Java:
 DatabaseReference ref = ...;
 
 RxFirebaseDatabase.setValue(ref, "Lorem ipsum")
-        .subscribe(new Action1<TaskResult>() {
-            @Override
-            public void call(TaskResult taskResult) {
-                if (taskResult.isSuccess()) {
-                    // Update successful
-                } else {
-                    // Something went wrong
-                }
-            }
-        });
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        // Update successful
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Something went wrong
+                    }
+                });
 ```
 
 Kotlin:
@@ -251,13 +252,11 @@ Kotlin:
 ```kotlin
 val ref: DatabaseReference = ...;
 ref.rxSetValue("Lorem ipsum")
-        .subscribe {
-            if (it.isSuccess) {
-                // Update successful
-            } else {
-                // Somthing went wrong
-            }
-        }
+        .subscribe({
+                    // Update successful
+                }, { 
+                    // Handle error
+                })
 ```
 
 #### Update specific fields
@@ -273,13 +272,18 @@ Map<String, Object> update = new HashMap<>();
 update.put("/posts/foo", /* Post values */);
 update.put("/user-posts/bar", /* Post values */);
 
-RxFirebaseDatabase.updateChildren(ref, update)
-        .subscribe(new Action1<TaskResult>() {
-            @Override
-            public void call(TaskResult taskResult) {
-                // Do something with result
-            }
-        });
+ RxFirebaseDatabase.updateChildren(ref, update)
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        // Update successful
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Something went wrong
+                    }
+                });
 ```
 Kotlin:
 
@@ -291,9 +295,11 @@ val update = mapOf(
               "user-posts/bar" to /* Post values */)
 
 ref.rxUpdateChildren(update)
-        .subscribe {
-            // Do something with result
-        }
+        .subscribe({
+                    // Update successful
+                }, { 
+                    // Handle error
+                })
 ```
 
 ### Read from your database
@@ -310,21 +316,21 @@ Java:
 DatabaseReference ref = ...;
 
 RxFirebaseDatabase.dataChanges(ref)
-        .subscribe(new Action1<DataSnapshot>() {
-            @Override
-            public void call(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Do something with data
-                } else {
-                    // Data does not exists
-                }
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                // Handle error
-            }
-        });
+                .subscribe(new Consumer<DataSnapshot>() {
+                    @Override
+                    public void accept(DataSnapshot dataSnapshot) throws Exception {
+                        if (dataSnapshot.exists()) {
+                            // Do something with data
+                        } else {
+                            // Data does not exists
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Handle error
+                    }
+                });
 ```
 
 Kotlin:
@@ -367,18 +373,18 @@ Java:
 DatabaseReference ref = ...;
 
 RxFirebaseDatabase.childEvents(ref)
-        .ofType(ChildAddEvent.class)
-        .subscribe(new Action1<ChildAddEvent>() {
-            @Override
-            public void call(ChildAddEvent childAddEvent) {
-                // Handle for Child add event
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                // Handle error
-            }
-        });
+                .ofType(ChildAddEvent.class)
+                .subscribe(new Consumer<ChildAddEvent>() {
+                    @Override
+                    public void accept(ChildAddEvent childAddEvent) throws Exception {
+                        // Handle for Child add event
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        // Handle error
+                    }
+                });
 ```
 
 Kotlin:
