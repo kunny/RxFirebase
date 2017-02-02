@@ -4,16 +4,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import android.support.annotation.NonNull;
 
 import java.util.Map;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 
-final class UpdateChildrenOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class UpdateChildrenOnSubscribe implements CompletableOnSubscribe {
 
     private final DatabaseReference ref;
 
@@ -25,17 +23,16 @@ final class UpdateChildrenOnSubscribe implements Observable.OnSubscribe<TaskResu
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void subscribe(final CompletableEmitter emitter) {
         final OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (!subscriber.isUnsubscribed()) {
+                if (!emitter.isDisposed()) {
                     if (!task.isSuccessful()) {
-                        subscriber.onNext(TaskResult.failure(task.getException()));
+                        emitter.onError(task.getException());
                     } else {
-                        subscriber.onNext(TaskResult.success());
+                        emitter.onComplete();
                     }
-                    subscriber.onCompleted();
                 }
             }
         };

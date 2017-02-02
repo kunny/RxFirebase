@@ -7,10 +7,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
-final class UserUnlinkOnSubscribe implements Observable.OnSubscribe<AuthResult> {
+final class UserUnlinkOnSubscribe implements SingleOnSubscribe<AuthResult> {
 
     private final FirebaseUser user;
 
@@ -22,20 +22,19 @@ final class UserUnlinkOnSubscribe implements Observable.OnSubscribe<AuthResult> 
     }
 
     @Override
-    public void call(final Subscriber<? super AuthResult> subscriber) {
+    public void subscribe(final SingleEmitter<AuthResult> emitter) {
         OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
-                    if (!subscriber.isUnsubscribed()) {
-                        subscriber.onError(task.getException());
+                    if (!emitter.isDisposed()) {
+                        emitter.onError(task.getException());
                     }
                     return;
                 }
 
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult());
-                    subscriber.onCompleted();
+                if (!emitter.isDisposed()) {
+                    emitter.onSuccess(task.getResult());
                 }
             }
         };

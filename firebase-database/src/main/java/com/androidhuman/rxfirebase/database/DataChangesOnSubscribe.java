@@ -5,12 +5,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.subscriptions.Subscriptions;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposables;
+import io.reactivex.functions.Action;
 
-final class DataChangesOnSubscribe implements Observable.OnSubscribe<DataSnapshot> {
+final class DataChangesOnSubscribe implements ObservableOnSubscribe<DataSnapshot> {
 
     private final DatabaseReference ref;
 
@@ -19,28 +19,27 @@ final class DataChangesOnSubscribe implements Observable.OnSubscribe<DataSnapsho
     }
 
     @Override
-    public void call(final Subscriber<? super DataSnapshot> subscriber) {
+    public void subscribe(final ObservableEmitter<DataSnapshot> emitter) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(dataSnapshot);
+                if (!emitter.isDisposed()) {
+                    emitter.onNext(dataSnapshot);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onError(databaseError.toException());
+                if (!emitter.isDisposed()) {
+                    emitter.onError(databaseError.toException());
                 }
             }
         };
 
         ref.addValueEventListener(listener);
-
-        subscriber.add(Subscriptions.create(new Action0() {
+        emitter.setDisposable(Disposables.fromAction(new Action() {
             @Override
-            public void call() {
+            public void run() throws Exception {
                 ref.removeEventListener(listener);
             }
         }));

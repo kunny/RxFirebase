@@ -6,46 +6,48 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
+import io.reactivex.functions.Function;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
-
-final class RunTransactionOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class RunTransactionOnSubscribe implements CompletableOnSubscribe {
 
     private final DatabaseReference ref;
 
     private final boolean fireLocalEvents;
 
-    private Func1<MutableData, Transaction.Result> task;
+    private Function<MutableData, Transaction.Result> task;
 
     RunTransactionOnSubscribe(
             DatabaseReference ref, boolean fireLocalEvents,
-            Func1<MutableData, Transaction.Result> task) {
+            Function<MutableData, Transaction.Result> task) {
         this.ref = ref;
         this.fireLocalEvents = fireLocalEvents;
         this.task = task;
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void subscribe(final CompletableEmitter emitter) {
         final Transaction.Handler handler = new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
-                return task.call(mutableData);
+                try {
+                    return task.apply(mutableData);
+                } catch (Exception e) {
+                    //TODO: Is this enough?
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed,
                     DataSnapshot dataSnapshot) {
-                if (!subscriber.isUnsubscribed()) {
+                if (!emitter.isDisposed()) {
                     if (null == databaseError) {
-                        subscriber.onNext(TaskResult.success());
+                        emitter.onComplete();
                     } else {
-                        subscriber.onNext(TaskResult.failure(databaseError.toException()));
+                        emitter.onError(databaseError.toException());
                     }
-                    subscriber.onCompleted();
                 }
             }
         };

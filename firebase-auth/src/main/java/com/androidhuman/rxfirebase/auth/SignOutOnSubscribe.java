@@ -2,12 +2,10 @@ package com.androidhuman.rxfirebase.auth;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 
-import rx.Observable;
-import rx.Subscriber;
-
-final class SignOutOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class SignOutOnSubscribe implements CompletableOnSubscribe {
 
     private final FirebaseAuth instance;
 
@@ -16,11 +14,10 @@ final class SignOutOnSubscribe implements Observable.OnSubscribe<TaskResult> {
     }
 
     @Override
-    public void call(Subscriber<? super TaskResult> subscriber) {
-        if (!subscriber.isUnsubscribed()) {
+    public void subscribe(CompletableEmitter emitter) {
+        if (!emitter.isDisposed()) {
             instance.signOut();
-            subscriber.onNext(TaskResult.success());
-            subscriber.onCompleted();
+            emitter.onComplete();
         }
     }
 }
