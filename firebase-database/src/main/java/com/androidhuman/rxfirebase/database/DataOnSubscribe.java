@@ -5,10 +5,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Single;
+import rx.SingleSubscriber;
 
-final class DataOnSubscribe implements Observable.OnSubscribe<DataSnapshot> {
+final class DataOnSubscribe implements Single.OnSubscribe<DataSnapshot> {
 
     private final DatabaseReference ref;
 
@@ -17,13 +17,12 @@ final class DataOnSubscribe implements Observable.OnSubscribe<DataSnapshot> {
     }
 
     @Override
-    public void call(final Subscriber<? super DataSnapshot> subscriber) {
+    public void call(final SingleSubscriber<? super DataSnapshot> subscriber) {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(dataSnapshot);
-                    subscriber.onCompleted();
+                    subscriber.onSuccess(dataSnapshot);
                 }
             }
 

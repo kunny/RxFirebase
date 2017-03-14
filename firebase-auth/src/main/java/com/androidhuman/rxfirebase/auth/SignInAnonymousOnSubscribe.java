@@ -38,7 +38,7 @@ final class SignInAnonymousOnSubscribe
                         subscriber.onSuccess(user);
                     } else {
                         subscriber.onError(
-                                new IllegalStateException(("FirebaseUser does not exists.")));
+                                new IllegalStateException("FirebaseUser does not exists."));
                     }
                 }
             }

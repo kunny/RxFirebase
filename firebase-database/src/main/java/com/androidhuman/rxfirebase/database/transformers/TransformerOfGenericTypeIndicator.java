@@ -3,29 +3,33 @@ package com.androidhuman.rxfirebase.database.transformers;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 
+import com.androidhuman.rxfirebase.database.model.DataValue;
+
 import rx.Observable;
 import rx.functions.Func1;
 
 public final class TransformerOfGenericTypeIndicator<T>
-        implements Observable.Transformer<DataSnapshot, T> {
+        implements Observable.Transformer<DataSnapshot, DataValue<T>> {
 
-    private GenericTypeIndicator<T> typeIndicator;
+    private final GenericTypeIndicator<T> typeIndicator;
 
     public TransformerOfGenericTypeIndicator(GenericTypeIndicator<T> indicator) {
         this.typeIndicator = indicator;
     }
 
     @Override
-    public Observable<T> call(Observable<DataSnapshot> source) {
-        return source.flatMap(new Func1<DataSnapshot, Observable<T>>() {
+    public Observable<DataValue<T>> call(Observable<DataSnapshot> source) {
+        return source.map(new Func1<DataSnapshot, DataValue<T>>() {
             @Override
-            public Observable<T> call(DataSnapshot dataSnapshot) {
+            public DataValue<T> call(DataSnapshot dataSnapshot) {
                 T value = dataSnapshot.getValue(typeIndicator);
+                DataValue<T> result;
                 if (null != value) {
-                    return Observable.just(value);
+                    result = DataValue.of(value);
                 } else {
-                    return Observable.empty();
+                    result = DataValue.empty();
                 }
+                return result;
             }
         });
     }

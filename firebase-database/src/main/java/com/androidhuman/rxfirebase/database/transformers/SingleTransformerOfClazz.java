@@ -4,20 +4,20 @@ import com.google.firebase.database.DataSnapshot;
 
 import com.androidhuman.rxfirebase.database.model.DataValue;
 
-import rx.Observable;
+import rx.Single;
 import rx.functions.Func1;
 
-public final class TransformerOfClazz<T>
-        implements Observable.Transformer<DataSnapshot, DataValue<T>> {
+public class SingleTransformerOfClazz<T>
+        implements Single.Transformer<DataSnapshot, DataValue<T>> {
 
     private final Class<T> clazz;
 
-    public TransformerOfClazz(Class<T> clazz) {
+    public SingleTransformerOfClazz(Class<T> clazz) {
         this.clazz = clazz;
     }
 
     @Override
-    public Observable<DataValue<T>> call(Observable<DataSnapshot> source) {
+    public Single<DataValue<T>> call(Single<DataSnapshot> source) {
         return source.map(new Func1<DataSnapshot, DataValue<T>>() {
             @Override
             public DataValue<T> call(DataSnapshot dataSnapshot) {
