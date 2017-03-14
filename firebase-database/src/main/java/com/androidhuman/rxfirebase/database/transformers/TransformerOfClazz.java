@@ -2,13 +2,11 @@ package com.androidhuman.rxfirebase.database.transformers;
 
 import com.google.firebase.database.DataSnapshot;
 
-import com.memoizrlabs.retrooptional.Optional;
-
 import rx.Observable;
 import rx.functions.Func1;
 
 public final class TransformerOfClazz<T>
-        implements Observable.Transformer<DataSnapshot, Optional<T>> {
+        implements Observable.Transformer<DataSnapshot, T> {
 
     private final Class<T> clazz;
 
@@ -17,11 +15,16 @@ public final class TransformerOfClazz<T>
     }
 
     @Override
-    public Observable<Optional<T>> call(Observable<DataSnapshot> source) {
-        return source.map(new Func1<DataSnapshot, Optional<T>>() {
+    public Observable<T> call(Observable<DataSnapshot> source) {
+        return source.flatMap(new Func1<DataSnapshot, Observable<T>>() {
             @Override
-            public Optional<T> call(DataSnapshot dataSnapshot) {
-                return Optional.of(dataSnapshot.getValue(clazz));
+            public Observable<T> call(DataSnapshot dataSnapshot) {
+                T value = dataSnapshot.getValue(clazz);
+                if (null != value) {
+                    return Observable.just(value);
+                } else {
+                    return Observable.empty();
+                }
             }
         });
     }

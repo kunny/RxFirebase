@@ -4,15 +4,14 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-import com.memoizrlabs.retrooptional.Optional;
-
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import rx.Completable;
 import rx.Observable;
+import rx.Single;
 
 public final class RxFirebaseAuth {
 
@@ -24,66 +23,66 @@ public final class RxFirebaseAuth {
 
     @CheckResult
     @NonNull
-    public static Observable<FirebaseUser> createUserWithEmailAndPassword(
+    public static Single<FirebaseUser> createUserWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
-        return Observable.create(
+        return Single.create(
                 new CreateUserWithEmailAndPasswordOnSubscribe(instance, email, password));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<Optional<List<String>>> fetchProvidersForEmail(
+    public static Single<List<String>> fetchProvidersForEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return Observable.create(new FetchProvidersForEmailOnSubscribe(instance, email));
+        return Single.create(new FetchProvidersForEmailOnSubscribe(instance, email));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<Optional<FirebaseUser>> getCurrentUser(
+    public static Observable<FirebaseUser> getCurrentUser(
             @NonNull final FirebaseAuth instance) {
         return Observable.create(new GetCurrentUserOnSubscribe(instance));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> sendPasswordResetEmail(
+    public static Completable sendPasswordResetEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return Observable.create(new SendPasswordResetEmailOnSubscribe(instance, email));
+        return Completable.create(new SendPasswordResetEmailOnSubscribe(instance, email));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<FirebaseUser> signInAnonymous(
+    public static Single<FirebaseUser> signInAnonymous(
             @NonNull FirebaseAuth instance) {
-        return Observable.create(new SignInAnonymousOnSubscribe(instance));
+        return Single.create(new SignInAnonymousOnSubscribe(instance));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<FirebaseUser> signInWithCredential(
+    public static Single<FirebaseUser> signInWithCredential(
             @NonNull FirebaseAuth instance, @NonNull AuthCredential credential) {
-        return Observable.create(new SignInWithCredentialOnSubscribe(instance, credential));
+        return Single.create(new SignInWithCredentialOnSubscribe(instance, credential));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<FirebaseUser> signInWithCustomToken(
+    public static Single<FirebaseUser> signInWithCustomToken(
             @NonNull FirebaseAuth instance, @NonNull String token) {
-        return Observable.create(new SignInWithCustomTokenOnSubscribe(instance, token));
+        return Single.create(new SignInWithCustomTokenOnSubscribe(instance, token));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<FirebaseUser> signInWithEmailAndPassword(
+    public static Single<FirebaseUser> signInWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
-        return Observable.create(
+        return Single.create(
                 new SignInWithEmailAndPasswordOnSubscribe(instance, email, password));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> signOut(@NonNull FirebaseAuth instance) {
-        return Observable.create(new SignOutOnSubscribe(instance));
+    public static Completable signOut(@NonNull FirebaseAuth instance) {
+        return Completable.create(new SignOutOnSubscribe(instance));
     }
 
     private RxFirebaseAuth() {

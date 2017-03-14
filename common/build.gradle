@@ -31,7 +31,6 @@ android {
 }
 
 dependencies {
-    compile rootProject.ext.retroOptional
     compile rootProject.ext.rxJava
     compile rootProject.ext.supportAnnotations
 }

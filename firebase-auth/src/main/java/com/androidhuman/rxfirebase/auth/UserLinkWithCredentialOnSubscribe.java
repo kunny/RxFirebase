@@ -8,10 +8,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Single;
+import rx.SingleSubscriber;
 
-final class UserLinkWithCredentialOnSubscribe implements Observable.OnSubscribe<AuthResult> {
+final class UserLinkWithCredentialOnSubscribe
+        implements Single.OnSubscribe<FirebaseUser> {
 
     private final FirebaseUser user;
 
@@ -23,7 +24,7 @@ final class UserLinkWithCredentialOnSubscribe implements Observable.OnSubscribe<
     }
 
     @Override
-    public void call(final Subscriber<? super AuthResult> subscriber) {
+    public void call(final SingleSubscriber<? super FirebaseUser> subscriber) {
         OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -33,8 +34,13 @@ final class UserLinkWithCredentialOnSubscribe implements Observable.OnSubscribe<
                 }
 
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult());
-                    subscriber.onCompleted();
+                    FirebaseUser user = task.getResult().getUser();
+                    if (null != user) {
+                        subscriber.onSuccess(user);
+                    } else {
+                        subscriber.onError(
+                                new IllegalStateException("FirebaseUser does not exists."));
+                    }
                 }
             }
         };

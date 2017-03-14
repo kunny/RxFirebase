@@ -7,10 +7,11 @@ import com.google.firebase.auth.GetTokenResult;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Single;
+import rx.SingleSubscriber;
 
-final class UserGetTokenOnSubscribe implements Observable.OnSubscribe<String> {
+final class UserGetTokenOnSubscribe
+        implements Single.OnSubscribe<String> {
 
     private final FirebaseUser user;
 
@@ -22,7 +23,7 @@ final class UserGetTokenOnSubscribe implements Observable.OnSubscribe<String> {
     }
 
     @Override
-    public void call(final Subscriber<? super String> subscriber) {
+    public void call(final SingleSubscriber<? super String> subscriber) {
         OnCompleteListener<GetTokenResult> listener = new OnCompleteListener<GetTokenResult>() {
             @Override
             public void onComplete(@NonNull Task<GetTokenResult> task) {
@@ -34,8 +35,12 @@ final class UserGetTokenOnSubscribe implements Observable.OnSubscribe<String> {
                 }
 
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult().getToken());
-                    subscriber.onCompleted();
+                    String token = task.getResult().getToken();
+                    if (null != token) {
+                        subscriber.onSuccess(token);
+                    } else {
+                        subscriber.onError(new IllegalStateException("Token does not exists."));
+                    }
                 }
             }
         };

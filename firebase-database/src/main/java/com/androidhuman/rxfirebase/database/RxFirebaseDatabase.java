@@ -6,10 +6,8 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
 import com.androidhuman.rxfirebase.database.transformers.TransformerOfClazz;
 import com.androidhuman.rxfirebase.database.transformers.TransformerOfGenericTypeIndicator;
-import com.memoizrlabs.retrooptional.Optional;
 
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
@@ -17,6 +15,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Map;
 
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -42,79 +41,79 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static <T> Observable<Optional<T>> dataChangesOf(
+    public static <T> Observable<T> dataChangesOf(
             @NonNull DatabaseReference ref, @NonNull Class<T> clazz) {
         return dataChanges(ref).compose(new TransformerOfClazz<T>(clazz));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Observable<Optional<T>> dataChangesOf(
+    public static <T> Observable<T> dataChangesOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return dataChanges(ref).compose(new TransformerOfGenericTypeIndicator<T>(typeIndicator));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Observable<Optional<T>> dataOf(
+    public static <T> Observable<T> dataOf(
             @NonNull DatabaseReference ref, @NonNull Class<T> clazz) {
         return data(ref).compose(new TransformerOfClazz<T>(clazz));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Observable<Optional<T>> dataOf(
+    public static <T> Observable<T> dataOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return data(ref).compose(new TransformerOfGenericTypeIndicator<T>(typeIndicator));
     }
 
     @NonNull
     @CheckResult
-    public static Observable<TaskResult> removeValue(@NonNull DatabaseReference ref) {
-        return Observable.create(new RemoveValueOnSubscribe(ref));
+    public static Completable removeValue(@NonNull DatabaseReference ref) {
+        return Completable.create(new RemoveValueOnSubscribe(ref));
     }
 
     @NonNull
     @CheckResult
-    public static Observable<TaskResult> setPriority(
+    public static Completable setPriority(
             @NonNull DatabaseReference ref, @NonNull Object priority) {
-        return Observable.create(new SetPriorityOnSubscribe(ref, priority));
+        return Completable.create(new SetPriorityOnSubscribe(ref, priority));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Observable<TaskResult> setValue(
+    public static <T> Completable setValue(
             @NonNull DatabaseReference ref, @Nullable T value) {
-        return Observable.create(new SetValueOnSubscribe<T>(ref, value));
+        return Completable.create(new SetValueOnSubscribe<T>(ref, value));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Observable<TaskResult> setValue(
+    public static <T> Completable setValue(
             @NonNull DatabaseReference ref, @Nullable T value, @NonNull Object priority) {
-        return Observable.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
+        return Completable.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
     }
 
     @NonNull
     @CheckResult
-    public static Observable<TaskResult> runTransaction(
+    public static Completable runTransaction(
             @NonNull DatabaseReference ref, @NonNull Func1<MutableData, Transaction.Result> task) {
         return runTransaction(ref, true, task);
     }
 
     @NonNull
     @CheckResult
-    public static Observable<TaskResult> runTransaction(
+    public static Completable runTransaction(
             @NonNull DatabaseReference ref, boolean fireLocalEvents,
             @NonNull Func1<MutableData, Transaction.Result> task) {
-        return Observable.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
+        return Completable.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
     }
 
     @NonNull
     @CheckResult
-    public static Observable<TaskResult> updateChildren(
+    public static Completable updateChildren(
             @NonNull DatabaseReference ref, @NonNull Map<String, Object> update) {
-        return Observable.create(new UpdateChildrenOnSubscribe(ref, update));
+        return Completable.create(new UpdateChildrenOnSubscribe(ref, update));
     }
 
     private RxFirebaseDatabase() {

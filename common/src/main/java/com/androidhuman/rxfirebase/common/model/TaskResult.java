@@ -2,6 +2,7 @@ package com.androidhuman.rxfirebase.common.model;
 
 import android.support.annotation.Nullable;
 
+@Deprecated
 public final class TaskResult {
 
     private final boolean success;
