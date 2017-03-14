@@ -74,6 +74,10 @@ inline fun DatabaseReference.rxUpdateChildren(update: Map<String, Any?>)
         : Completable
         = RxFirebaseDatabase.updateChildren(this, update)
 
+inline fun Query.childEvents()
+        : Observable<ChildEvent>
+        = RxFirebaseDatabase.childEvents(this)
+
 inline fun Query.data()
         : Single<DataSnapshot>
         = RxFirebaseDatabase.data(this)

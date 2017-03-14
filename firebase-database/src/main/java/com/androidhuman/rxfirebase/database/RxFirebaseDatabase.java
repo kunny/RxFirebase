@@ -35,6 +35,13 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
+    public static Observable<ChildEvent> childEvents(@NonNull Query query) {
+        //noinspection deprecation
+        return Observable.create(new QueryChildEventsOnSubscribe(query));
+    }
+
+    @NonNull
+    @CheckResult
     public static Single<DataSnapshot> data(@NonNull DatabaseReference ref) {
         return Single.create(new DataOnSubscribe(ref));
     }
