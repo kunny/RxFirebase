@@ -8,7 +8,7 @@ import com.androidhuman.rxfirebase.database.model.DataValue;
 import rx.Single;
 import rx.functions.Func1;
 
-public class SingleTransformerOfGenericTypeIndicator<T>
+public final class SingleTransformerOfGenericTypeIndicator<T>
         implements Single.Transformer<DataSnapshot, DataValue<T>> {
 
     private final GenericTypeIndicator<T> typeIndicator;

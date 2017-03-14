@@ -7,7 +7,7 @@ import com.androidhuman.rxfirebase.database.model.DataValue;
 import rx.Single;
 import rx.functions.Func1;
 
-public class SingleTransformerOfClazz<T>
+public final class SingleTransformerOfClazz<T>
         implements Single.Transformer<DataSnapshot, DataValue<T>> {
 
     private final Class<T> clazz;
