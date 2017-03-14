@@ -2,6 +2,7 @@
 
 package com.androidhuman.rxfirebase.database
 
+import com.androidhuman.rxfirebase.database.model.DataValue
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.GenericTypeIndicator
@@ -9,13 +10,14 @@ import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import rx.Completable
 import rx.Observable
+import rx.Single
 
 inline fun DatabaseReference.childEvents()
         : Observable<ChildEvent>
         = RxFirebaseDatabase.childEvents(this)
 
 inline fun DatabaseReference.data()
-        : Observable<DataSnapshot>
+        : Single<DataSnapshot>
         = RxFirebaseDatabase.data(this)
 
 inline fun DatabaseReference.dataChanges()
@@ -23,19 +25,19 @@ inline fun DatabaseReference.dataChanges()
         = RxFirebaseDatabase.dataChanges(this)
 
 inline fun <reified T : Any> DatabaseReference.dataChangesOf()
-        : Observable<T>
+        : Observable<DataValue<T>>
         = RxFirebaseDatabase.dataChangesOf(this, T::class.java)
 
 inline fun <reified T : Any> DatabaseReference.dataChangesOf(typeIndicator: GenericTypeIndicator<T>)
-        : Observable<T>
+        : Observable<DataValue<T>>
         = RxFirebaseDatabase.dataChangesOf(this, typeIndicator)
 
 inline fun <reified T : Any> DatabaseReference.dataOf()
-        : Observable<T>
+        : Single<DataValue<T>>
         = RxFirebaseDatabase.dataOf(this, T::class.java)
 
 inline fun <reified T : Any> DatabaseReference.dataOf(typeIndicator: GenericTypeIndicator<T>)
-        : Observable<T>
+        : Single<DataValue<T>>
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
 
 inline fun DatabaseReference.rxSetPriority(priority: Any)
