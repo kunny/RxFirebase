@@ -2,7 +2,7 @@ package com.androidhuman.rxfirebase.database;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import io.reactivex.ObservableEmitter;
@@ -10,12 +10,12 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.functions.Action;
 
-final class DataChangesOnSubscribe implements ObservableOnSubscribe<DataSnapshot> {
+final class QueryChangesOnSubscribe implements ObservableOnSubscribe<DataSnapshot> {
 
-    private final DatabaseReference ref;
+    private final Query query;
 
-    DataChangesOnSubscribe(DatabaseReference ref) {
-        this.ref = ref;
+    QueryChangesOnSubscribe(Query query) {
+        this.query = query;
     }
 
     @Override
@@ -36,12 +36,12 @@ final class DataChangesOnSubscribe implements ObservableOnSubscribe<DataSnapshot
             }
         };
 
-        ref.addValueEventListener(listener);
+        query.addValueEventListener(listener);
 
         emitter.setDisposable(Disposables.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                ref.removeEventListener(listener);
+                query.removeEventListener(listener);
             }
         }));
     }

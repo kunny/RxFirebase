@@ -3,19 +3,19 @@ package com.androidhuman.rxfirebase.database;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.Disposables;
 import io.reactivex.functions.Action;
 
-final class ChildEventsOnSubscribe implements ObservableOnSubscribe<ChildEvent> {
+final class QueryChildEventsOnSubscribe implements ObservableOnSubscribe<ChildEvent> {
 
-    private DatabaseReference ref;
+    private Query query;
 
-    ChildEventsOnSubscribe(DatabaseReference ref) {
-        this.ref = ref;
+    QueryChildEventsOnSubscribe(Query query) {
+        this.query = query;
     }
 
     @Override
@@ -57,12 +57,12 @@ final class ChildEventsOnSubscribe implements ObservableOnSubscribe<ChildEvent> 
             }
         };
 
-        ref.addChildEventListener(listener);
+        query.addChildEventListener(listener);
 
         emitter.setDisposable(Disposables.fromAction(new Action() {
             @Override
             public void run() throws Exception {
-                ref.removeEventListener(listener);
+                query.removeEventListener(listener);
             }
         }));
     }

@@ -4,13 +4,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 
-import com.androidhuman.rxfirebase.database.transformers.ObsTransformerOfClazz;
-import com.androidhuman.rxfirebase.database.transformers.ObsTransformerOfGenericTypeIndicator;
+import com.androidhuman.rxfirebase.database.model.DataValue;
 import com.androidhuman.rxfirebase.database.transformers.SingleTransformerOfClazz;
 import com.androidhuman.rxfirebase.database.transformers.SingleTransformerOfGenericTypeIndicator;
-import com.memoizrlabs.retrooptional.Optional;
+import com.androidhuman.rxfirebase.database.transformers.TransformerOfClazz;
+import com.androidhuman.rxfirebase.database.transformers.TransformerOfGenericTypeIndicator;
 
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
@@ -34,8 +35,20 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
+    public static Observable<ChildEvent> childEvents(@NonNull Query query) {
+        return Observable.create(new QueryChildEventsOnSubscribe(query));
+    }
+
+    @NonNull
+    @CheckResult
     public static Single<DataSnapshot> data(@NonNull DatabaseReference ref) {
         return Single.create(new DataOnSubscribe(ref));
+    }
+
+    @NonNull
+    @CheckResult
+    public static Single<DataSnapshot> data(@NonNull Query query) {
+        return Single.create(new QueryOnSubscribe(query));
     }
 
     @NonNull
@@ -46,31 +59,66 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static <T> Observable<Optional<T>> dataChangesOf(
-            @NonNull DatabaseReference ref, @NonNull Class<T> clazz) {
-        return dataChanges(ref).compose(new ObsTransformerOfClazz<>(clazz));
+    public static Observable<DataSnapshot> dataChanges(@NonNull Query query) {
+        return Observable.create(new QueryChangesOnSubscribe(query));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Observable<Optional<T>> dataChangesOf(
+    public static <T> Observable<DataValue<T>> dataChangesOf(
+            @NonNull DatabaseReference ref, @NonNull Class<T> clazz) {
+        return dataChanges(ref).compose(new TransformerOfClazz<>(clazz));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Observable<DataValue<T>> dataChangesOf(
+            @NonNull Query query, @NonNull Class<T> clazz) {
+        return dataChanges(query).compose(new TransformerOfClazz<>(clazz));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Observable<DataValue<T>> dataChangesOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return dataChanges(ref)
-                .compose(new ObsTransformerOfGenericTypeIndicator<T>(typeIndicator));
+                .compose(new TransformerOfGenericTypeIndicator<T>(typeIndicator));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<Optional<T>> dataOf(
+    public static <T> Observable<DataValue<T>> dataChangesOf(
+            @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator) {
+        return dataChanges(query)
+                .compose(new TransformerOfGenericTypeIndicator<T>(typeIndicator));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Single<DataValue<T>> dataOf(
             @NonNull DatabaseReference ref, @NonNull Class<T> clazz) {
         return data(ref).compose(new SingleTransformerOfClazz<>(clazz));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<Optional<T>> dataOf(
+    public static <T> Single<DataValue<T>> dataOf(
+            @NonNull Query query, @NonNull Class<T> clazz) {
+        return data(query).compose(new SingleTransformerOfClazz<T>(clazz));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Single<DataValue<T>> dataOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return data(ref).compose(new SingleTransformerOfGenericTypeIndicator<T>(typeIndicator));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Single<DataValue<T>> dataOf(
+            @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator) {
+        return data(query).compose(new SingleTransformerOfGenericTypeIndicator<T>(typeIndicator));
     }
 
     @NonNull
