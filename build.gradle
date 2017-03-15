@@ -72,7 +72,7 @@ subprojects {
     }
 
     afterEvaluate {
-        tasks.findByName('coverageReport').dependsOn('test')
+        tasks.findByName('coverageReport').dependsOn('testDebugUnitTest')
     }
 }
 

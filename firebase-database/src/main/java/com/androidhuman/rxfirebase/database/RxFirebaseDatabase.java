@@ -103,7 +103,8 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static <T> Single<DataValue<T>> dataOf(@NonNull Query query, @NonNull Class<T> clazz) {
+    public static <T> Single<DataValue<T>> dataOf(
+            @NonNull Query query, @NonNull Class<T> clazz) {
         return data(query).compose(new SingleTransformerOfClazz<T>(clazz));
     }
 
