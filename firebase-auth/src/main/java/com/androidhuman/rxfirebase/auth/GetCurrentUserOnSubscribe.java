@@ -3,12 +3,10 @@ package com.androidhuman.rxfirebase.auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.memoizrlabs.retrooptional.Optional;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
-
-final class GetCurrentUserOnSubscribe implements SingleOnSubscribe<Optional<FirebaseUser>> {
+final class GetCurrentUserOnSubscribe implements MaybeOnSubscribe<FirebaseUser> {
 
     private FirebaseAuth instance;
 
@@ -17,9 +15,13 @@ final class GetCurrentUserOnSubscribe implements SingleOnSubscribe<Optional<Fire
     }
 
     @Override
-    public void subscribe(SingleEmitter<Optional<FirebaseUser>> emitter) {
+    public void subscribe(MaybeEmitter<FirebaseUser> emitter) throws Exception {
         if (!emitter.isDisposed()) {
-            emitter.onSuccess(Optional.of(instance.getCurrentUser()));
+            FirebaseUser user = instance.getCurrentUser();
+            if (null != user) {
+                emitter.onSuccess(user);
+            }
+            emitter.onComplete();
         }
     }
 }

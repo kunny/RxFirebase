@@ -3,7 +3,6 @@
 package com.androidhuman.rxfirebase.auth
 
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import io.reactivex.Completable
@@ -18,7 +17,7 @@ inline fun FirebaseUser.rxGetToken(forceRefresh: Boolean)
         = RxFirebaseUser.getToken(this, forceRefresh)
 
 inline fun FirebaseUser.rxLinkWithCredential(credential: AuthCredential)
-        : Single<AuthResult>
+        : Single<FirebaseUser>
         = RxFirebaseUser.linkWithCredential(this, credential)
 
 inline fun FirebaseUser.rxReauthenticate(credential: AuthCredential)
@@ -34,7 +33,7 @@ inline fun FirebaseUser.rxSendEmailVerification()
         = RxFirebaseUser.sendEmailVerification(this)
 
 inline fun FirebaseUser.rxUnlink(provider: String)
-        : Single<AuthResult>
+        : Single<FirebaseUser>
         = RxFirebaseUser.unlink(this, provider)
 
 inline fun FirebaseUser.rxUpdateEmail(email: String)

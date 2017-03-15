@@ -8,21 +8,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.ProviderQueryResult;
 
-import com.memoizrlabs.retrooptional.Optional;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -103,7 +101,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthResultTask);
 
-        obs.assertNoErrors();
         obs.assertComplete();
 
         obs.assertValue(new Predicate<FirebaseUser>() {
@@ -150,7 +147,7 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.fetchProvidersForEmail("foo@bar.com"))
                 .thenReturn(mockFetchProvidersTask);
 
-        TestObserver<Optional<List<String>>> obs = TestObserver.create();
+        TestObserver<List<String>> obs = TestObserver.create();
 
         RxFirebaseAuth
                 .fetchProvidersForEmail(mockFirebaseAuth, "foo@bar.com")
@@ -162,7 +159,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockFetchProvidersTask);
 
-        obs.assertNoErrors();
         obs.assertComplete();
         obs.assertValueCount(1);
     }
@@ -177,7 +173,7 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.fetchProvidersForEmail("foo@bar.com"))
                 .thenReturn(mockFetchProvidersTask);
 
-        TestObserver<Optional<List<String>>> obs = TestObserver.create();
+        TestObserver<List<String>> obs = TestObserver.create();
 
         RxFirebaseAuth
                 .fetchProvidersForEmail(mockFirebaseAuth, "foo@bar.com")
@@ -198,7 +194,7 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.getCurrentUser())
                 .thenReturn(null);
 
-        TestObserver<Optional<FirebaseUser>> obs = TestObserver.create();
+        TestObserver<FirebaseUser> obs = TestObserver.create();
 
         RxFirebaseAuth.getCurrentUser(mockFirebaseAuth)
                 .subscribe(obs);
@@ -208,24 +204,8 @@ public class RxFirebaseAuthTest {
 
         obs.dispose();
 
-        obs.assertNoErrors();
         obs.assertComplete();
-
-        obs.assertValue(new Predicate<Optional<FirebaseUser>>() {
-            @Override
-            public boolean test(Optional<FirebaseUser> firebaseUserOptional) throws Exception {
-                if (firebaseUserOptional.isPresent()) {
-                    return false;
-                }
-                try {
-                    firebaseUserOptional.get();
-                    failBecauseExceptionWasNotThrown(NoSuchElementException.class);
-                    return false;
-                } catch (Exception e) {
-                    return e instanceof NoSuchElementException;
-                }
-            }
-        });
+        obs.assertNoValues();
     }
 
     @Test
@@ -236,7 +216,7 @@ public class RxFirebaseAuthTest {
         when(mockFirebaseAuth.getCurrentUser())
                 .thenReturn(mockFirebaseUser);
 
-        TestObserver<Optional<FirebaseUser>> obs = TestObserver.create();
+        TestObserver<FirebaseUser> obs = TestObserver.create();
 
         RxFirebaseAuth.getCurrentUser(mockFirebaseAuth)
                 .subscribe(obs);
@@ -246,14 +226,13 @@ public class RxFirebaseAuthTest {
 
         obs.dispose();
 
-        obs.assertNoErrors();
         obs.assertComplete();
+        obs.assertValueCount(1);
 
-        obs.assertValue(new Predicate<Optional<FirebaseUser>>() {
+        obs.assertValue(new Predicate<FirebaseUser>() {
             @Override
-            public boolean test(Optional<FirebaseUser> firebaseUserOptional) throws Exception {
-                return firebaseUserOptional.isPresent() && "John Doe"
-                        .equals(firebaseUserOptional.get().getDisplayName());
+            public boolean test(FirebaseUser user) throws Exception {
+                return "John Doe".equals(user.getDisplayName());
 
             }
         });
@@ -275,14 +254,10 @@ public class RxFirebaseAuthTest {
         callOnComplete(mockSendPasswordResetEmailTask);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockSendPasswordResetEmailTask);
-
         verify(mockFirebaseAuth)
                 .sendPasswordResetEmail("email");
 
         obs.assertNoErrors();
-
         obs.assertComplete();
     }
 
@@ -302,14 +277,10 @@ public class RxFirebaseAuthTest {
         callOnComplete(mockSendPasswordResetEmailTask);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockSendPasswordResetEmailTask);
-
         verify(mockFirebaseAuth)
                 .sendPasswordResetEmail("email");
 
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
@@ -384,7 +355,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthResultTask);
 
-        obs.assertNoErrors();
         obs.assertComplete();
         obs.assertValueCount(1);
     }
@@ -431,7 +401,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthResultTask);
 
-        obs.assertNoErrors();
         obs.assertComplete();
         obs.assertValueCount(1);
     }
@@ -518,7 +487,6 @@ public class RxFirebaseAuthTest {
 
         obs.dispose();
 
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -573,6 +541,13 @@ public class RxFirebaseAuthTest {
     private void mockSuccessfulFetchProvidersResult() {
         when(mockFetchProvidersTask.isSuccessful())
                 .thenReturn(true);
+
+        ProviderQueryResult result = mock(ProviderQueryResult.class);
+        when(result.getProviders())
+                .thenReturn(new ArrayList<String>());
+
+        when(mockFetchProvidersTask.getResult())
+                .thenReturn(result);
 
         //noinspection unchecked
         when(mockFetchProvidersTask.addOnCompleteListener(onComplete.capture()))

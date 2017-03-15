@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 
-final class UserLinkWithCredentialOnSubscribe implements SingleOnSubscribe<AuthResult> {
+final class UserLinkWithCredentialOnSubscribe implements SingleOnSubscribe<FirebaseUser> {
 
     private final FirebaseUser user;
 
@@ -23,7 +23,7 @@ final class UserLinkWithCredentialOnSubscribe implements SingleOnSubscribe<AuthR
     }
 
     @Override
-    public void subscribe(final SingleEmitter<AuthResult> emitter) {
+    public void subscribe(final SingleEmitter<FirebaseUser> emitter) {
         OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -33,7 +33,12 @@ final class UserLinkWithCredentialOnSubscribe implements SingleOnSubscribe<AuthR
                 }
 
                 if (!emitter.isDisposed()) {
-                    emitter.onSuccess(task.getResult());
+                    FirebaseUser user = task.getResult().getUser();
+                    if (null != user) {
+                        emitter.onSuccess(user);
+                    } else {
+                        emitter.onError(new IllegalStateException("FirebaseUser does not exists."));
+                    }
                 }
             }
         };

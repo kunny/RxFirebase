@@ -31,9 +31,9 @@ android {
 }
 
 dependencies {
-    compile project (':common')
-
     compile rootProject.ext.firebaseAuth
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.supportAnnotations
 
     testCompile rootProject.ext.assertj
     testCompile rootProject.ext.junit

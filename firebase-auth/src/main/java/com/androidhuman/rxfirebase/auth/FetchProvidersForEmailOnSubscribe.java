@@ -5,18 +5,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
 
-import com.memoizrlabs.retrooptional.Function1;
-import com.memoizrlabs.retrooptional.Optional;
-
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 
 final class FetchProvidersForEmailOnSubscribe
-        implements SingleOnSubscribe<Optional<List<String>>> {
+        implements SingleOnSubscribe<List<String>> {
 
     private final FirebaseAuth instance;
 
@@ -28,7 +26,7 @@ final class FetchProvidersForEmailOnSubscribe
     }
 
     @Override
-    public void subscribe(final SingleEmitter<Optional<List<String>>> emitter) {
+    public void subscribe(final SingleEmitter<List<String>> emitter) {
 
         final OnCompleteListener<ProviderQueryResult> listener =
                 new OnCompleteListener<ProviderQueryResult>() {
@@ -42,13 +40,12 @@ final class FetchProvidersForEmailOnSubscribe
                         }
 
                         if (!emitter.isDisposed()) {
-                            emitter.onSuccess(Optional.of(task.getResult())
-                                    .map(new Function1<ProviderQueryResult, List<String>>() {
-                                        @Override
-                                        public List<String> apply(ProviderQueryResult r) {
-                                            return r.getProviders();
-                                        }
-                                    }));
+                            List<String> providers = task.getResult().getProviders();
+                            if (null == providers) {
+                                // If result is null, create an empty list
+                                providers = new ArrayList<>();
+                            }
+                            emitter.onSuccess(providers);
                         }
                     }
                 };

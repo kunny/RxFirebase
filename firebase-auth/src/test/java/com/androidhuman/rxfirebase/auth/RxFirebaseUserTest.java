@@ -14,6 +14,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import io.reactivex.observers.TestObserver;
 
 import static org.mockito.Mockito.verify;
@@ -56,7 +59,7 @@ public class RxFirebaseUserTest {
 
     @Test
     public void testDelete() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.delete())
                 .thenReturn(mockVoidTaskResult);
 
@@ -68,10 +71,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -89,11 +88,7 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
@@ -113,7 +108,6 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockGetTokenTaskResult);
 
-        obs.assertNoErrors();
         obs.assertComplete();
         obs.assertValue("token");
     }
@@ -136,7 +130,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockGetTokenTaskResult);
 
         obs.assertError(IllegalStateException.class);
-        obs.assertNoValues();
     }
 
     @Test
@@ -145,7 +138,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.linkWithCredential(mockAuthCredential))
                 .thenReturn(mockAuthTaskResult);
 
-        TestObserver<AuthResult> obs = TestObserver.create();
+        TestObserver<FirebaseUser> obs = TestObserver.create();
 
         RxFirebaseUser.linkWithCredential(mockFirebaseUser, mockAuthCredential)
                 .subscribe(obs);
@@ -156,7 +149,6 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthTaskResult);
 
-        obs.assertNoErrors();
         obs.assertComplete();
         obs.assertValueCount(1);
     }
@@ -167,7 +159,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.linkWithCredential(mockAuthCredential))
                 .thenReturn(mockAuthTaskResult);
 
-        TestObserver<AuthResult> obs = TestObserver.create();
+        TestObserver<FirebaseUser> obs = TestObserver.create();
 
         RxFirebaseUser.linkWithCredential(mockFirebaseUser, mockAuthCredential)
                 .subscribe(obs);
@@ -175,16 +167,12 @@ public class RxFirebaseUserTest {
         callOnComplete(mockAuthTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockAuthTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNoValues();
     }
 
     @Test
     public void testReauthenticate() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.reauthenticate(mockAuthCredential))
                 .thenReturn(mockVoidTaskResult);
 
@@ -199,7 +187,6 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -217,16 +204,12 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
     public void testReload() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.reload())
                 .thenReturn(mockVoidTaskResult);
 
@@ -238,10 +221,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -259,16 +238,12 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
     public void testSendEmailVerification() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.sendEmailVerification())
                 .thenReturn(mockVoidTaskResult);
 
@@ -280,10 +255,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -301,11 +272,7 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
@@ -314,7 +281,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.unlink("provider"))
                 .thenReturn(mockAuthTaskResult);
 
-        TestObserver<AuthResult> obs = TestObserver.create();
+        TestObserver<FirebaseUser> obs = TestObserver.create();
 
         RxFirebaseUser.unlink(mockFirebaseUser, "provider")
                 .subscribe(obs);
@@ -325,7 +292,6 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthTaskResult);
 
-        obs.assertNoErrors();
         obs.assertComplete();
         obs.assertValueCount(1);
     }
@@ -336,7 +302,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.unlink("provider"))
                 .thenReturn(mockAuthTaskResult);
 
-        TestObserver<AuthResult> obs = TestObserver.create();
+        TestObserver<FirebaseUser> obs = TestObserver.create();
 
         RxFirebaseUser.unlink(mockFirebaseUser, "provider")
                 .subscribe(obs);
@@ -344,16 +310,12 @@ public class RxFirebaseUserTest {
         callOnComplete(mockAuthTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockAuthTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNoValues();
     }
 
     @Test
     public void testUpdateEmail() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.updateEmail("foo@bar.com"))
                 .thenReturn(mockVoidTaskResult);
 
@@ -365,10 +327,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -386,16 +344,12 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
     public void testUpdatePassword() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.updatePassword("password"))
                 .thenReturn(mockVoidTaskResult);
 
@@ -407,10 +361,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -428,16 +378,12 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
     @Test
     public void testUpdateProfile() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.updateProfile(mockProfileChangeRequest))
                 .thenReturn(mockVoidTaskResult);
 
@@ -449,10 +395,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        obs.assertNoErrors();
         obs.assertComplete();
     }
 
@@ -470,16 +412,25 @@ public class RxFirebaseUserTest {
         callOnComplete(mockVoidTaskResult);
         obs.dispose();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
         obs.assertError(IllegalStateException.class);
-        obs.assertNotComplete();
     }
 
-    private void mockVoidResult(boolean success) {
+    private void mockSuccessfulVoidResult() {
+        mockVoidResult(true, null);
+    }
+
+    private void mockNotSuccessfulVoidResult(@NonNull Exception exception) {
+        mockVoidResult(false, exception);
+    }
+
+    private void mockVoidResult(boolean success, @Nullable Exception exception) {
         when(mockVoidTaskResult.isSuccessful())
                 .thenReturn(success);
+
+        if (null != exception) {
+            when(mockVoidTaskResult.getException())
+                    .thenReturn(exception);
+        }
 
         //noinspection unchecked
         when(mockVoidTaskResult.addOnCompleteListener(onComplete.capture()))
@@ -520,6 +471,9 @@ public class RxFirebaseUserTest {
         when(mockAuthTaskResult.isSuccessful())
                 .thenReturn(true);
 
+        when(mockAuthResult.getUser())
+                .thenReturn(mockFirebaseUser);
+
         when(mockAuthTaskResult.getResult())
                 .thenReturn(mockAuthResult);
 
@@ -541,14 +495,6 @@ public class RxFirebaseUserTest {
         //noinspection unchecked
         when(mockAuthTaskResult.addOnCompleteListener(onComplete.capture()))
                 .thenReturn(mockAuthTaskResult);
-    }
-
-    private void mockNotSuccessfulVoidResult(Exception exception) {
-        when(mockVoidTaskResult.isSuccessful())
-                .thenReturn(false);
-
-        when(mockVoidTaskResult.getException())
-                .thenReturn(exception);
     }
 
     @SuppressWarnings("unchecked")

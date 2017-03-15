@@ -1,7 +1,6 @@
 package com.androidhuman.rxfirebase.auth;
 
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -29,7 +28,7 @@ public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
-    public static Single<AuthResult> linkWithCredential(
+    public static Single<FirebaseUser> linkWithCredential(
             @NonNull FirebaseUser user, @NonNull AuthCredential credential) {
         return Single.create(new UserLinkWithCredentialOnSubscribe(user, credential));
     }
@@ -55,7 +54,7 @@ public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
-    public static Single<AuthResult> unlink(
+    public static Single<FirebaseUser> unlink(
             @NonNull FirebaseUser user, @NonNull String provider) {
         return Single.create(new UserUnlinkOnSubscribe(user, provider));
     }

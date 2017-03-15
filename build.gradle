@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.0'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
     }
 }
@@ -14,7 +14,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }
     }
 
     apply plugin: 'checkstyle'
@@ -73,14 +72,13 @@ subprojects {
     }
 
     afterEvaluate {
-        tasks.findByName('coverageReport').dependsOn('test')
+        tasks.findByName('coverageReport').dependsOn('testDebugUnitTest')
     }
 }
 
-task cleanBuildDir(type: Delete) {
+task clean(type: Delete) {
     delete rootProject.buildDir
 }
-clean.dependsOn += cleanBuildDir
 
 apply plugin: 'jacoco'
 
