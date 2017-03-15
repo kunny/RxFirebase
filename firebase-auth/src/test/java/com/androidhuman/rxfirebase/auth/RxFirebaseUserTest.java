@@ -61,7 +61,7 @@ public class RxFirebaseUserTest {
 
     @Test
     public void testDelete() {
-        mockNotSuccessfulVoidResult(new IllegalStateException());
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.delete())
                 .thenReturn(mockVoidTaskResult);
 
@@ -72,7 +72,7 @@ public class RxFirebaseUserTest {
 
         callOnComplete(mockVoidTaskResult);
 
-        sub.assertError(IllegalStateException.class);
+        sub.assertCompleted();
     }
 
     @Test
@@ -149,6 +149,7 @@ public class RxFirebaseUserTest {
         s.unsubscribe();
 
         sub.assertCompleted();
+        sub.assertValueCount(1);
     }
 
     @Test
@@ -214,9 +215,6 @@ public class RxFirebaseUserTest {
         RxFirebaseUser.reload(mockFirebaseUser)
                 .subscribe(sub);
 
-        callOnComplete(mockVoidTaskResult);
-
-        // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
         sub.assertCompleted();

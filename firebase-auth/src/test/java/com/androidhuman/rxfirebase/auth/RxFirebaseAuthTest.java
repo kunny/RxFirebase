@@ -102,9 +102,7 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthResultTask);
 
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
 
         FirebaseUser user = sub.getOnNextEvents().get(0);
 
@@ -160,7 +158,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockFetchProvidersTask);
 
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
     }
@@ -206,7 +203,6 @@ public class RxFirebaseAuthTest {
 
         s.unsubscribe();
 
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertNoValues();
     }
@@ -229,7 +225,6 @@ public class RxFirebaseAuthTest {
 
         s.unsubscribe();
 
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
 
@@ -354,7 +349,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthResultTask);
 
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
     }
@@ -401,7 +395,6 @@ public class RxFirebaseAuthTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockAuthResultTask);
 
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
     }
@@ -486,7 +479,6 @@ public class RxFirebaseAuthTest {
         verify(mockFirebaseAuth)
                 .signOut();
 
-        sub.assertNoErrors();
         sub.assertCompleted();
     }
 
