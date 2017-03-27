@@ -8,7 +8,7 @@ ext {
     ci = 'true'.equals(System.getenv('CI'))
 
     // Library Versions
-    firebaseVersion = '10.0.1'
+    firebaseVersion = '10.2.0'
     kotlinVersion = '1.1.0'
 
     // Dependencies
