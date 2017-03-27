@@ -41,4 +41,5 @@ dependencies {
     compile rootProject.ext.kotlin
 }
 
+apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')

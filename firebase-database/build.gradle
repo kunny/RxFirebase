@@ -46,4 +46,5 @@ coveralls {
     jacocoReportPath = "${buildDir}/reports/coverageReport/coverageReport.xml"
 }
 
+apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
