@@ -23,10 +23,9 @@ public final class TransformerOfClazz<T>
         return upstream.map(new Function<DataSnapshot, DataValue<T>>() {
             @Override
             public DataValue<T> apply(DataSnapshot dataSnapshot) throws Exception {
-                T value = dataSnapshot.getValue(clazz);
                 DataValue<T> result;
-                if (null != value) {
-                    result = DataValue.of(value);
+                if (dataSnapshot.exists()) {
+                    result = DataValue.of(dataSnapshot.getValue(clazz));
                 } else {
                     result = DataValue.empty();
                 }

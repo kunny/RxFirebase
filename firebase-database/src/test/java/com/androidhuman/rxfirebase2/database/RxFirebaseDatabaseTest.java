@@ -373,7 +373,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataOfClazz_DataReference() {
-        TestObserver<DataValue<String>> sub = TestObserver.create();
+        TestObserver<String> sub = TestObserver.create();
 
         RxFirebaseDatabase.dataOf(mockDatabaseReference, String.class)
                 .subscribe(sub);
@@ -384,12 +384,7 @@ public class RxFirebaseDatabaseTest {
         sub.assertComplete();
         sub.assertNoErrors();
 
-        sub.assertValue(new Predicate<DataValue<String>>() {
-            @Override
-            public boolean test(DataValue<String> value) throws Exception {
-                return value.isPresent() && "Foo".equals(value.get());
-            }
-        });
+        sub.assertValue("Foo");
 
         sub.dispose();
 
@@ -409,7 +404,7 @@ public class RxFirebaseDatabaseTest {
                 new GenericTypeIndicator<List<String>>() {
                 };
 
-        TestObserver<DataValue<List<String>>> sub = TestObserver.create();
+        TestObserver<List<String>> sub = TestObserver.create();
 
         RxFirebaseDatabase.dataOf(mockDatabaseReference, typeIndicator)
                 .subscribe(sub);
@@ -420,12 +415,11 @@ public class RxFirebaseDatabaseTest {
         sub.assertComplete();
         sub.assertNoErrors();
 
-        sub.assertValue(new Predicate<DataValue<List<String>>>() {
+        sub.assertValue(new Predicate<List<String>>() {
             @Override
-            public boolean test(DataValue<List<String>> value) throws Exception {
-                return value.isPresent()
-                        && "Foo".equals(value.get().get(0))
-                        && "Bar".equals(value.get().get(1));
+            public boolean test(List<String> value) throws Exception {
+                return "Foo".equals(value.get(0))
+                        && "Bar".equals(value.get(1));
             }
         });
 
@@ -734,7 +728,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataOfClazz_Query() {
-        TestObserver<DataValue<String>> sub = TestObserver.create();
+        TestObserver<String> sub = TestObserver.create();
 
         RxFirebaseDatabase.dataOf(mockQuery, String.class)
                 .subscribe(sub);
@@ -745,12 +739,7 @@ public class RxFirebaseDatabaseTest {
         sub.assertComplete();
         sub.assertNoErrors();
 
-        sub.assertValue(new Predicate<DataValue<String>>() {
-            @Override
-            public boolean test(DataValue<String> value) throws Exception {
-                return value.isPresent() && "Foo".equals(value.get());
-            }
-        });
+        sub.assertValue("Foo");
 
         sub.dispose();
 
@@ -770,7 +759,7 @@ public class RxFirebaseDatabaseTest {
                 new GenericTypeIndicator<List<String>>() {
                 };
 
-        TestObserver<DataValue<List<String>>> sub = TestObserver.create();
+        TestObserver<List<String>> sub = TestObserver.create();
 
         RxFirebaseDatabase.dataOf(mockQuery, typeIndicator)
                 .subscribe(sub);
@@ -781,12 +770,11 @@ public class RxFirebaseDatabaseTest {
         sub.assertComplete();
         sub.assertNoErrors();
 
-        sub.assertValue(new Predicate<DataValue<List<String>>>() {
+        sub.assertValue(new Predicate<List<String>>() {
             @Override
-            public boolean test(DataValue<List<String>> value) throws Exception {
-                return value.isPresent()
-                        && "Foo".equals(value.get().get(0))
-                        && "Bar".equals(value.get().get(1));
+            public boolean test(List<String> value) throws Exception {
+                return "Foo".equals(value.get(0))
+                        && "Bar".equals(value.get(1));
             }
         });
 
@@ -1088,6 +1076,8 @@ public class RxFirebaseDatabaseTest {
     }
 
     private <T> void callValueEventOnDataChange(T value) {
+        when(mockDataSnapshot.exists())
+                .thenReturn(true);
         when(mockDataSnapshot.getValue(value.getClass()))
                 .thenReturn(value);
 
@@ -1095,6 +1085,8 @@ public class RxFirebaseDatabaseTest {
     }
 
     private <T> void callValueEventOnDataChange(GenericTypeIndicator<T> type, T value) {
+        when(mockDataSnapshot.exists())
+                .thenReturn(true);
         when(mockDataSnapshot.getValue(type))
                 .thenReturn(value);
 

@@ -2,15 +2,16 @@ package com.androidhuman.rxfirebase2.database.transformers;
 
 import com.google.firebase.database.DataSnapshot;
 
-import com.androidhuman.rxfirebase2.database.model.DataValue;
+import java.util.NoSuchElementException;
 
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
 public final class SingleTransformerOfClazz<T>
-        implements SingleTransformer<DataSnapshot, DataValue<T>> {
+        implements SingleTransformer<DataSnapshot, T> {
 
     private final Class<T> clazz;
 
@@ -19,18 +20,15 @@ public final class SingleTransformerOfClazz<T>
     }
 
     @Override
-    public SingleSource<DataValue<T>> apply(Single<DataSnapshot> upstream) {
-        return upstream.map(new Function<DataSnapshot, DataValue<T>>() {
+    public SingleSource<T> apply(Single<DataSnapshot> upstream) {
+        return upstream.flatMap(new Function<DataSnapshot, SingleSource<? extends T>>() {
             @Override
-            public DataValue<T> apply(DataSnapshot dataSnapshot) throws Exception {
-                T value = dataSnapshot.getValue(clazz);
-                DataValue<T> result;
-                if (null != value) {
-                    result = DataValue.of(value);
+            public SingleSource<? extends T> apply(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    return Single.just(dataSnapshot.getValue(clazz));
                 } else {
-                    result = DataValue.empty();
+                    return Single.error(new NoSuchElementException());
                 }
-                return result;
             }
         });
     }

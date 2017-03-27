@@ -24,10 +24,9 @@ public final class TransformerOfGenericTypeIndicator<T>
         return upstream.map(new Function<DataSnapshot, DataValue<T>>() {
             @Override
             public DataValue<T> apply(DataSnapshot dataSnapshot) throws Exception {
-                T value = dataSnapshot.getValue(typeIndicator);
                 DataValue<T> result;
-                if (null != value) {
-                    result = DataValue.of(value);
+                if (dataSnapshot.exists()) {
+                    result = DataValue.of(dataSnapshot.getValue(typeIndicator));
                 } else {
                     result = DataValue.empty();
                 }

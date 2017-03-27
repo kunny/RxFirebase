@@ -34,11 +34,11 @@ inline fun <reified T : Any> DatabaseReference.dataChangesOf(typeIndicator: Gene
         = RxFirebaseDatabase.dataChangesOf(this, typeIndicator)
 
 inline fun <reified T : Any> DatabaseReference.dataOf()
-        : Single<DataValue<T>>
+        : Single<T>
         = RxFirebaseDatabase.dataOf(this, T::class.java)
 
 inline fun <reified T : Any> DatabaseReference.dataOf(typeIndicator: GenericTypeIndicator<T>)
-        : Single<DataValue<T>>
+        : Single<T>
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
 
 inline fun DatabaseReference.rxChildEvents()
@@ -95,9 +95,9 @@ inline fun <reified T : Any> Query.dataChangesOf(typeIndicator: GenericTypeIndic
         = RxFirebaseDatabase.dataChangesOf(this, typeIndicator)
 
 inline fun <reified T : Any> Query.dataOf()
-        : Single<DataValue<T>>
+        : Single<T>
         = RxFirebaseDatabase.dataOf(this, T::class.java)
 
 inline fun <reified T : Any> Query.dataOf(typeIndicator: GenericTypeIndicator<T>)
-        : Single<DataValue<T>>
+        : Single<T>
         = RxFirebaseDatabase.dataOf(this, typeIndicator)
