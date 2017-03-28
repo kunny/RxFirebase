@@ -15,7 +15,6 @@ import com.androidhuman.rxfirebase2.database.transformers.TransformerOfGenericTy
 
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.Map;
 
@@ -137,14 +136,14 @@ public final class RxFirebaseDatabase {
     @NonNull
     @CheckResult
     public static <T> Completable setValue(
-            @NonNull DatabaseReference ref, @Nullable T value) {
+            @NonNull DatabaseReference ref, @NonNull T value) {
         return Completable.create(new SetValueOnSubscribe<T>(ref, value));
     }
 
     @NonNull
     @CheckResult
     public static <T> Completable setValue(
-            @NonNull DatabaseReference ref, @Nullable T value, @NonNull Object priority) {
+            @NonNull DatabaseReference ref, @NonNull T value, @NonNull Object priority) {
         return Completable.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
     }
 
