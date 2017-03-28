@@ -31,9 +31,10 @@ android {
 }
 
 dependencies {
-    compile rootProject.ext.firebaseDatabase
-    compile rootProject.ext.rxJava
     compile rootProject.ext.supportAnnotations
+
+    provided rootProject.ext.firebaseDatabase
+    provided rootProject.ext.rxJava
 
     testCompile rootProject.ext.assertj
     testCompile rootProject.ext.junit
