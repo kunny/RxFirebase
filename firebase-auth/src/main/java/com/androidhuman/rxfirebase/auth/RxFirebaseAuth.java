@@ -18,6 +18,7 @@ public final class RxFirebaseAuth {
     @CheckResult
     @NonNull
     public static Observable<FirebaseAuth> authStateChanges(@NonNull FirebaseAuth instance) {
+        //noinspection deprecation
         return Observable.create(new AuthStateChangesOnSubscribe(instance));
     }
 
@@ -40,6 +41,7 @@ public final class RxFirebaseAuth {
     @NonNull
     public static Observable<FirebaseUser> getCurrentUser(
             @NonNull final FirebaseAuth instance) {
+        //noinspection deprecation
         return Observable.create(new GetCurrentUserOnSubscribe(instance));
     }
 
