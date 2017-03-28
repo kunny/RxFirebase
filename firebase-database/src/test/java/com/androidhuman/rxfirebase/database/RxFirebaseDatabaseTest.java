@@ -32,6 +32,7 @@ import rx.observers.TestSubscriber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -372,7 +373,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataOfClazz_DataReference() {
-        TestSubscriber<DataValue<String>> sub = new TestSubscriber<>();
+        TestSubscriber<String> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataOf(mockDatabaseReference, String.class)
                 .subscribe(sub);
@@ -384,11 +385,9 @@ public class RxFirebaseDatabaseTest {
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        DataValue<String> value = sub.getOnNextEvents().get(0);
+        String value = sub.getOnNextEvents().get(0);
 
-        assertThat(value.isPresent())
-                .isTrue();
-        assertThat(value.get())
+        assertThat(value)
                 .isEqualTo("Foo");
 
         s.unsubscribe();
@@ -409,7 +408,7 @@ public class RxFirebaseDatabaseTest {
                 new GenericTypeIndicator<List<String>>() {
                 };
 
-        TestSubscriber<DataValue<List<String>>> sub = new TestSubscriber<>();
+        TestSubscriber<List<String>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataOf(mockDatabaseReference, typeIndicator)
                 .subscribe(sub);
@@ -421,11 +420,9 @@ public class RxFirebaseDatabaseTest {
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        DataValue<List<String>> value = sub.getOnNextEvents().get(0);
+        List<String> value = sub.getOnNextEvents().get(0);
 
-        assertThat(value.isPresent())
-                .isTrue();
-        assertThat(value.get())
+        assertThat(value)
                 .containsExactly("Foo", "Bar");
 
         s.unsubscribe();
@@ -732,7 +729,7 @@ public class RxFirebaseDatabaseTest {
 
     @Test
     public void testDataOfClazz_Query() {
-        TestSubscriber<DataValue<String>> sub = new TestSubscriber<>();
+        TestSubscriber<String> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataOf(mockQuery, String.class)
                 .subscribe(sub);
@@ -744,11 +741,9 @@ public class RxFirebaseDatabaseTest {
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        DataValue<String> value = sub.getOnNextEvents().get(0);
+        String value = sub.getOnNextEvents().get(0);
 
-        assertThat(value.isPresent())
-                .isTrue();
-        assertThat(value.get())
+        assertThat(value)
                 .isEqualTo("Foo");
 
         s.unsubscribe();
@@ -769,7 +764,7 @@ public class RxFirebaseDatabaseTest {
                 new GenericTypeIndicator<List<String>>() {
                 };
 
-        TestSubscriber<DataValue<List<String>>> sub = new TestSubscriber<>();
+        TestSubscriber<List<String>> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseDatabase.dataOf(mockQuery, typeIndicator)
                 .subscribe(sub);
@@ -781,11 +776,9 @@ public class RxFirebaseDatabaseTest {
         sub.assertNoErrors();
         sub.assertValueCount(1);
 
-        DataValue<List<String>> value = sub.getOnNextEvents().get(0);
+        List<String> value = sub.getOnNextEvents().get(0);
 
-        assertThat(value.isPresent())
-                .isTrue();
-        assertThat(value.get())
+        assertThat(value)
                 .containsExactly("Foo", "Bar");
 
         s.unsubscribe();
@@ -1058,6 +1051,8 @@ public class RxFirebaseDatabaseTest {
     }
 
     private <T> void callValueEventOnDataChange(T value) {
+        when(mockDataSnapshot.exists())
+                .thenReturn(true);
         when(mockDataSnapshot.getValue(value.getClass()))
                 .thenReturn(value);
 
@@ -1065,6 +1060,8 @@ public class RxFirebaseDatabaseTest {
     }
 
     private <T> void callValueEventOnDataChange(GenericTypeIndicator<T> type, T value) {
+        when(mockDataSnapshot.exists())
+                .thenReturn(true);
         when(mockDataSnapshot.getValue(type))
                 .thenReturn(value);
 

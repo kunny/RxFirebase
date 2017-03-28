@@ -96,28 +96,28 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
-    public static <T> Single<DataValue<T>> dataOf(
+    public static <T> Single<T> dataOf(
             @NonNull DatabaseReference ref, @NonNull Class<T> clazz) {
         return data(ref).compose(new SingleTransformerOfClazz<T>(clazz));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<DataValue<T>> dataOf(
+    public static <T> Single<T> dataOf(
             @NonNull Query query, @NonNull Class<T> clazz) {
         return data(query).compose(new SingleTransformerOfClazz<T>(clazz));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<DataValue<T>> dataOf(
+    public static <T> Single<T> dataOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return data(ref).compose(new SingleTransformerOfGenericTypeIndicator<T>(typeIndicator));
     }
 
     @NonNull
     @CheckResult
-    public static <T> Single<DataValue<T>> dataOf(
+    public static <T> Single<T> dataOf(
             @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return data(query).compose(new SingleTransformerOfGenericTypeIndicator<T>(typeIndicator));
     }

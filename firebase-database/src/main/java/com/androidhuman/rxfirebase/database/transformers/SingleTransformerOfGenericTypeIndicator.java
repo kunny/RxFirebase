@@ -3,13 +3,13 @@ package com.androidhuman.rxfirebase.database.transformers;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
 
-import com.androidhuman.rxfirebase.database.model.DataValue;
+import java.util.NoSuchElementException;
 
 import rx.Single;
 import rx.functions.Func1;
 
 public final class SingleTransformerOfGenericTypeIndicator<T>
-        implements Single.Transformer<DataSnapshot, DataValue<T>> {
+        implements Single.Transformer<DataSnapshot, T> {
 
     private final GenericTypeIndicator<T> typeIndicator;
 
@@ -18,18 +18,15 @@ public final class SingleTransformerOfGenericTypeIndicator<T>
     }
 
     @Override
-    public Single<DataValue<T>> call(Single<DataSnapshot> source) {
-        return source.map(new Func1<DataSnapshot, DataValue<T>>() {
+    public Single<T> call(Single<DataSnapshot> source) {
+        return source.flatMap(new Func1<DataSnapshot, Single<? extends T>>() {
             @Override
-            public DataValue<T> call(DataSnapshot dataSnapshot) {
-                T value = dataSnapshot.getValue(typeIndicator);
-                DataValue<T> result;
-                if (null != value) {
-                    result = DataValue.of(value);
+            public Single<? extends T> call(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    return Single.just(dataSnapshot.getValue(typeIndicator));
                 } else {
-                    result = DataValue.empty();
+                    return Single.error(new NoSuchElementException());
                 }
-                return result;
             }
         });
     }
