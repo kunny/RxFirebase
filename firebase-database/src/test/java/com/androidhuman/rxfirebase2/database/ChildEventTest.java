@@ -34,6 +34,10 @@ public class ChildEventTest {
                 .isEqualTo(b)
                 .isNotEqualTo(c);
 
+        assertThat(a.dataSnapshot())
+                .isEqualTo(mockDataSnapshot1)
+                .isNotEqualTo(mockDataSnapshot2);
+
         assertThat(a.hashCode())
                 .isEqualTo(b.hashCode())
                 .isNotEqualTo(c.hashCode());
