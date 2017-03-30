@@ -7,6 +7,7 @@
 - Updated library version format
 - Updated `RxJava` dependency to `2.0.7`
   - Thank you for the initial RxJava2 PR by [b3er](https://github.com/b3er)!
+- Updated `Kotlin` dependency to `1.1.1`
 - Removed `TaskResult`, `Optional` from usage.
 - `Task<Void>` type is converted to `Completable`
 - single-value emitting Observable is converted to `Single`
