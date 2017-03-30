@@ -6,6 +6,7 @@
 
 - Updated library version format
 - Updated `RxJava` dependency to `1.2.7`
+- Updated `Kotlin` dependency to `1.1.1`
 - Removed `TaskResult`, `Optional` from usage.
 - `Task<Void>` type is converted to `Completable`
 - single-value emitting Observable is converted to `Single`
