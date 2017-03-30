@@ -10,7 +10,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
 Currently, it depends on RxJava `2.0.7`.
 
-For RxJava1 compatible version, see [rxjava2](https://github.com/kunny/RxFirebase/tree/rxjava1) branch.
+For RxJava1 compatible version, see [rxjava1](https://github.com/kunny/RxFirebase/tree/rxjava1) branch.
 
 ## Modules
 
