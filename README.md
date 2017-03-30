@@ -81,7 +81,7 @@ See [official documentation](https://firebase.google.com/docs/) for the details.
 RxFirebase uses a versioning rule that is related to corresponding Firebase's version by following rule:
 
 ```
-RxFirebaseVersion : {major}.{minor}.{patch} =
+RxFirebaseVersion : {major}.{minor}.{patch1}.{patch2} =
     {Firebase major}.{Firebase minor}.{Firebase patch}.{RxFirebase patch}
 ```
 
