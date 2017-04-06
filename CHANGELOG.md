@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 10.2.0.0 *(2017/??/??)*
+## Version 10.2.0.0 *(2017/04/06)*
 
 ### Breaking changes
 
