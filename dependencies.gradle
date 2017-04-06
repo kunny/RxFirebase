@@ -1,5 +1,5 @@
 ext {
-	// Build SDK versions
+    // Build SDK versions
     buildToolsVersion = '25.0.2'
     minSdkVersion = 14
     compileSdkVersion = 25
@@ -7,8 +7,9 @@ ext {
     // CI
     ci = 'true'.equals(System.getenv('CI'))
 
-    // Firebase Version
-    firebaseVersion = '10.0.1'
+    // Library Versions
+    firebaseVersion = '10.2.0'
+    kotlinVersion = '1.1.1'
 
     // Dependencies
     assertj = 'org.assertj:assertj-core:1.2.0'
@@ -16,9 +17,8 @@ ext {
     firebaseCore = "com.google.firebase:firebase-core:${firebaseVersion}"
     firebaseDatabase = "com.google.firebase:firebase-database:${firebaseVersion}"
     junit = 'junit:junit:4.12'
-    kotlin = 'org.jetbrains.kotlin:kotlin-stdlib:1.0.4'
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
     mockito = 'org.mockito:mockito-core:2.0.7-beta'
-    retroOptional = 'com.github.memoizr:retro-optional:0.2.0'
-    rxJava = 'io.reactivex:rxjava:1.1.5'
+    rxJava = 'io.reactivex.rxjava2:rxjava:2.0.7'
     supportAnnotations = 'com.android.support:support-annotations:25.1.0'
 }

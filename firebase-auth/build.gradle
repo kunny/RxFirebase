@@ -31,9 +31,10 @@ android {
 }
 
 dependencies {
-    compile project (':common')
+    compile rootProject.ext.supportAnnotations
 
-    compile rootProject.ext.firebaseAuth
+    provided rootProject.ext.firebaseAuth
+    provided rootProject.ext.rxJava
 
     testCompile rootProject.ext.assertj
     testCompile rootProject.ext.junit
@@ -46,4 +47,5 @@ coveralls {
     jacocoReportPath = "${buildDir}/reports/coverageReport/coverageReport.xml"
 }
 
+apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
