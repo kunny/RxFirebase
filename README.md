@@ -89,7 +89,7 @@ For example, a library version that depends on `10.2.0` version of Firebase SDK,
 
 ## Development Snapshot
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository](Sonatype's snapshots repository).
+Snapshots of the development version are available in [Sonatype snapshots](https://oss.sonatype.org/content/repositories/snapshots/) repository.
 
 You can register snapshots repo as your project's remote repo as following:
 
@@ -102,7 +102,7 @@ repositories {
 }
 ```
 
-Currently, snapshot version `10.2.0.0-SNAPSHOT` is available.
+Currently no snapshot version is available.
 
 ## License
 
