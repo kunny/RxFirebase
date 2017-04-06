@@ -2,50 +2,49 @@
 
 package com.androidhuman.rxfirebase.auth
 
-import com.androidhuman.rxfirebase.common.model.TaskResult
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
-import rx.Observable
+import rx.Completable
+import rx.Single
 
 inline fun FirebaseUser.rxDelete()
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.delete(this)
 
 inline fun FirebaseUser.rxGetToken(forceRefresh: Boolean)
-        : Observable<String>
+        : Single<String>
         = RxFirebaseUser.getToken(this, forceRefresh)
 
 inline fun FirebaseUser.rxLinkWithCredential(credential: AuthCredential)
-        : Observable<AuthResult>
+        : Single<FirebaseUser>
         = RxFirebaseUser.linkWithCredential(this, credential)
 
 inline fun FirebaseUser.rxReauthenticate(credential: AuthCredential)
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.reauthenticate(this, credential)
 
 inline fun FirebaseUser.rxReload()
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.reload(this)
 
 inline fun FirebaseUser.rxSendEmailVerification()
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.sendEmailVerification(this)
 
 inline fun FirebaseUser.rxUnlink(provider: String)
-        : Observable<AuthResult>
+        : Single<FirebaseUser>
         = RxFirebaseUser.unlink(this, provider)
 
 inline fun FirebaseUser.rxUpdateEmail(email: String)
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.updateEmail(this, email)
 
 inline fun FirebaseUser.rxUpdatePassword(password: String)
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.updatePassword(this, password)
 
 inline fun FirebaseUser.rxUpdateProfile(request: UserProfileChangeRequest)
-        : Observable<TaskResult>
+        : Completable
         = RxFirebaseUser.updateProfile(this, request)
 

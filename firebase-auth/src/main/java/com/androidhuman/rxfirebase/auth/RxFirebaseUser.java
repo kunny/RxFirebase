@@ -1,84 +1,82 @@
 package com.androidhuman.rxfirebase.auth;
 
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-
-import com.androidhuman.rxfirebase.common.model.TaskResult;
 
 import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
-import rx.Observable;
+import rx.Completable;
+import rx.Single;
 
 public final class RxFirebaseUser {
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> delete(@NonNull FirebaseUser user) {
-        return Observable.create(new UserDeleteOnSubscribe(user));
+    public static Completable delete(@NonNull FirebaseUser user) {
+        return Completable.create(new UserDeleteOnSubscribe(user));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<String> getToken(
+    public static Single<String> getToken(
             @NonNull FirebaseUser user, boolean forceRefresh) {
-        return Observable.create(new UserGetTokenOnSubscribe(user, forceRefresh));
+        return Single.create(new UserGetTokenOnSubscribe(user, forceRefresh));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<AuthResult> linkWithCredential(
+    public static Single<FirebaseUser> linkWithCredential(
             @NonNull FirebaseUser user, @NonNull AuthCredential credential) {
-        return Observable.create(new UserLinkWithCredentialOnSubscribe(user, credential));
+        return Single.create(new UserLinkWithCredentialOnSubscribe(user, credential));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> reauthenticate(
+    public static Completable reauthenticate(
             @NonNull FirebaseUser user, @NonNull AuthCredential credential) {
-        return Observable.create(new UserReauthenticateOnSubscribe(user, credential));
+        return Completable.create(new UserReauthenticateOnSubscribe(user, credential));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> reload(@NonNull FirebaseUser user) {
-        return Observable.create(new UserReloadOnSubscribe(user));
+    public static Completable reload(@NonNull FirebaseUser user) {
+        return Completable.create(new UserReloadOnSubscribe(user));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> sendEmailVerification(@NonNull FirebaseUser user) {
-        return Observable.create(new UserSendEmailVerificationOnSubscribe(user));
+    public static Completable sendEmailVerification(@NonNull FirebaseUser user) {
+        return Completable.create(new UserSendEmailVerificationOnSubscribe(user));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<AuthResult> unlink(
+    public static Single<FirebaseUser> unlink(
             @NonNull FirebaseUser user, @NonNull String provider) {
-        return Observable.create(new UserUnlinkOnSubscribe(user, provider));
+        return Single.create(new UserUnlinkOnSubscribe(user, provider));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> updateEmail(
+    public static Completable updateEmail(
             @NonNull FirebaseUser user, @NonNull String email) {
-        return Observable.create(new UserUpdateEmailOnSubscribe(user, email));
+        return Completable.create(new UserUpdateEmailOnSubscribe(user, email));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> updatePassword(
+    public static Completable updatePassword(
             @NonNull FirebaseUser user, @NonNull String password) {
-        return Observable.create(new UserUpdatePasswordOnSubscribe(user, password));
+        return Completable.create(new UserUpdatePasswordOnSubscribe(user, password));
     }
 
     @CheckResult
     @NonNull
-    public static Observable<TaskResult> updateProfile(
+    public static Completable updateProfile(
             @NonNull FirebaseUser user, @NonNull UserProfileChangeRequest request) {
-        return Observable.create(new UserUpdateProfileOnSubscribe(user, request));
+        return Completable.create(new UserUpdateProfileOnSubscribe(user, request));
     }
 
     private RxFirebaseUser() {

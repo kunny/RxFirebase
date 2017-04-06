@@ -5,18 +5,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
 
-import com.memoizrlabs.retrooptional.Function1;
-import com.memoizrlabs.retrooptional.Optional;
-
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Single;
+import rx.SingleSubscriber;
 
 final class FetchProvidersForEmailOnSubscribe
-        implements Observable.OnSubscribe<Optional<List<String>>> {
+        implements Single.OnSubscribe<List<String>> {
 
     private final FirebaseAuth instance;
 
@@ -28,7 +26,7 @@ final class FetchProvidersForEmailOnSubscribe
     }
 
     @Override
-    public void call(final Subscriber<? super Optional<List<String>>> subscriber) {
+    public void call(final SingleSubscriber<? super List<String>> subscriber) {
 
         final OnCompleteListener<ProviderQueryResult> listener =
                 new OnCompleteListener<ProviderQueryResult>() {
@@ -42,14 +40,12 @@ final class FetchProvidersForEmailOnSubscribe
                         }
 
                         if (!subscriber.isUnsubscribed()) {
-                            subscriber.onNext(Optional.of(task.getResult())
-                                    .map(new Function1<ProviderQueryResult, List<String>>() {
-                                        @Override
-                                        public List<String> apply(ProviderQueryResult r) {
-                                            return r.getProviders();
-                                        }
-                                    }));
-                            subscriber.onCompleted();
+                            List<String> providers = task.getResult().getProviders();
+                            if (null == providers) {
+                                // If result is null, create an empty list
+                                providers = new ArrayList<>();
+                            }
+                            subscriber.onSuccess(providers);
                         }
                     }
                 };

@@ -9,11 +9,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Single;
+import rx.SingleSubscriber;
 
 final class SignInWithCredentialOnSubscribe
-        implements Observable.OnSubscribe<FirebaseUser> {
+        implements Single.OnSubscribe<FirebaseUser> {
 
     private final FirebaseAuth instance;
 
@@ -25,7 +25,7 @@ final class SignInWithCredentialOnSubscribe
     }
 
     @Override
-    public void call(final Subscriber<? super FirebaseUser> subscriber) {
+    public void call(final SingleSubscriber<? super FirebaseUser> subscriber) {
         final OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -37,8 +37,13 @@ final class SignInWithCredentialOnSubscribe
                 }
 
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult().getUser());
-                    subscriber.onCompleted();
+                    FirebaseUser user = task.getResult().getUser();
+                    if (null != user) {
+                        subscriber.onSuccess(user);
+                    } else {
+                        subscriber.onError(
+                                new IllegalStateException("FirebaseUser does not exists."));
+                    }
                 }
             }
         };

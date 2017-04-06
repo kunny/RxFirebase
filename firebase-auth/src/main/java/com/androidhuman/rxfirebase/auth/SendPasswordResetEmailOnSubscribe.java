@@ -4,15 +4,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Completable;
+import rx.CompletableSubscriber;
 
-final class SendPasswordResetEmailOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class SendPasswordResetEmailOnSubscribe
+        implements Completable.OnSubscribe {
 
     private final FirebaseAuth instance;
 
@@ -24,18 +22,15 @@ final class SendPasswordResetEmailOnSubscribe implements Observable.OnSubscribe<
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void call(final CompletableSubscriber subscriber) {
         final OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (!task.isSuccessful()) {
-                    subscriber.onNext(TaskResult.failure(task.getException()));
+                    subscriber.onError(task.getException());
+                } else {
                     subscriber.onCompleted();
-                    return;
                 }
-
-                subscriber.onNext(TaskResult.success());
-                subscriber.onCompleted();
             }
         };
 

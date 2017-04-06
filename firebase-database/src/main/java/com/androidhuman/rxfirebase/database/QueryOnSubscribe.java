@@ -2,18 +2,18 @@ package com.androidhuman.rxfirebase.database;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import rx.Single;
 import rx.SingleSubscriber;
 
-final class DataOnSubscribe implements Single.OnSubscribe<DataSnapshot> {
+final class QueryOnSubscribe implements Single.OnSubscribe<DataSnapshot> {
 
-    private final DatabaseReference ref;
+    private final Query query;
 
-    DataOnSubscribe(DatabaseReference ref) {
-        this.ref = ref;
+    QueryOnSubscribe(Query query) {
+        this.query = query;
     }
 
     @Override
@@ -34,6 +34,6 @@ final class DataOnSubscribe implements Single.OnSubscribe<DataSnapshot> {
             }
         };
 
-        ref.addListenerForSingleValueEvent(listener);
+        query.addListenerForSingleValueEvent(listener);
     }
 }

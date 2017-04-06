@@ -4,14 +4,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Completable;
+import rx.CompletableSubscriber;
 
-final class SetPriorityOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class SetPriorityOnSubscribe
+        implements Completable.OnSubscribe {
 
     private final DatabaseReference ref;
 
@@ -23,16 +22,13 @@ final class SetPriorityOnSubscribe implements Observable.OnSubscribe<TaskResult>
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void call(final CompletableSubscriber subscriber) {
         final OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (!subscriber.isUnsubscribed()) {
-                    if (!task.isSuccessful()) {
-                        subscriber.onNext(TaskResult.failure(task.getException()));
-                    } else {
-                        subscriber.onNext(TaskResult.success());
-                    }
+                if (!task.isSuccessful()) {
+                    subscriber.onError(task.getException());
+                } else {
                     subscriber.onCompleted();
                 }
             }

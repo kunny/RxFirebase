@@ -8,11 +8,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Single;
+import rx.SingleSubscriber;
 
 class CreateUserWithEmailAndPasswordOnSubscribe
-        implements Observable.OnSubscribe<FirebaseUser> {
+        implements Single.OnSubscribe<FirebaseUser> {
 
     private final FirebaseAuth instance;
 
@@ -28,7 +28,7 @@ class CreateUserWithEmailAndPasswordOnSubscribe
     }
 
     @Override
-    public void call(final Subscriber<? super FirebaseUser> subscriber) {
+    public void call(final SingleSubscriber<? super FirebaseUser> subscriber) {
         final OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -40,8 +40,7 @@ class CreateUserWithEmailAndPasswordOnSubscribe
                 }
 
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(task.getResult().getUser());
-                    subscriber.onCompleted();
+                    subscriber.onSuccess(task.getResult().getUser());
                 }
             }
         };

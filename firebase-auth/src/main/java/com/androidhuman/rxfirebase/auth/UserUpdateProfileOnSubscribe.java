@@ -5,14 +5,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import android.support.annotation.NonNull;
 
-import rx.Observable;
-import rx.Subscriber;
+import rx.Completable;
+import rx.CompletableSubscriber;
 
-final class UserUpdateProfileOnSubscribe implements Observable.OnSubscribe<TaskResult> {
+final class UserUpdateProfileOnSubscribe
+        implements Completable.OnSubscribe {
 
     private final FirebaseUser user;
 
@@ -24,16 +23,13 @@ final class UserUpdateProfileOnSubscribe implements Observable.OnSubscribe<TaskR
     }
 
     @Override
-    public void call(final Subscriber<? super TaskResult> subscriber) {
+    public void call(final CompletableSubscriber subscriber) {
         OnCompleteListener<Void> listener = new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (!subscriber.isUnsubscribed()) {
-                    if (!task.isSuccessful()) {
-                        subscriber.onNext(TaskResult.failure(task.getException()));
-                    } else {
-                        subscriber.onNext(TaskResult.success());
-                    }
+                if (!task.isSuccessful()) {
+                    subscriber.onError(task.getException());
+                } else {
                     subscriber.onCompleted();
                 }
             }

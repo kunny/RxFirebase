@@ -8,13 +8,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import com.androidhuman.rxfirebase.common.model.TaskResult;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import rx.Subscription;
 import rx.observers.TestSubscriber;
@@ -60,56 +61,34 @@ public class RxFirebaseUserTest {
 
     @Test
     public void testDelete() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.delete())
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.delete(mockFirebaseUser)
+        RxFirebaseUser.delete(mockFirebaseUser)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testDelete_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.delete())
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.delete(mockFirebaseUser)
+        RxFirebaseUser.delete(mockFirebaseUser)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
     @Test
@@ -129,7 +108,6 @@ public class RxFirebaseUserTest {
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockGetTokenTaskResult);
 
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
 
@@ -153,11 +131,7 @@ public class RxFirebaseUserTest {
         callOnComplete(mockGetTokenTaskResult);
         s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockGetTokenTaskResult);
-
         sub.assertError(IllegalStateException.class);
-        sub.assertNoValues();
     }
 
     @Test
@@ -166,7 +140,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.linkWithCredential(mockAuthCredential))
                 .thenReturn(mockAuthTaskResult);
 
-        TestSubscriber<AuthResult> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseUser.linkWithCredential(mockFirebaseUser, mockAuthCredential)
                 .subscribe(sub);
@@ -174,10 +148,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockAuthTaskResult);
         s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockAuthTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
     }
@@ -188,7 +158,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.linkWithCredential(mockAuthCredential))
                 .thenReturn(mockAuthTaskResult);
 
-        TestSubscriber<AuthResult> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseUser.linkWithCredential(mockFirebaseUser, mockAuthCredential)
                 .subscribe(sub);
@@ -196,173 +166,106 @@ public class RxFirebaseUserTest {
         callOnComplete(mockAuthTaskResult);
         s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockAuthTaskResult);
-
         sub.assertError(IllegalStateException.class);
-        sub.assertNoValues();
     }
 
     @Test
     public void testReauthenticate() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.reauthenticate(mockAuthCredential))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.reauthenticate(mockFirebaseUser, mockAuthCredential)
+        RxFirebaseUser.reauthenticate(mockFirebaseUser, mockAuthCredential)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
         // Ensure no more values are emitted after unsubscribe
         callOnComplete(mockVoidTaskResult);
 
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testReauthenticate_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.reauthenticate(mockAuthCredential))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.reauthenticate(mockFirebaseUser, mockAuthCredential)
+        RxFirebaseUser.reauthenticate(mockFirebaseUser, mockAuthCredential)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
     @Test
     public void testReload() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.reload())
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.reload(mockFirebaseUser)
+        RxFirebaseUser.reload(mockFirebaseUser)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testReload_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.reload())
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.reload(mockFirebaseUser)
+        RxFirebaseUser.reload(mockFirebaseUser)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
     @Test
     public void testSendEmailVerification() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.sendEmailVerification())
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
+        RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testSendEmailVerification_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.sendEmailVerification())
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
+        RxFirebaseUser.sendEmailVerification(mockFirebaseUser)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
     @Test
@@ -371,7 +274,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.unlink("provider"))
                 .thenReturn(mockAuthTaskResult);
 
-        TestSubscriber<AuthResult> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseUser.unlink(mockFirebaseUser, "provider")
                 .subscribe(sub);
@@ -379,10 +282,6 @@ public class RxFirebaseUserTest {
         callOnComplete(mockAuthTaskResult);
         s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockAuthTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
         sub.assertValueCount(1);
     }
@@ -393,7 +292,7 @@ public class RxFirebaseUserTest {
         when(mockFirebaseUser.unlink("provider"))
                 .thenReturn(mockAuthTaskResult);
 
-        TestSubscriber<AuthResult> sub = new TestSubscriber<>();
+        TestSubscriber<FirebaseUser> sub = new TestSubscriber<>();
 
         Subscription s = RxFirebaseUser.unlink(mockFirebaseUser, "provider")
                 .subscribe(sub);
@@ -401,178 +300,121 @@ public class RxFirebaseUserTest {
         callOnComplete(mockAuthTaskResult);
         s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockAuthTaskResult);
-
         sub.assertError(IllegalStateException.class);
-        sub.assertNoValues();
     }
 
     @Test
     public void testUpdateEmail() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.updateEmail("foo@bar.com"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.updateEmail(mockFirebaseUser, "foo@bar.com")
+        RxFirebaseUser.updateEmail(mockFirebaseUser, "foo@bar.com")
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testUpdateEmail_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.updateEmail("foo@bar.com"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.updateEmail(mockFirebaseUser, "foo@bar.com")
+        RxFirebaseUser.updateEmail(mockFirebaseUser, "foo@bar.com")
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
     @Test
     public void testUpdatePassword() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.updatePassword("password"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.updatePassword(mockFirebaseUser, "password")
+        RxFirebaseUser.updatePassword(mockFirebaseUser, "password")
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testUpdatePassword_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.updatePassword("password"))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.updatePassword(mockFirebaseUser, "password")
+        RxFirebaseUser.updatePassword(mockFirebaseUser, "password")
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
     @Test
     public void testUpdateProfile() {
-        mockVoidResult(true);
+        mockSuccessfulVoidResult();
         when(mockFirebaseUser.updateProfile(mockProfileChangeRequest))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.updateProfile(mockFirebaseUser, mockProfileChangeRequest)
+        RxFirebaseUser.updateProfile(mockFirebaseUser, mockProfileChangeRequest)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
         sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isTrue();
     }
 
     @Test
     public void testUpdateProfile_notSuccessful() {
-        mockVoidResult(false);
+        mockNotSuccessfulVoidResult(new IllegalStateException());
         when(mockFirebaseUser.updateProfile(mockProfileChangeRequest))
                 .thenReturn(mockVoidTaskResult);
 
-        TestSubscriber<TaskResult> sub = new TestSubscriber<>();
+        TestSubscriber sub = new TestSubscriber<>();
 
-        Subscription s = RxFirebaseUser.updateProfile(mockFirebaseUser, mockProfileChangeRequest)
+        RxFirebaseUser.updateProfile(mockFirebaseUser, mockProfileChangeRequest)
                 .subscribe(sub);
 
         callOnComplete(mockVoidTaskResult);
-        s.unsubscribe();
 
-        // Ensure no more values are emitted after unsubscribe
-        callOnComplete(mockVoidTaskResult);
-
-        sub.assertNoErrors();
-        sub.assertCompleted();
-        sub.assertValueCount(1);
-
-        TaskResult result = sub.getOnNextEvents().get(0);
-
-        assertThat(result.isSuccess())
-                .isFalse();
+        sub.assertError(IllegalStateException.class);
     }
 
-    private void mockVoidResult(boolean success) {
+    private void mockSuccessfulVoidResult() {
+        mockVoidResult(true, null);
+    }
+
+    private void mockNotSuccessfulVoidResult(@NonNull Exception exception) {
+        mockVoidResult(false, exception);
+    }
+
+    private void mockVoidResult(boolean success, @Nullable Exception exception) {
         when(mockVoidTaskResult.isSuccessful())
                 .thenReturn(success);
+
+        if (null != exception) {
+            when(mockVoidTaskResult.getException())
+                    .thenReturn(exception);
+        }
 
         //noinspection unchecked
         when(mockVoidTaskResult.addOnCompleteListener(onComplete.capture()))
@@ -612,6 +454,9 @@ public class RxFirebaseUserTest {
     private void mockSuccessfulAuthResult() {
         when(mockAuthTaskResult.isSuccessful())
                 .thenReturn(true);
+
+        when(mockAuthResult.getUser())
+                .thenReturn(mockFirebaseUser);
 
         when(mockAuthTaskResult.getResult())
                 .thenReturn(mockAuthResult);
