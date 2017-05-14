@@ -1,5 +1,10 @@
 # Change Log
 
+## Version 10.2.1.0 *(2017/05/14)*
+
+- Update Firebase SDK version to 10.2.1.
+- Update Kotlin version to 1.1.2.
+
 ## Version 10.2.0.0 *(2017/04/06)*
 
 ### Breaking changes
