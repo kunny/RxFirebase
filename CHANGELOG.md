@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 10.2.4.0 *(2017/05/14)*
+
+Update Firebase SDK to 10.2.4.
+
 ## Version 10.2.1.0 *(2017/05/14)*
 
 - Update Firebase SDK version to 10.2.1.
