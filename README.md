@@ -19,8 +19,8 @@ For RxJava1 compatible version, see [rxjava1](https://github.com/kunny/RxFirebas
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile 'com.google.firebase:firebase-auth:10.2.4'
-compile 'com.androidhuman.rxfirebase2:firebase-auth:10.2.4.0'
+compile 'com.google.firebase:firebase-auth:10.2.6'
+compile 'com.androidhuman.rxfirebase2:firebase-auth:10.2.6.0'
 compile 'io.reactivex.rxjava2:rxjava:2.0.7'
 ```
 
