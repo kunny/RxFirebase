@@ -9,7 +9,7 @@ ext {
 
     // Library Versions
     firebaseVersion = '10.2.6'
-    kotlinVersion = '1.1.2'
+    kotlinVersion = '1.1.2-3'
 
     // Dependencies
     assertj = 'org.assertj:assertj-core:1.2.0'
