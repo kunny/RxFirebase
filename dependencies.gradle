@@ -1,6 +1,6 @@
 ext {
-	  // Build SDK versions
-    buildToolsVersion = '25.0.2'
+    // Build SDK versions
+    buildToolsVersion = '26.0.1'
     minSdkVersion = 14
     compileSdkVersion = 25
 
