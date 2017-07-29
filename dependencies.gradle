@@ -1,4 +1,13 @@
 ext {
+    // Library Versions
+    firebaseVersion = '10.2.6'
+    kotlinVersion = '1.1.2-3'
+
+    // Build plugins
+    androidBuildPlugin = "com.android.tools.build:gradle:2.3.3"
+    coverallsPlugin = "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3"
+    kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+
     // Build SDK versions
     buildToolsVersion = '26.0.1'
     minSdkVersion = 14
@@ -6,10 +15,6 @@ ext {
 
     // CI
     ci = 'true'.equals(System.getenv('CI'))
-
-    // Library Versions
-    firebaseVersion = '10.2.6'
-    kotlinVersion = '1.1.2-3'
 
     // Dependencies
     assertj = 'org.assertj:assertj-core:1.2.0'
