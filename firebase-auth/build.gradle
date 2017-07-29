@@ -31,8 +31,6 @@ android {
 }
 
 dependencies {
-    compile rootProject.ext.supportAnnotations
-
     provided rootProject.ext.firebaseAuth
     provided rootProject.ext.rxJava
 
