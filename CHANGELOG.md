@@ -1,5 +1,13 @@
 # Change Log
 
+## Version 11.0.0.0 *(2017/07/30)*
+
+- Updated Firebase SDK to 11.0.0.
+- Update Android Plugin for Gradle to 2.3.3.
+- Update Kotlin to 1.1.2-3.
+- Update Build tools version to 26.0.1.
+- Remove support annotations from dependency.
+
 ## Version 10.2.6.0 *(2017/05/20)*
 
 Update Firebase SDK to 10.2.6.
