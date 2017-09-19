@@ -1,5 +1,12 @@
 # Change Log
 
+## Version 11.2.0.0 *(2017/09/19)*
+
+- Updated Firebase SDK to 11.2.0.
+- Updated Kotlin to 1.1.4-3.
+- Updated RxJava to 1.3.2.
+- Updated compileSdkVersion to 26.
+
 ## Version 11.0.4.0 *(2017/07/30)*
 
 - Updated Firebase SDK to 11.0.4.
