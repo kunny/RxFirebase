@@ -8,7 +8,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
 ## RxJava Version
 
-Currently, it depends on RxJava `1.2.7`.
+Currently, it depends on RxJava `1.3.2`.
 
 Timeline plans for the RxJava1 compatible line:
 * **July 30, 2017** - Feature freeze (no new bindings), only compatible Firebase SDK updates
@@ -25,7 +25,7 @@ RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/do
 ```groovy
 compile 'com.google.firebase:firebase-auth:11.2.2'
 compile 'com.androidhuman.rxfirebase:firebase-auth:11.2.2.0'
-compile 'io.reactivex:rxjava:1.2.7'
+compile 'io.reactivex:rxjava:1.3.2'
 ```
 
 ### firebase-auth-kotlin
@@ -35,7 +35,7 @@ Kotlin support module for `firebase-auth`.
 ```groovy
 compile 'com.google.firebase:firebase-auth:11.2.2'
 compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:11.2.2.0'
-compile 'io.reactivex:rxjava:1.2.7'
+compile 'io.reactivex:rxjava:1.3.2'
 ```
 
 ### firebase-database
@@ -45,7 +45,7 @@ RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com
 ```groovy
 compile 'com.google.firebase:firebase-database:11.2.2'
 compile 'com.androidhuman.rxfirebase:firebase-database:11.2.2.0'
-compile 'io.reactivex:rxjava:1.2.7'
+compile 'io.reactivex:rxjava:1.3.2'
 ```
 
 ### firebase-database-kotlin
@@ -55,7 +55,7 @@ Kotlin support module for `firebase-database`
 ```groovy
 compile 'com.google.firebase:firebase-database:11.2.2'
 compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:11.2.2.0'
-compile 'io.reactivex:rxjava:1.2.7'
+compile 'io.reactivex:rxjava:1.3.2'
 ```
 
 Each kotlin support module maps all methods in Java module into an extension function on following classes:
