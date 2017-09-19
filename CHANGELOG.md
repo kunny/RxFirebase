@@ -1,5 +1,9 @@
 # Change Log
 
+## Version 11.2.2.0 *(2017/09/19)*
+
+- Updated Firebase SDK version to 11.2.2.
+
 ## Version 11.2.0.0 *(2017/09/19)*
 
 - Updated Firebase SDK version to 11.2.0.
