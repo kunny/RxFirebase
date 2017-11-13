@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 11.4.0.0 *(2017/11/13)*
+
+Built and tested with: 
+- Firebase Android SDK 11.4.0
+- Kotlin 1.1.4-3
+
 ## Version 11.2.2.0 *(2017/09/19)*
 
 - Updated Firebase SDK version to 11.2.2.
