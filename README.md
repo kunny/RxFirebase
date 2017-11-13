@@ -8,7 +8,7 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
 ## RxJava Version
 
-Currently, it depends on RxJava `1.3.2`.
+Built and tested with RxJava `1.3.2`.
 
 Timeline plans for the RxJava1 compatible line:
 * **July 30, 2017** - Feature freeze (no new bindings), only compatible Firebase SDK updates
@@ -23,8 +23,8 @@ For RxJava2 compatible version, see [rxjava2](https://github.com/kunny/RxFirebas
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-compile 'com.google.firebase:firebase-auth:11.2.2'
-compile 'com.androidhuman.rxfirebase:firebase-auth:11.2.2.0'
+compile 'com.google.firebase:firebase-auth:11.4.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth:11.4.0.0'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
@@ -33,8 +33,8 @@ compile 'io.reactivex:rxjava:1.3.2'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-compile 'com.google.firebase:firebase-auth:11.2.2'
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:11.2.2.0'
+compile 'com.google.firebase:firebase-auth:11.4.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:11.4.0.0'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
@@ -43,8 +43,8 @@ compile 'io.reactivex:rxjava:1.3.2'
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-compile 'com.google.firebase:firebase-database:11.2.2'
-compile 'com.androidhuman.rxfirebase:firebase-database:11.2.2.0'
+compile 'com.google.firebase:firebase-database:11.4.0'
+compile 'com.androidhuman.rxfirebase:firebase-database:11.4.0.0'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
@@ -53,8 +53,8 @@ compile 'io.reactivex:rxjava:1.3.2'
 Kotlin support module for `firebase-database`
 
 ```groovy
-compile 'com.google.firebase:firebase-database:11.2.2'
-compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:11.2.2.0'
+compile 'com.google.firebase:firebase-database:11.4.0'
+compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:11.4.0.0'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
