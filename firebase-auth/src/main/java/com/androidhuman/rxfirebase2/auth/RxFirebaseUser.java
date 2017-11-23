@@ -19,11 +19,20 @@ public final class RxFirebaseUser {
         return Completable.create(new UserDeleteOnSubscribe(user));
     }
 
+    @Deprecated
     @CheckResult
     @NonNull
     public static Single<String> getToken(
             @NonNull FirebaseUser user, boolean forceRefresh) {
+        //noinspection deprecation
         return Single.create(new UserGetTokenOnSubscribe(user, forceRefresh));
+    }
+
+    @CheckResult
+    @NonNull
+    public static Single<String> getIdToken(
+            @NonNull FirebaseUser user, boolean forceRefresh) {
+        return Single.create(new UserGetIdTokenOnSubscribe(user, forceRefresh));
     }
 
     @CheckResult

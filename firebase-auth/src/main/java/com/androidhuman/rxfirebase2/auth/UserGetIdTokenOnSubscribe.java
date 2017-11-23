@@ -10,15 +10,13 @@ import android.support.annotation.NonNull;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 
-@SuppressWarnings("deprecation")
-@Deprecated
-final class UserGetTokenOnSubscribe implements SingleOnSubscribe<String> {
+final class UserGetIdTokenOnSubscribe implements SingleOnSubscribe<String> {
 
     private final FirebaseUser user;
 
     private final boolean forceRefresh;
 
-    UserGetTokenOnSubscribe(FirebaseUser user, boolean forceRefresh) {
+    UserGetIdTokenOnSubscribe(FirebaseUser user, boolean forceRefresh) {
         this.user = user;
         this.forceRefresh = forceRefresh;
     }
@@ -41,7 +39,7 @@ final class UserGetTokenOnSubscribe implements SingleOnSubscribe<String> {
             }
         };
 
-        user.getToken(forceRefresh)
+        user.getIdToken(forceRefresh)
                 .addOnCompleteListener(listener);
     }
 }
