@@ -94,11 +94,13 @@ public class RxFirebaseUserTest {
     @Test
     public void testGetToken() {
         mockSuccessfulTokenResult("token");
+        //noinspection deprecation
         when(mockFirebaseUser.getToken(true))
                 .thenReturn(mockGetTokenTaskResult);
 
         TestObserver<String> obs = TestObserver.create();
 
+        //noinspection deprecation
         RxFirebaseUser.getToken(mockFirebaseUser, true)
                 .subscribe(obs);
 
@@ -115,12 +117,55 @@ public class RxFirebaseUserTest {
     @Test
     public void testGetToken_notSuccessful() {
         mockNotSuccessfulTokenResult(new IllegalStateException());
+        //noinspection deprecation
         when(mockFirebaseUser.getToken(true))
                 .thenReturn(mockGetTokenTaskResult);
 
         TestObserver<String> obs = TestObserver.create();
 
+        //noinspection deprecation
         RxFirebaseUser.getToken(mockFirebaseUser, true)
+                .subscribe(obs);
+
+        callOnComplete(mockGetTokenTaskResult);
+        obs.dispose();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockGetTokenTaskResult);
+
+        obs.assertError(IllegalStateException.class);
+    }
+
+    @Test
+    public void testGetIdToken() {
+        mockSuccessfulTokenResult("token");
+        when(mockFirebaseUser.getIdToken(true))
+                .thenReturn(mockGetTokenTaskResult);
+
+        TestObserver<String> obs = TestObserver.create();
+
+        RxFirebaseUser.getIdToken(mockFirebaseUser, true)
+                .subscribe(obs);
+
+        callOnComplete(mockGetTokenTaskResult);
+        obs.dispose();
+
+        // Ensure no more values are emitted after unsubscribe
+        callOnComplete(mockGetTokenTaskResult);
+
+        obs.assertComplete();
+        obs.assertValue("token");
+    }
+
+    @Test
+    public void testGetIdToken_notSuccessful() {
+        mockNotSuccessfulTokenResult(new IllegalStateException());
+        when(mockFirebaseUser.getIdToken(true))
+                .thenReturn(mockGetTokenTaskResult);
+
+        TestObserver<String> obs = TestObserver.create();
+
+        RxFirebaseUser.getIdToken(mockFirebaseUser, true)
                 .subscribe(obs);
 
         callOnComplete(mockGetTokenTaskResult);
