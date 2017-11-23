@@ -4,14 +4,14 @@ ext {
     kotlinVersion = '1.1.60'
 
     // Build plugins
-    androidBuildPlugin = "com.android.tools.build:gradle:2.3.3"
+    androidBuildPlugin = "com.android.tools.build:gradle:3.0.1"
     coverallsPlugin = "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3"
     kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
 
     // Build SDK versions
-    buildToolsVersion = '26.0.1'
+    buildToolsVersion = '27.0.1'
     minSdkVersion = 14
-    compileSdkVersion = 26
+    compileSdkVersion = 27
 
     // CI
     ci = 'true'.equals(System.getenv('CI'))

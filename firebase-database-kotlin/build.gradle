@@ -36,11 +36,11 @@ android {
 }
 
 dependencies {
-    compile project(':firebase-database')
+    implementation project(':firebase-database')
 
-    provided rootProject.ext.firebaseDatabase
-    provided rootProject.ext.kotlin
-    provided rootProject.ext.rxJava
+    compileOnly rootProject.ext.firebaseDatabase
+    compileOnly rootProject.ext.kotlin
+    compileOnly rootProject.ext.rxJava
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
