@@ -1,7 +1,7 @@
 ext {
     // Library Versions
     firebaseVersion = '11.6.0'
-    kotlinVersion = '1.1.4-3'
+    kotlinVersion = '1.1.60'
 
     // Build plugins
     androidBuildPlugin = "com.android.tools.build:gradle:2.3.3"
