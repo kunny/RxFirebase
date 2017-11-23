@@ -24,7 +24,7 @@ RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/do
 
 ```groovy
 compile 'com.google.firebase:firebase-auth:11.6.0'
-compile 'com.androidhuman.rxfirebase:firebase-auth:11.6.0.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth:11.6.0.1'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
@@ -34,7 +34,7 @@ Kotlin support module for `firebase-auth`.
 
 ```groovy
 compile 'com.google.firebase:firebase-auth:11.6.0'
-compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:11.6.0.0'
+compile 'com.androidhuman.rxfirebase:firebase-auth-kotlin:11.6.0.1'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
@@ -44,7 +44,7 @@ RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com
 
 ```groovy
 compile 'com.google.firebase:firebase-database:11.6.0'
-compile 'com.androidhuman.rxfirebase:firebase-database:11.6.0.0'
+compile 'com.androidhuman.rxfirebase:firebase-database:11.6.0.1'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 
@@ -54,7 +54,7 @@ Kotlin support module for `firebase-database`
 
 ```groovy
 compile 'com.google.firebase:firebase-database:11.6.0'
-compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:11.6.0.0'
+compile 'com.androidhuman.rxfirebase:firebase-database-kotlin:11.6.0.1'
 compile 'io.reactivex:rxjava:1.3.2'
 ```
 

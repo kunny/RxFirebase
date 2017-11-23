@@ -1,5 +1,16 @@
 # Change Log
 
+## Version 11.6.0.1 *(2017/11/24)*
+
+Built and tested with:
+- Firebase Android SDK 11.6.0
+- Kotlin 1.1.60
+
+Updated:
+- Android Gradle Plugin 3.0.1
+- Build tools version 27.0.1
+- Kotlin 1.1.60
+
 ## Version 11.6.0.0 *(2017/11/13)*
 
 Built and tested with:
