@@ -31,12 +31,14 @@ android {
 }
 
 dependencies {
-    provided rootProject.ext.firebaseDatabase
-    provided rootProject.ext.rxJava
+    compileOnly rootProject.ext.firebaseDatabase
+    compileOnly rootProject.ext.rxJava
 
-    testCompile rootProject.ext.assertj
-    testCompile rootProject.ext.junit
-    testCompile rootProject.ext.mockito
+    testImplementation rootProject.ext.assertj
+    testImplementation rootProject.ext.firebaseDatabase
+    testImplementation rootProject.ext.junit
+    testImplementation rootProject.ext.mockito
+    testImplementation rootProject.ext.rxJava
 }
 
 apply plugin: 'com.github.kt3k.coveralls'
