@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/android:api-27-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TZ: "/usr/share/zoneinfo/Asia/Seoul"
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "dependencies.gradle" }}
+      - run:
+          name: Install Build tools 27.0.2
+          command: sdkmanager "build-tools;27.0.2"
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "dependencies.gradle" }}
+      - run:
+          name: Run Tests
+          command: ./gradlew lint check coverageReport mergeCorevageReports --console=plain
+      - run:
+          name: Upload Code Coverage Report to codecov
+          command: bash <(curl -s https://codecov.io/bash)
