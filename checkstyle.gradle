@@ -1,0 +1,28 @@
+subprojects {
+    apply plugin: 'checkstyle'
+
+    checkstyle {
+        toolVersion = "6.6"
+        configFile = new File(rootProject.rootDir, 'config/checkstyle/checkstyle.xml')
+        configProperties.checkStyleConfigDir = rootProject.file('config/checkstyle')
+    }
+
+    task checkstyle(type: Checkstyle) {
+        group = "Verification"
+        description = "Runs checkstyle task."
+
+        source 'src'
+        ignoreFailures false
+        showViolations true
+        include '**/*.java'
+        exclude '**/gen/**'
+        exclude '**/**Test.java'
+        exclude '**/test/**'
+
+        classpath = files()
+    }
+
+    afterEvaluate {
+        tasks.findByName('check')?.dependsOn('checkstyle')
+    }
+}

@@ -1,0 +1,79 @@
+allprojects {
+    apply plugin: 'jacoco'
+}
+
+subprojects {
+    jacoco {
+        reportsDir = file("${buildDir}/reports")
+    }
+
+    task coverageReport(type: JacocoReport) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage report"
+
+        sourceDirectories = files(["${projectDir}/src/main/java"])
+        classDirectories = fileTree(
+                dir: "${buildDir}/intermediates/classes/debug",
+                excludes: ['**/R.class',
+                           '**/R$*.class',
+                           '**/BuildConfig.*',
+                           '**/Manifest*.*',
+                           'com/android/**/*.class'])
+        executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+    }
+
+    afterEvaluate {
+        tasks.findByName('coverageReport').dependsOn('testDebugUnitTest')
+    }
+}
+
+jacoco {
+    reportsDir = file("${buildDir}/reports")
+}
+
+task mergeCoverageReports(type: JacocoReport) {
+    group = "Reporting"
+    description = "Merge Jacoco coverage reports"
+
+    def sources = []
+    def classDirs = files()
+    def executions = []
+
+    subprojects.each {
+        if (!it.name.contains('kotlin')) {
+            sources << "${it.projectDir}/src/main/java"
+            //noinspection GrReassignedInClosureLocalVar
+            classDirs += fileTree(
+                    dir: "${it.buildDir}/intermediates/classes/debug",
+                    excludes: ['**/R.class',
+                               '**/R$*.class',
+                               '**/BuildConfig.*',
+                               '**/Manifest*.*',
+                               'com/android/**/*.class'])
+            def executionFile = file("${it.buildDir}/jacoco/testDebugUnitTest.exec")
+            if (executionFile.exists()) {
+                executions << executionFile.path
+            }
+        }
+    }
+
+    sourceDirectories = files(sources as String[])
+    classDirectories = classDirs
+    executionData = files(executions as String[])
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    afterEvaluate {
+        tasks.findByName('mergeCoverageReports').dependsOn {
+            subprojects*.coverageReport
+        }
+    }
+}

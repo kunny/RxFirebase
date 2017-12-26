@@ -20,111 +20,11 @@ allprojects {
         google()
         jcenter()
     }
-
-    apply plugin: 'checkstyle'
-
-    checkstyle {
-        toolVersion = "6.6"
-        configFile = new File(rootProject.rootDir, 'config/checkstyle/checkstyle.xml')
-        configProperties.checkStyleConfigDir = rootProject.file('config/checkstyle')
-    }
-
-    task checkstyle(type: Checkstyle) {
-        group = "Verification"
-        description = "Runs checkstyle task."
-
-        source 'src'
-        ignoreFailures false
-        showViolations true
-        include '**/*.java'
-        exclude '**/gen/**'
-        exclude '**/**Test.java'
-        exclude '**/test/**'
-
-        classpath = files()
-    }
-
-    afterEvaluate {
-        tasks.findByName('check')?.dependsOn('checkstyle')
-    }
-}
-
-subprojects {
-    apply plugin: 'jacoco'
-
-    jacoco {
-        reportsDir = file("${buildDir}/reports")
-    }
-
-    task coverageReport(type: JacocoReport) {
-        group = "Reporting"
-        description = "Generate Jacoco coverage report"
-
-        sourceDirectories = files(["${projectDir}/src/main/java"])
-        classDirectories = fileTree(
-                dir: "${buildDir}/intermediates/classes/debug",
-                excludes: ['**/R.class',
-                           '**/R$*.class',
-                           '**/BuildConfig.*',
-                           '**/Manifest*.*',
-                           'com/android/**/*.class'])
-        executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
-
-        reports {
-            xml.enabled = true
-            html.enabled = true
-        }
-    }
-
-    afterEvaluate {
-        tasks.findByName('coverageReport').dependsOn('testDebugUnitTest')
-    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-apply plugin: 'jacoco'
-
-jacoco {
-    reportsDir = file("${buildDir}/reports")
-}
-
-task mergeCoverageReport(type: JacocoReport) {
-    group = "Reporting"
-    description = "Merge Jacoco coverage reports"
-
-    def sources = []
-    def classDirs = files()
-    def executions = []
-
-    subprojects.each {
-        if (!it.name.contains('kotlin')) {
-            sources << "${it.projectDir}/src/main/java"
-            //noinspection GrReassignedInClosureLocalVar
-            classDirs += fileTree(
-                    dir: "${it.buildDir}/intermediates/classes/debug",
-                    excludes: ['**/R.class',
-                               '**/R$*.class',
-                               '**/BuildConfig.*',
-                               '**/Manifest*.*',
-                               'com/android/**/*.class'])
-            def executionFile = file("${it.buildDir}/jacoco/testDebugUnitTest.exec")
-            if (executionFile.exists()) {
-                executions << executionFile.path
-            }
-        }
-    }
-
-    sourceDirectories = files(sources as String[])
-    classDirectories = classDirs
-    executionData = files(executions as String[])
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
-apply from: file('dependencies.gradle')
+apply from: file('checkstyle.gradle')
+apply from: file('coverage.gradle')
