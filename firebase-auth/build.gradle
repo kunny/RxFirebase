@@ -31,14 +31,16 @@ android {
 }
 
 dependencies {
-    compileOnly rootProject.ext.firebaseAuth
-    compileOnly rootProject.ext.rxJava
+    implementation project(":firebase-core")
 
-    testImplementation rootProject.ext.assertj
-    testImplementation rootProject.ext.firebaseAuth
-    testImplementation rootProject.ext.junit
-    testImplementation rootProject.ext.mockito
-    testImplementation rootProject.ext.rxJava
+    compileOnly "com.google.firebase:firebase-auth:${firebaseVersion}"
+    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+
+    testImplementation "com.google.firebase:firebase-auth:${firebaseVersion}"
+    testImplementation "junit:junit:${junitVersion}"
+    testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-local.gradle')

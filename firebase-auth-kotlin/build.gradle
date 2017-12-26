@@ -38,9 +38,9 @@ android {
 dependencies {
     implementation project(':firebase-auth')
 
-    compileOnly rootProject.ext.firebaseAuth
-    compileOnly rootProject.ext.kotlin
-    compileOnly rootProject.ext.rxJava
+    compileOnly "com.google.firebase:firebase-auth:${firebaseVersion}"
+    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
