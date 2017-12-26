@@ -22,7 +22,7 @@ jobs:
           key: jars-{{ checksum "dependencies.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew lint check coverageReport mergeCorevageReports --console=plain
+          command: ./gradlew lint check coverageReport mergeCoverageReports --console=plain
       - run:
           name: Upload Code Coverage Report to codecov
           command: bash <(curl -s https://codecov.io/bash)
