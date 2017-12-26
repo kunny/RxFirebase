@@ -7,7 +7,7 @@ Built and tested with:
 - Kotlin 1.1.60
 
 Added:
-- Add binding for `FirebaseUser.getIdToken()` (#6)
+- Add binding for `FirebaseUser.getIdToken()` (#23)
 
 Updated:
 - Android Gradle Plugin 3.0.1
