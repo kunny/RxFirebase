@@ -36,7 +36,7 @@ dependencies {
     compileOnly "com.google.firebase:firebase-database:${firebaseVersion}"
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
 
-    testImplementation "com.google.firebase:firebase-auth:${firebaseVersion}"
+    testImplementation "com.google.firebase:firebase-database:${firebaseVersion}"
     testImplementation "junit:junit:${junitVersion}"
     testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     testImplementation "org.assertj:assertj-core:${assertjVersion}"
