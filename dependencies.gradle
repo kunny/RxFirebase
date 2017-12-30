@@ -6,6 +6,7 @@ ext {
     junitVersion = '4.12'
     kotlinVersion = '1.1.60'
     mockitoVersion = "2.13.0"
+    mockitoKotlinVersion = "1.5.0"
     rxJavaVersion = '2.1.3'
 
     // Build plugins

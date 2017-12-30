@@ -4,11 +4,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
 
-class PlainDisposableTest {
+class SimpleDisposableTest {
 
     @Test
     fun disposedState() {
-        val disposable = object: PlainDisposable() {
+        val disposable = object: SimpleDisposable() {
             override fun onDispose() {
                 // do nothing
             }
@@ -23,7 +23,7 @@ class PlainDisposableTest {
     fun unsubscribeTwiceDoesNotRunTwice() {
         val called = AtomicInteger(0)
 
-        val disposable = object: PlainDisposable() {
+        val disposable = object: SimpleDisposable() {
             override fun onDispose() {
                 called.incrementAndGet()
             }

@@ -3,7 +3,7 @@ package com.androidhuman.rxfirebase2.core
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class PlainDisposable : Disposable {
+abstract class SimpleDisposable : Disposable {
 
     private val unsubscribed = AtomicBoolean()
 
