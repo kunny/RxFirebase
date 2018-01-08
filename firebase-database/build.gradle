@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -22,6 +23,10 @@ android {
         textOutput 'stdout'
     }
 
+    sourceSets {
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -37,9 +42,11 @@ dependencies {
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
 
     testImplementation "com.google.firebase:firebase-database:${firebaseVersion}"
+    testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
     testImplementation "junit:junit:${junitVersion}"
     testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 }
 
