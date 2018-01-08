@@ -1,6 +1,7 @@
 ext {
     // Libraries
 
+    autoValueVersion = '1.5'
     assertjVersion = '1.2.0'
     firebaseVersion = '11.6.0'
     junitVersion = '4.12'
