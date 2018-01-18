@@ -5,7 +5,7 @@ ext {
     assertjVersion = '1.2.0'
     firebaseVersion = '11.6.0'
     junitVersion = '4.12'
-    kotlinVersion = '1.1.60'
+    kotlinVersion = '1.2.20'
     mockitoVersion = "2.13.0"
     mockitoKotlinVersion = "1.5.0"
     rxJavaVersion = '2.1.3'
