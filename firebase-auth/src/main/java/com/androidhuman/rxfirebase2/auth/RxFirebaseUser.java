@@ -16,7 +16,7 @@ public final class RxFirebaseUser {
     @CheckResult
     @NonNull
     public static Completable delete(@NonNull FirebaseUser user) {
-        return Completable.create(new UserDeleteOnSubscribe(user));
+        return new UserDeleteObserver(user);
     }
 
     @Deprecated
@@ -25,68 +25,68 @@ public final class RxFirebaseUser {
     public static Single<String> getToken(
             @NonNull FirebaseUser user, boolean forceRefresh) {
         //noinspection deprecation
-        return Single.create(new UserGetTokenOnSubscribe(user, forceRefresh));
+        return new UserGetTokenObserver(user, forceRefresh);
     }
 
     @CheckResult
     @NonNull
     public static Single<String> getIdToken(
             @NonNull FirebaseUser user, boolean forceRefresh) {
-        return Single.create(new UserGetIdTokenOnSubscribe(user, forceRefresh));
+        return new UserGetIdTokenObserver(user, forceRefresh);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> linkWithCredential(
             @NonNull FirebaseUser user, @NonNull AuthCredential credential) {
-        return Single.create(new UserLinkWithCredentialOnSubscribe(user, credential));
+        return new UserLinkWithCredentialObserver(user, credential);
     }
 
     @CheckResult
     @NonNull
     public static Completable reauthenticate(
             @NonNull FirebaseUser user, @NonNull AuthCredential credential) {
-        return Completable.create(new UserReauthenticateOnSubscribe(user, credential));
+        return new UserReauthenticateObserver(user, credential);
     }
 
     @CheckResult
     @NonNull
     public static Completable reload(@NonNull FirebaseUser user) {
-        return Completable.create(new UserReloadOnSubscribe(user));
+        return new UserReloadObserver(user);
     }
 
     @CheckResult
     @NonNull
     public static Completable sendEmailVerification(@NonNull FirebaseUser user) {
-        return Completable.create(new UserSendEmailVerificationOnSubscribe(user));
+        return new UserSendEmailVerificationObserver(user);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> unlink(
             @NonNull FirebaseUser user, @NonNull String provider) {
-        return Single.create(new UserUnlinkOnSubscribe(user, provider));
+        return new UserUnlinkObserver(user, provider);
     }
 
     @CheckResult
     @NonNull
     public static Completable updateEmail(
             @NonNull FirebaseUser user, @NonNull String email) {
-        return Completable.create(new UserUpdateEmailOnSubscribe(user, email));
+        return new UserUpdateEmailObserver(user, email);
     }
 
     @CheckResult
     @NonNull
     public static Completable updatePassword(
             @NonNull FirebaseUser user, @NonNull String password) {
-        return Completable.create(new UserUpdatePasswordOnSubscribe(user, password));
+        return new UserUpdatePasswordObserver(user, password);
     }
 
     @CheckResult
     @NonNull
     public static Completable updateProfile(
             @NonNull FirebaseUser user, @NonNull UserProfileChangeRequest request) {
-        return Completable.create(new UserUpdateProfileOnSubscribe(user, request));
+        return new UserUpdateProfileObserver(user, request);
     }
 
     private RxFirebaseUser() {

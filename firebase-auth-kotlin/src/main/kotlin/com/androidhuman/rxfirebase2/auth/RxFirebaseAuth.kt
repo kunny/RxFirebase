@@ -1,4 +1,4 @@
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE", "UNUSED")
 
 package com.androidhuman.rxfirebase2.auth
 
@@ -19,7 +19,7 @@ inline fun FirebaseAuth.rxCreateUserWithEmailAndPassword(email: String, password
         = RxFirebaseAuth.createUserWithEmailAndPassword(this, email, password)
 
 inline fun FirebaseAuth.rxFetchProvidersForEmail(email: String)
-        : Single<List<String>>
+        : Maybe<List<String>>
         = RxFirebaseAuth.fetchProvidersForEmail(this, email)
 
 inline fun FirebaseAuth.rxGetCurrentUser()
@@ -30,9 +30,9 @@ inline fun FirebaseAuth.rxSendPasswordResetEmail(email: String)
         : Completable
         = RxFirebaseAuth.sendPasswordResetEmail(this, email)
 
-inline fun FirebaseAuth.rxSignInAnonymous()
+inline fun FirebaseAuth.rxSignInAnonymously()
         : Single<FirebaseUser>
-        = RxFirebaseAuth.signInAnonymous(this)
+        = RxFirebaseAuth.signInAnonymously(this)
 
 inline fun FirebaseAuth.rxSignInWithCredential(credential: AuthCredential)
         : Single<FirebaseUser>

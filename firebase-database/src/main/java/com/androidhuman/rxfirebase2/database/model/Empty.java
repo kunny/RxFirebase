@@ -1,25 +1,15 @@
 package com.androidhuman.rxfirebase2.database.model;
 
-import java.util.NoSuchElementException;
+import com.google.auto.value.AutoValue;
 
-public final class Empty<T> extends DataValue<T> {
+import android.support.annotation.NonNull;
 
-    Empty() {
-
-    }
-
-    @Override
-    public T get() {
-        throw new NoSuchElementException();
-    }
+@AutoValue
+public abstract class Empty<T> extends DataValue<T> {
 
     @Override
-    public boolean isPresent() {
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return "Empty DataValue";
+    @NonNull
+    public T value() {
+        throw new IllegalStateException("No value");
     }
 }

@@ -1,28 +1,38 @@
 package com.androidhuman.rxfirebase2.database.model;
 
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 public abstract class DataValue<T> implements Serializable {
 
     private static Empty<?> empty;
 
-    public abstract T get();
-
-    public abstract boolean isPresent();
-
+    @CheckResult
+    @NonNull
     public static <T> DataValue<T> of(T value) {
         if (null != value) {
-            return new Some<>(value);
+            return new AutoValue_Some<>(value);
         } else {
             return empty();
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @CheckResult
+    @NonNull
     public static <T> DataValue<T> empty() {
         if (null == empty) {
-            empty = new Empty<>();
+            empty = new AutoValue_Empty<>();
         }
+        //noinspection unchecked
         return (DataValue<T>) empty;
     }
+
+    DataValue() {
+
+    }
+
+    @NonNull
+    public abstract T value();
 }

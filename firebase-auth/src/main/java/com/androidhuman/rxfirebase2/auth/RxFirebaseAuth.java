@@ -20,71 +20,69 @@ public final class RxFirebaseAuth {
     @CheckResult
     @NonNull
     public static Observable<FirebaseAuth> authStateChanges(@NonNull FirebaseAuth instance) {
-        return Observable.create(new AuthStateChangesOnSubscribe(instance));
+        return new AuthStateChangesObservable(instance);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> createUserWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
-        return Single.create(
-                new CreateUserWithEmailAndPasswordOnSubscribe(instance, email, password));
+        return new CreateUserWithEmailAndPasswordObservable(instance, email, password);
     }
 
     @CheckResult
     @NonNull
-    public static Single<List<String>> fetchProvidersForEmail(
+    public static Maybe<List<String>> fetchProvidersForEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return Single.create(new FetchProvidersForEmailOnSubscribe(instance, email));
+        return new FetchProvidersForEmailObservable(instance, email);
     }
 
     @CheckResult
     @NonNull
     public static Maybe<FirebaseUser> getCurrentUser(
             @NonNull final FirebaseAuth instance) {
-        return Maybe.create(new GetCurrentUserOnSubscribe(instance));
+        return new GetCurrentUserObservable(instance);
     }
 
     @CheckResult
     @NonNull
     public static Completable sendPasswordResetEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return Completable.create(new SendPasswordResetEmailOnSubscribe(instance, email));
+        return new SendPasswordResetEmailObservable(instance, email);
     }
 
     @CheckResult
     @NonNull
-    public static Single<FirebaseUser> signInAnonymous(
+    public static Single<FirebaseUser> signInAnonymously(
             @NonNull FirebaseAuth instance) {
-        return Single.create(new SignInAnonymousOnSubscribe(instance));
+        return new SignInAnonymouslyObservable(instance);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInWithCredential(
             @NonNull FirebaseAuth instance, @NonNull AuthCredential credential) {
-        return Single.create(new SignInWithCredentialOnSubscribe(instance, credential));
+        return new SignInWithCredentialObservable(instance, credential);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInWithCustomToken(
             @NonNull FirebaseAuth instance, @NonNull String token) {
-        return Single.create(new SignInWithCustomTokenOnSubscribe(instance, token));
+        return new SignInWithCustomTokenObservable(instance, token);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
-        return Single.create(
-                new SignInWithEmailAndPasswordOnSubscribe(instance, email, password));
+        return new SignInWithEmailAndPasswordObservable(instance, email, password);
     }
 
     @CheckResult
     @NonNull
     public static Completable signOut(@NonNull FirebaseAuth instance) {
-        return Completable.create(new SignOutOnSubscribe(instance));
+        return new SignOutObserver(instance);
     }
 
     private RxFirebaseAuth() {

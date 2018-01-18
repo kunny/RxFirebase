@@ -18,7 +18,9 @@ import android.support.annotation.NonNull;
 
 import java.util.Map;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -29,37 +31,65 @@ public final class RxFirebaseDatabase {
     @NonNull
     @CheckResult
     public static Observable<ChildEvent> childEvents(@NonNull DatabaseReference ref) {
-        return Observable.create(new ChildEventsOnSubscribe(ref));
+        return new ChildEventsObserver(ref);
+    }
+
+    @NonNull
+    @CheckResult
+    public static Flowable<ChildEvent> childEvents(
+            @NonNull DatabaseReference ref, BackpressureStrategy strategy) {
+        return childEvents(ref).toFlowable(strategy);
     }
 
     @NonNull
     @CheckResult
     public static Observable<ChildEvent> childEvents(@NonNull Query query) {
-        return Observable.create(new QueryChildEventsOnSubscribe(query));
+        return new QueryChildEventsObserver(query);
+    }
+
+    @NonNull
+    @CheckResult
+    public static Flowable<ChildEvent> childEvents(
+            @NonNull Query query, BackpressureStrategy strategy) {
+        return childEvents(query).toFlowable(strategy);
     }
 
     @NonNull
     @CheckResult
     public static Single<DataSnapshot> data(@NonNull DatabaseReference ref) {
-        return Single.create(new DataOnSubscribe(ref));
+        return new DataObserver(ref);
     }
 
     @NonNull
     @CheckResult
     public static Single<DataSnapshot> data(@NonNull Query query) {
-        return Single.create(new QueryOnSubscribe(query));
+        return new QueryObserver(query);
     }
 
     @NonNull
     @CheckResult
     public static Observable<DataSnapshot> dataChanges(@NonNull DatabaseReference ref) {
-        return Observable.create(new DataChangesOnSubscribe(ref));
+        return new DataChangesObserver(ref);
+    }
+
+    @NonNull
+    @CheckResult
+    public static Flowable<DataSnapshot> dataChanges(
+            @NonNull DatabaseReference ref, BackpressureStrategy strategy) {
+        return dataChanges(ref).toFlowable(strategy);
     }
 
     @NonNull
     @CheckResult
     public static Observable<DataSnapshot> dataChanges(@NonNull Query query) {
-        return Observable.create(new QueryChangesOnSubscribe(query));
+        return new QueryChangesObserver(query);
+    }
+
+    @NonNull
+    @CheckResult
+    public static Flowable<DataSnapshot> dataChanges(
+            @NonNull Query query, BackpressureStrategy strategy) {
+        return dataChanges(query).toFlowable(strategy);
     }
 
     @NonNull
@@ -71,6 +101,14 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
+    public static <T> Flowable<DataValue<T>> dataChangesOf(
+            @NonNull DatabaseReference ref, @NonNull Class<T> clazz,
+            BackpressureStrategy strategy) {
+        return dataChangesOf(ref, clazz).toFlowable(strategy);
+    }
+
+    @NonNull
+    @CheckResult
     public static <T> Observable<DataValue<T>> dataChangesOf(
             @NonNull Query query, @NonNull Class<T> clazz) {
         return dataChanges(query).compose(new TransformerOfClazz<>(clazz));
@@ -78,10 +116,26 @@ public final class RxFirebaseDatabase {
 
     @NonNull
     @CheckResult
+    public static <T> Flowable<DataValue<T>> dataChangesOf(
+            @NonNull Query query, @NonNull Class<T> clazz,
+            BackpressureStrategy strategy) {
+        return dataChangesOf(query, clazz).toFlowable(strategy);
+    }
+
+    @NonNull
+    @CheckResult
     public static <T> Observable<DataValue<T>> dataChangesOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return dataChanges(ref)
-                .compose(new TransformerOfGenericTypeIndicator<T>(typeIndicator));
+                .compose(new TransformerOfGenericTypeIndicator<>(typeIndicator));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Flowable<DataValue<T>> dataChangesOf(
+            @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator,
+            BackpressureStrategy strategy) {
+        return dataChangesOf(ref, typeIndicator).toFlowable(strategy);
     }
 
     @NonNull
@@ -89,7 +143,15 @@ public final class RxFirebaseDatabase {
     public static <T> Observable<DataValue<T>> dataChangesOf(
             @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator) {
         return dataChanges(query)
-                .compose(new TransformerOfGenericTypeIndicator<T>(typeIndicator));
+                .compose(new TransformerOfGenericTypeIndicator<>(typeIndicator));
+    }
+
+    @NonNull
+    @CheckResult
+    public static <T> Flowable<DataValue<T>> dataChangesOf(
+            @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator,
+            BackpressureStrategy strategy) {
+        return dataChangesOf(query, typeIndicator).toFlowable(strategy);
     }
 
     @NonNull
@@ -103,48 +165,48 @@ public final class RxFirebaseDatabase {
     @CheckResult
     public static <T> Single<T> dataOf(
             @NonNull Query query, @NonNull Class<T> clazz) {
-        return data(query).compose(new SingleTransformerOfClazz<T>(clazz));
+        return data(query).compose(new SingleTransformerOfClazz<>(clazz));
     }
 
     @NonNull
     @CheckResult
     public static <T> Single<T> dataOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator) {
-        return data(ref).compose(new SingleTransformerOfGenericTypeIndicator<T>(typeIndicator));
+        return data(ref).compose(new SingleTransformerOfGenericTypeIndicator<>(typeIndicator));
     }
 
     @NonNull
     @CheckResult
     public static <T> Single<T> dataOf(
             @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator) {
-        return data(query).compose(new SingleTransformerOfGenericTypeIndicator<T>(typeIndicator));
+        return data(query).compose(new SingleTransformerOfGenericTypeIndicator<>(typeIndicator));
     }
 
     @NonNull
     @CheckResult
     public static Completable removeValue(@NonNull DatabaseReference ref) {
-        return Completable.create(new RemoveValueOnSubscribe(ref));
+        return new RemoveValueObserver(ref);
     }
 
     @NonNull
     @CheckResult
-    public static Completable setPriority(
-            @NonNull DatabaseReference ref, @NonNull Object priority) {
-        return Completable.create(new SetPriorityOnSubscribe(ref, priority));
+    public static <T> Completable setPriority(
+            @NonNull DatabaseReference ref, @NonNull T priority) {
+        return new SetPriorityObserver<>(ref, priority);
     }
 
     @NonNull
     @CheckResult
     public static <T> Completable setValue(
             @NonNull DatabaseReference ref, @NonNull T value) {
-        return Completable.create(new SetValueOnSubscribe<T>(ref, value));
+        return new SetValueObserver<>(ref, value);
     }
 
     @NonNull
     @CheckResult
-    public static <T> Completable setValue(
-            @NonNull DatabaseReference ref, @NonNull T value, @NonNull Object priority) {
-        return Completable.create(new SetValueWithPriorityOnSubscribe<T>(ref, value, priority));
+    public static <T, U> Completable setValue(
+            @NonNull DatabaseReference ref, @NonNull T value, @NonNull U priority) {
+        return new SetValueWithPriorityObserver<>(ref, value, priority);
     }
 
     @NonNull
@@ -160,14 +222,14 @@ public final class RxFirebaseDatabase {
     public static Completable runTransaction(
             @NonNull DatabaseReference ref, boolean fireLocalEvents,
             @NonNull Function<MutableData, Transaction.Result> task) {
-        return Completable.create(new RunTransactionOnSubscribe(ref, fireLocalEvents, task));
+        return new RunTransactionObserver(ref, fireLocalEvents, task);
     }
 
     @NonNull
     @CheckResult
     public static Completable updateChildren(
             @NonNull DatabaseReference ref, @NonNull Map<String, Object> update) {
-        return Completable.create(new UpdateChildrenOnSubscribe(ref, update));
+        return new UpdateChildrenObserver(ref, update);
     }
 
     private RxFirebaseDatabase() {
