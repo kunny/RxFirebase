@@ -1,5 +1,23 @@
 # Change Log
 
+## Version 11.8.0.0 *(2018/01/18)*
+
+Built and tested with:
+- Firebase Android SDK 11.8.0
+- Kotlin 1.2.20
+
+Breaking changes:
+- `RxFirebaseAuth.fetchProvidersForEmail()` now returns `Maybe`.
+- Function name change: `RxFirebaseAuth.signInAnonymous()` -> `RxFirebaseAuth.signInAnonymously()`
+- Minor API changes on `DataValue`, `Some`
+- Added `Flowable` support on `RxFirebaseDatabase`:
+  - `childEvents()`
+  - `dataChanges()`
+  - `dataChangesOf()`
+
+Updated:
+- Rewrote `XXOnSubscribe` classes into custom `Observer` classes. (#12)
+
 ## Version 11.6.0.1 *(2017/11/24)*
 
 Built and tested with:
@@ -28,7 +46,7 @@ Built and tested with:
 
 ## Version 11.4.0.0 *(2017/11/13)*
 
-Built and tested with: 
+Built and tested with:
 - Firebase Android SDK 11.4.0
 - Kotlin 1.1.4-3
 
