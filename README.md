@@ -1,6 +1,6 @@
 # RxFirebase
 [![CircleCI](https://circleci.com/gh/kunny/RxFirebase.svg?style=shield)](https://circleci.com/gh/kunny/RxFirebase)
-[![codecov](https://codecov.io/gh/kunny/RxFirebase/branch/master/graph/badge.svg)](https://codecov.io/gh/kunny/RxFirebase)
+[![codecov](https://codecov.io/gh/kunny/RxFirebase/branch/rxjava2/graph/badge.svg)](https://codecov.io/gh/kunny/RxFirebase)
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth/badge.svg)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxFirebase-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/4496)
 
