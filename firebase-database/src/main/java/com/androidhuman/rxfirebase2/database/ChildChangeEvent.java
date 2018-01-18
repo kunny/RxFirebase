@@ -16,7 +16,6 @@ public abstract class ChildChangeEvent extends ChildEvent {
         return new AutoValue_ChildChangeEvent(dataSnapshot, previousChildName);
     }
 
-    public abstract @Nullable
-    String previousChildName();
-
+    @Nullable
+    public abstract String previousChildName();
 }

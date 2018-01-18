@@ -1,7 +1,6 @@
 package com.androidhuman.rxfirebase2.database;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
@@ -24,11 +23,11 @@ final class RemoveValueObserver extends Completable {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.removeValue()
-                .addOnCompleteListener(listener);
+        instance.removeValue(listener);
     }
 
-    static final class Listener extends SimpleDisposable implements OnCompleteListener<Void> {
+    static final class Listener extends SimpleDisposable
+            implements DatabaseReference.CompletionListener {
 
         private final CompletableObserver observer;
 
@@ -37,10 +36,10 @@ final class RemoveValueObserver extends Completable {
         }
 
         @Override
-        public void onComplete(@NonNull Task<Void> task) {
+        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
             if (!isDisposed()) {
-                if (!task.isSuccessful()) {
-                    observer.onError(task.getException());
+                if (null != databaseError) {
+                    observer.onError(databaseError.toException());
                 } else {
                     observer.onComplete();
                 }

@@ -1,7 +1,5 @@
 package com.androidhuman.rxfirebase2.database;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
@@ -10,9 +8,7 @@ import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 import android.support.annotation.NonNull;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableObserver;
-import io.reactivex.CompletableOnSubscribe;
 
 final class SetValueObserver<T> extends Completable {
 

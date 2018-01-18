@@ -38,7 +38,7 @@ public final class RxFirebaseDatabase {
     @CheckResult
     public static Flowable<ChildEvent> childEvents(
             @NonNull DatabaseReference ref, BackpressureStrategy strategy) {
-        return new ChildEventsObserver(ref).toFlowable(strategy);
+        return childEvents(ref).toFlowable(strategy);
     }
 
     @NonNull
@@ -51,7 +51,7 @@ public final class RxFirebaseDatabase {
     @CheckResult
     public static Flowable<ChildEvent> childEvents(
             @NonNull Query query, BackpressureStrategy strategy) {
-        return new QueryChildEventsObserver(query).toFlowable(strategy);
+        return childEvents(query).toFlowable(strategy);
     }
 
     @NonNull
@@ -76,7 +76,7 @@ public final class RxFirebaseDatabase {
     @CheckResult
     public static Flowable<DataSnapshot> dataChanges(
             @NonNull DatabaseReference ref, BackpressureStrategy strategy) {
-        return new DataChangesObserver(ref).toFlowable(strategy);
+        return dataChanges(ref).toFlowable(strategy);
     }
 
     @NonNull
@@ -89,7 +89,7 @@ public final class RxFirebaseDatabase {
     @CheckResult
     public static Flowable<DataSnapshot> dataChanges(
             @NonNull Query query, BackpressureStrategy strategy) {
-        return new QueryChangesObserver(query).toFlowable(strategy);
+        return dataChanges(query).toFlowable(strategy);
     }
 
     @NonNull
@@ -104,7 +104,7 @@ public final class RxFirebaseDatabase {
     public static <T> Flowable<DataValue<T>> dataChangesOf(
             @NonNull DatabaseReference ref, @NonNull Class<T> clazz,
             BackpressureStrategy strategy) {
-        return dataChanges(ref).compose(new TransformerOfClazz<>(clazz)).toFlowable(strategy);
+        return dataChangesOf(ref, clazz).toFlowable(strategy);
     }
 
     @NonNull
@@ -119,7 +119,7 @@ public final class RxFirebaseDatabase {
     public static <T> Flowable<DataValue<T>> dataChangesOf(
             @NonNull Query query, @NonNull Class<T> clazz,
             BackpressureStrategy strategy) {
-        return dataChanges(query).compose(new TransformerOfClazz<>(clazz)).toFlowable(strategy);
+        return dataChangesOf(query, clazz).toFlowable(strategy);
     }
 
     @NonNull
@@ -135,9 +135,7 @@ public final class RxFirebaseDatabase {
     public static <T> Flowable<DataValue<T>> dataChangesOf(
             @NonNull DatabaseReference ref, @NonNull GenericTypeIndicator<T> typeIndicator,
             BackpressureStrategy strategy) {
-        return dataChanges(ref)
-                .compose(new TransformerOfGenericTypeIndicator<>(typeIndicator))
-                .toFlowable(strategy);
+        return dataChangesOf(ref, typeIndicator).toFlowable(strategy);
     }
 
     @NonNull
@@ -153,9 +151,7 @@ public final class RxFirebaseDatabase {
     public static <T> Flowable<DataValue<T>> dataChangesOf(
             @NonNull Query query, @NonNull GenericTypeIndicator<T> typeIndicator,
             BackpressureStrategy strategy) {
-        return dataChanges(query)
-                .compose(new TransformerOfGenericTypeIndicator<>(typeIndicator))
-                .toFlowable(strategy);
+        return dataChangesOf(query, typeIndicator).toFlowable(strategy);
     }
 
     @NonNull
