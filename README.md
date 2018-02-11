@@ -30,7 +30,7 @@ Kotlin support module for `firebase-auth`.
 
 ```groovy
 implementation 'com.google.firebase:firebase-auth:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:11.8.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:11.8.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -40,7 +40,7 @@ RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com
 
 ```groovy
 implementation 'com.google.firebase:firebase-database:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database:11.8.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:11.8.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -50,7 +50,7 @@ Kotlin support module for `firebase-database`
 
 ```groovy
 implementation 'com.google.firebase:firebase-database:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:11.8.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:11.8.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
