@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 
-final class SignInWithEmailAndPasswordObservable extends Single<FirebaseUser> {
+final class SignInWithEmailAndPasswordObserver extends Single<FirebaseUser> {
 
     private final FirebaseAuth instance;
 
@@ -20,7 +20,7 @@ final class SignInWithEmailAndPasswordObservable extends Single<FirebaseUser> {
 
     private final String password;
 
-    SignInWithEmailAndPasswordObservable(FirebaseAuth instance, String email, String password) {
+    SignInWithEmailAndPasswordObserver(FirebaseAuth instance, String email, String password) {
         this.instance = instance;
         this.email = email;
         this.password = password;

@@ -20,63 +20,63 @@ public final class RxFirebaseAuth {
     @CheckResult
     @NonNull
     public static Observable<FirebaseAuth> authStateChanges(@NonNull FirebaseAuth instance) {
-        return new AuthStateChangesObservable(instance);
+        return new AuthStateChangesObserver(instance);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> createUserWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
-        return new CreateUserWithEmailAndPasswordObservable(instance, email, password);
+        return new CreateUserWithEmailAndPasswordObserver(instance, email, password);
     }
 
     @CheckResult
     @NonNull
     public static Maybe<List<String>> fetchProvidersForEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return new FetchProvidersForEmailObservable(instance, email);
+        return new FetchProvidersForEmailObserver(instance, email);
     }
 
     @CheckResult
     @NonNull
     public static Maybe<FirebaseUser> getCurrentUser(
             @NonNull final FirebaseAuth instance) {
-        return new GetCurrentUserObservable(instance);
+        return new GetCurrentUserObserver(instance);
     }
 
     @CheckResult
     @NonNull
     public static Completable sendPasswordResetEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return new SendPasswordResetEmailObservable(instance, email);
+        return new SendPasswordResetEmailObserver(instance, email);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInAnonymously(
             @NonNull FirebaseAuth instance) {
-        return new SignInAnonymouslyObservable(instance);
+        return new SignInAnonymouslyObserver(instance);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInWithCredential(
             @NonNull FirebaseAuth instance, @NonNull AuthCredential credential) {
-        return new SignInWithCredentialObservable(instance, credential);
+        return new SignInWithCredentialObserver(instance, credential);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInWithCustomToken(
             @NonNull FirebaseAuth instance, @NonNull String token) {
-        return new SignInWithCustomTokenObservable(instance, token);
+        return new SignInWithCustomTokenObserver(instance, token);
     }
 
     @CheckResult
     @NonNull
     public static Single<FirebaseUser> signInWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
-        return new SignInWithEmailAndPasswordObservable(instance, email, password);
+        return new SignInWithEmailAndPasswordObserver(instance, email, password);
     }
 
     @CheckResult
