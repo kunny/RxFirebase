@@ -10,11 +10,11 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 
 
-final class AuthStateChangesObservable extends Observable<FirebaseAuth> {
+final class AuthStateChangesObserver extends Observable<FirebaseAuth> {
 
     private final FirebaseAuth instance;
 
-    AuthStateChangesObservable(FirebaseAuth instance) {
+    AuthStateChangesObserver(FirebaseAuth instance) {
         this.instance = instance;
     }
 

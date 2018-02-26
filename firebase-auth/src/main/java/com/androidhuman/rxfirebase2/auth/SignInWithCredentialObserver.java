@@ -13,13 +13,13 @@ import android.support.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 
-final class SignInWithCredentialObservable extends Single<FirebaseUser> {
+final class SignInWithCredentialObserver extends Single<FirebaseUser> {
 
     private final FirebaseAuth instance;
 
     private final AuthCredential credential;
 
-    SignInWithCredentialObservable(FirebaseAuth instance, AuthCredential credential) {
+    SignInWithCredentialObserver(FirebaseAuth instance, AuthCredential credential) {
         this.instance = instance;
         this.credential = credential;
     }

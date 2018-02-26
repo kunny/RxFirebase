@@ -12,27 +12,20 @@ import android.support.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 
-class CreateUserWithEmailAndPasswordObservable extends Single<FirebaseUser> {
+final class SignInAnonymouslyObserver extends Single<FirebaseUser> {
 
     private final FirebaseAuth instance;
 
-    private final String email;
-
-    private final String password;
-
-    CreateUserWithEmailAndPasswordObservable(
-            FirebaseAuth instance, String email, String password) {
+    SignInAnonymouslyObserver(FirebaseAuth instance) {
         this.instance = instance;
-        this.email = email;
-        this.password = password;
     }
 
     @Override
-    public void subscribeActual(SingleObserver<? super FirebaseUser> observer) {
+    protected void subscribeActual(SingleObserver<? super FirebaseUser> observer) {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.createUserWithEmailAndPassword(email, password)
+        instance.signInAnonymously()
                 .addOnCompleteListener(listener);
     }
 

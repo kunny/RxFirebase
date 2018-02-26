@@ -15,5 +15,5 @@ abstract class SimpleDisposable : Disposable {
         }
     }
 
-    abstract protected fun onDispose()
+    protected abstract fun onDispose()
 }

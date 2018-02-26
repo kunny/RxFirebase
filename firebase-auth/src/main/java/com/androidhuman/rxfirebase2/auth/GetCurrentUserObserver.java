@@ -6,11 +6,11 @@ import com.google.firebase.auth.FirebaseUser;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 
-final class GetCurrentUserObservable extends Maybe<FirebaseUser> {
+final class GetCurrentUserObserver extends Maybe<FirebaseUser> {
 
     private FirebaseAuth instance;
 
-    GetCurrentUserObservable(FirebaseAuth instance) {
+    GetCurrentUserObserver(FirebaseAuth instance) {
         this.instance = instance;
     }
 

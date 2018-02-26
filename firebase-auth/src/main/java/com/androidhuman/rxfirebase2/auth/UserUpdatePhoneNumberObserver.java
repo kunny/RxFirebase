@@ -1,7 +1,8 @@
 package com.androidhuman.rxfirebase2.auth;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
 
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
@@ -10,15 +11,15 @@ import android.support.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 
-final class SendPasswordResetEmailObservable extends Completable {
+final class UserUpdatePhoneNumberObserver extends Completable {
 
-    private final FirebaseAuth instance;
+    private final FirebaseUser user;
 
-    private final String email;
+    private final PhoneAuthCredential credential;
 
-    SendPasswordResetEmailObservable(FirebaseAuth instance, String email) {
-        this.instance = instance;
-        this.email = email;
+    UserUpdatePhoneNumberObserver(FirebaseUser user, PhoneAuthCredential credential) {
+        this.user = user;
+        this.credential = credential;
     }
 
     @Override
@@ -26,7 +27,7 @@ final class SendPasswordResetEmailObservable extends Completable {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.sendPasswordResetEmail(email)
+        user.updatePhoneNumber(credential)
                 .addOnCompleteListener(listener);
     }
 

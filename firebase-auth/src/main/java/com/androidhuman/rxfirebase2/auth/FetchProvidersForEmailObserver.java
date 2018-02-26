@@ -13,13 +13,13 @@ import java.util.List;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 
-final class FetchProvidersForEmailObservable extends Maybe<List<String>> {
+final class FetchProvidersForEmailObserver extends Maybe<List<String>> {
 
     private final FirebaseAuth instance;
 
     private final String email;
 
-    FetchProvidersForEmailObservable(FirebaseAuth instance, String email) {
+    FetchProvidersForEmailObserver(FirebaseAuth instance, String email) {
         this.instance = instance;
         this.email = email;
     }

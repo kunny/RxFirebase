@@ -1,5 +1,18 @@
 # Change Log
 
+## Version 11.8.0.1 *(2018/02/26)*
+
+Built and tested with:
+- Firebase Android SDK 11.8.0
+- Kotlin 1.2.21
+
+Added:
+- `RxFirebaseUser.updatePhoneNumber()`
+
+New bindings:
+- `RxPhoneAuthProvider` for `PhoneAuthProvider`
+
+
 ## Version 11.8.0.0 *(2018/01/18)*
 
 Built and tested with:

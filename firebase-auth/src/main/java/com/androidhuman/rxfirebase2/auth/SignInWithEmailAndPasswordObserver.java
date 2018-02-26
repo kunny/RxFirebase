@@ -12,15 +12,18 @@ import android.support.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 
-final class SignInWithCustomTokenObservable extends Single<FirebaseUser> {
+final class SignInWithEmailAndPasswordObserver extends Single<FirebaseUser> {
 
     private final FirebaseAuth instance;
 
-    private final String token;
+    private final String email;
 
-    SignInWithCustomTokenObservable(FirebaseAuth instance, String token) {
+    private final String password;
+
+    SignInWithEmailAndPasswordObserver(FirebaseAuth instance, String email, String password) {
         this.instance = instance;
-        this.token = token;
+        this.email = email;
+        this.password = password;
     }
 
     @Override
@@ -28,7 +31,7 @@ final class SignInWithCustomTokenObservable extends Single<FirebaseUser> {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.signInWithCustomToken(token)
+        instance.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(listener);
     }
 
