@@ -1,2 +1,8 @@
 codecov:
   branch: rxjava2
+
+coverage:
+  status:
+    default:
+      enabled: yes
+      target: 85%
