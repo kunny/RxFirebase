@@ -4,6 +4,7 @@ package com.androidhuman.rxfirebase2.auth
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.UserProfileChangeRequest
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -17,7 +18,7 @@ inline fun FirebaseUser.rxDelete()
         message = "Use rxGetIdToken(forceRefresh) instead.",
         replaceWith = ReplaceWith(
                 expression = "rxGetIdToken(forceRefresh)",
-                imports = *arrayOf("com.androidhuman.rxfirebase2.auth")))
+                imports = ["com.androidhuman.rxfirebase2.auth"]))
 inline fun FirebaseUser.rxGetToken(forceRefresh: Boolean)
         : Single<String>
         = RxFirebaseUser.getToken(this, forceRefresh)
@@ -53,6 +54,10 @@ inline fun FirebaseUser.rxUpdateEmail(email: String)
 inline fun FirebaseUser.rxUpdatePassword(password: String)
         : Completable
         = RxFirebaseUser.updatePassword(this, password)
+
+inline fun FirebaseUser.rxUpdatePhoneNumber(credential: PhoneAuthCredential)
+        : Completable
+        = RxFirebaseUser.updatePhoneNumber(this, credential)
 
 inline fun FirebaseUser.rxUpdateProfile(request: UserProfileChangeRequest)
         : Completable

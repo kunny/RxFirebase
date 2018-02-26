@@ -2,6 +2,7 @@ package com.androidhuman.rxfirebase2.auth;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import android.support.annotation.CheckResult;
@@ -80,6 +81,13 @@ public final class RxFirebaseUser {
     public static Completable updatePassword(
             @NonNull FirebaseUser user, @NonNull String password) {
         return new UserUpdatePasswordObserver(user, password);
+    }
+
+    @CheckResult
+    @NonNull
+    public static Completable updatePhoneNumber(
+            @NonNull FirebaseUser user, @NonNull PhoneAuthCredential credential) {
+        return new UserUpdatePhoneNumberObserver(user, credential);
     }
 
     @CheckResult
