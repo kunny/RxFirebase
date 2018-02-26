@@ -6,6 +6,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
+import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
@@ -579,6 +580,63 @@ class RxFirebaseUserTest {
             // verify updatePassword() has called
             verify(firebaseUser, times(1))
                     .updatePassword("password")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onVoidCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun updatePhoneNumber() {
+        val task = succeedVoidTask()
+        val credential = mock<PhoneAuthCredential>()
+
+        whenever(firebaseUser.updatePhoneNumber(credential))
+                .thenReturn(task)
+
+        with(TestObserver.create<Any>()) {
+            RxFirebaseUser.updatePhoneNumber(firebaseUser, credential)
+                    .subscribe(this)
+
+            // verify updatePhoneNumber() has called
+            verify(firebaseUser, times(1))
+                    .updatePhoneNumber(credential)
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onVoidCompleteListener.lastValue.onComplete(task)
+
+            assertNoErrors()
+            assertComplete()
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun updatePhoneNumberNotSuccessful() {
+        val task = failedTask<Void>(IllegalStateException())
+        val credential = mock<PhoneAuthCredential>()
+
+        whenever(firebaseUser.updatePhoneNumber(credential))
+                .thenReturn(task)
+
+        with(TestObserver.create<Any>()) {
+            RxFirebaseUser.updatePhoneNumber(firebaseUser, credential)
+                    .subscribe(this)
+
+            // verify updatePhoneNumber() has called
+            verify(firebaseUser, times(1))
+                    .updatePhoneNumber(credential)
 
             // verify addOnCompleteListener() has called
             task.verifyAddOnCompleteListenerCalled()
