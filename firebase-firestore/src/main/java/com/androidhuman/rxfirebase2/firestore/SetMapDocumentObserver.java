@@ -2,7 +2,7 @@ package com.androidhuman.rxfirebase2.firestore;
 
 import android.support.annotation.NonNull;
 
-import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
+import com.androidhuman.rxfirebase2.firestore.core.OnCompleteDisposable;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 

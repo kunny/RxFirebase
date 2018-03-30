@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 
-import com.androidhuman.rxfirebase2.core.SimpleDisposable;
+import com.androidhuman.rxfirebase2.database.core.SimpleDisposable;
 
 import android.support.annotation.NonNull;
 
