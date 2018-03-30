@@ -2,7 +2,7 @@ package com.androidhuman.rxfirebase2.firestore;
 
 import android.support.annotation.NonNull;
 
-import com.androidhuman.rxfirebase2.firestore.stuff.SimpleDisposable;
+import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
