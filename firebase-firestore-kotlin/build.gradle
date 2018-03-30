@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    dexOptions {
+        preDexLibraries = !rootProject.ext.ci
+    }
+
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':firebase-firestore')
+
+    compileOnly "com.google.firebase:firebase-firestore:${firebaseVersion}"
+    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
