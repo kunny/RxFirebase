@@ -24,7 +24,7 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
 
     buildTypes {
@@ -36,11 +36,21 @@ android {
 }
 
 dependencies {
-    implementation project(':firebase-firestore')
+    implementation project(":firebase-core")
 
-    compileOnly "com.google.firebase:firebase-firestore:${firebaseFirestore}"
+    compileOnly "com.google.auto.value:auto-value:${autoValueVersion}"
+    compileOnly "com.google.firebase:firebase-storage:${firebaseStorage}"
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+
+    annotationProcessor "com.google.auto.value:auto-value:${autoValueVersion}"
+
+    testImplementation "com.google.firebase:firebase-storage:${firebaseStorage}"
+    testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
+    testImplementation "junit:junit:${junitVersion}"
+    testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-local.gradle')

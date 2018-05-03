@@ -36,9 +36,9 @@ android {
 }
 
 dependencies {
-    implementation project(':firebase-firestore')
+    implementation project(':firebase-storage')
 
-    compileOnly "com.google.firebase:firebase-firestore:${firebaseFirestore}"
+    compileOnly "com.google.firebase:firebase-storage:${firebaseStorage}"
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
 }
