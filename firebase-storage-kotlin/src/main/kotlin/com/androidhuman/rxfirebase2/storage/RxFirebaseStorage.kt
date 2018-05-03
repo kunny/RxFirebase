@@ -7,5 +7,9 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import io.reactivex.Single
 
-inline fun StorageReference.rxPutFIle(uri: Uri)
+inline fun StorageReference.rxPutFile(uri: Uri)
         : Single<UploadTask.TaskSnapshot> = RxFirebaseStorage.putDocument(this, uri)
+
+inline fun StorageReference.rxDownloadUrl()
+        : Single<Uri> = RxFirebaseStorage.downloadUrl(this)
+

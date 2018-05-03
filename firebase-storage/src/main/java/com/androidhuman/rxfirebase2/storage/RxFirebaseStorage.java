@@ -20,4 +20,10 @@ public final class RxFirebaseStorage {
     public static Single<UploadTask.TaskSnapshot> putDocument(@NonNull StorageReference ref, @NonNull Uri uri) {
         return new PutFileObserver(ref, uri);
     }
+
+    @NonNull
+    @CheckResult
+    public static Single<Uri> downloadUrl(@NonNull StorageReference ref) {
+        return new DownloadUrlObserver(ref);
+    }
 }
