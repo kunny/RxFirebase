@@ -3,7 +3,7 @@ package com.androidhuman.rxfirebase2.auth;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
+import com.androidhuman.rxfirebase2.auth.core.OnCompleteDisposable;
 
 import android.support.annotation.NonNull;
 

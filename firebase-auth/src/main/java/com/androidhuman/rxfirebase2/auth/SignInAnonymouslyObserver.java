@@ -5,7 +5,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
+import com.androidhuman.rxfirebase2.auth.core.OnCompleteDisposable;
 
 import android.support.annotation.NonNull;
 

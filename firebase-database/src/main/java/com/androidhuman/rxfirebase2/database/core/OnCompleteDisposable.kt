@@ -1,4 +1,4 @@
-package com.androidhuman.rxfirebase2.core
+package com.androidhuman.rxfirebase2.database.core
 
 import com.google.android.gms.tasks.OnCompleteListener
 

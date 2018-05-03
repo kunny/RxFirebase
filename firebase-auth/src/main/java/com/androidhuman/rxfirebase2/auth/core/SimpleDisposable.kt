@@ -1,4 +1,4 @@
-package com.androidhuman.rxfirebase2.core
+package com.androidhuman.rxfirebase2.auth.core
 
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.atomic.AtomicBoolean
