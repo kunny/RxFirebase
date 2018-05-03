@@ -2,7 +2,7 @@ package com.androidhuman.rxfirebase2.auth;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.androidhuman.rxfirebase2.core.SimpleDisposable;
+import com.androidhuman.rxfirebase2.auth.core.SimpleDisposable;
 
 import android.support.annotation.NonNull;
 

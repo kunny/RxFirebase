@@ -3,7 +3,7 @@ package com.androidhuman.rxfirebase2.database;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
-import com.androidhuman.rxfirebase2.core.SimpleDisposable;
+import com.androidhuman.rxfirebase2.database.core.SimpleDisposable;
 
 import android.support.annotation.NonNull;
 
