@@ -1,12 +1,12 @@
 package com.androidhuman.rxfirebase2.auth;
 
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
+
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
-
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -14,19 +14,14 @@ import io.reactivex.Single;
 
 public final class RxFirebaseUser {
 
+    private RxFirebaseUser() {
+        throw new AssertionError("No instances");
+    }
+
     @CheckResult
     @NonNull
     public static Completable delete(@NonNull FirebaseUser user) {
         return new UserDeleteObserver(user);
-    }
-
-    @Deprecated
-    @CheckResult
-    @NonNull
-    public static Single<String> getToken(
-            @NonNull FirebaseUser user, boolean forceRefresh) {
-        //noinspection deprecation
-        return new UserGetTokenObserver(user, forceRefresh);
     }
 
     @CheckResult
@@ -95,9 +90,5 @@ public final class RxFirebaseUser {
     public static Completable updateProfile(
             @NonNull FirebaseUser user, @NonNull UserProfileChangeRequest request) {
         return new UserUpdateProfileObserver(user, request);
-    }
-
-    private RxFirebaseUser() {
-        throw new AssertionError("No instances");
     }
 }

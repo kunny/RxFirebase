@@ -145,11 +145,11 @@ class RxFirebaseAuthTest {
                 .thenReturn(task)
 
         with(TestObserver.create<List<String>>()) {
-            RxFirebaseAuth.fetchProvidersForEmail(
+            RxFirebaseAuth.fetchSignInMethodsForEmail(
                     firebaseAuth, "foo@bar.com")
                     .subscribe(this)
 
-            // verify fetchProvidersForEmail() has called
+            // verify fetchSignInMethodsForEmail() has called
             verify(firebaseAuth, times(1))
                     .fetchProvidersForEmail("foo@bar.com")
 
@@ -181,11 +181,11 @@ class RxFirebaseAuthTest {
                 .thenReturn(task)
 
         with(TestObserver.create<List<String>>()) {
-            RxFirebaseAuth.fetchProvidersForEmail(
+            RxFirebaseAuth.fetchSignInMethodsForEmail(
                     firebaseAuth, "foo@bar.com")
                     .subscribe(this)
 
-            // verify fetchProvidersForEmail() has called
+            // verify fetchSignInMethodsForEmail() has called
             verify(firebaseAuth, times(1))
                     .fetchProvidersForEmail("foo@bar.com")
 
@@ -210,11 +210,11 @@ class RxFirebaseAuthTest {
                 .thenReturn(task)
 
         with(TestObserver.create<List<String>>()) {
-            RxFirebaseAuth.fetchProvidersForEmail(
+            RxFirebaseAuth.fetchSignInMethodsForEmail(
                     firebaseAuth, "foo@bar.com")
                     .subscribe(this)
 
-            // verify fetchProvidersForEmail() has called
+            // verify fetchSignInMethodsForEmail() has called
             verify(firebaseAuth, times(1))
                     .fetchProvidersForEmail("foo@bar.com")
 

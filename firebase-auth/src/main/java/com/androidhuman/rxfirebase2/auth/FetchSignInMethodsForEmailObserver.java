@@ -1,25 +1,24 @@
 package com.androidhuman.rxfirebase2.auth;
 
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.ProviderQueryResult;
+import android.support.annotation.NonNull;
 
 import com.androidhuman.rxfirebase2.auth.core.OnCompleteDisposable;
-
-import android.support.annotation.NonNull;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 import java.util.List;
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 
-final class FetchProvidersForEmailObserver extends Maybe<List<String>> {
+final class FetchSignInMethodsForEmailObserver extends Maybe<List<String>> {
 
     private final FirebaseAuth instance;
 
     private final String email;
 
-    FetchProvidersForEmailObserver(FirebaseAuth instance, String email) {
+    FetchSignInMethodsForEmailObserver(FirebaseAuth instance, String email) {
         this.instance = instance;
         this.email = email;
     }
@@ -29,11 +28,11 @@ final class FetchProvidersForEmailObserver extends Maybe<List<String>> {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.fetchProvidersForEmail(email)
+        instance.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<ProviderQueryResult> {
+    static final class Listener extends OnCompleteDisposable<SignInMethodQueryResult> {
 
         private final MaybeObserver<? super List<String>> observer;
 
@@ -42,12 +41,12 @@ final class FetchProvidersForEmailObserver extends Maybe<List<String>> {
         }
 
         @Override
-        public void onComplete(@NonNull Task<ProviderQueryResult> task) {
+        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
             if (!isDisposed()) {
                 if (!task.isSuccessful()) {
                     observer.onError(task.getException());
                 } else {
-                    List<String> providers = task.getResult().getProviders();
+                    List<String> providers = task.getResult().getSignInMethods();
                     if (null != providers) {
                         observer.onSuccess(providers);
                     } else {

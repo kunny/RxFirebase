@@ -10,13 +10,12 @@ ext {
     rxJavaVersion = '2.1.12'
 
 
-    firebaseCore = "15.0.2"
-    firebaseAuth = "15.1.0"
-    firebaseFirestore = "16.0.0"
-    firebaseMessaging = "15.0.2"
-    firebaseStorage = "15.0.2"
-    firebasePerf = "15.1.0"
-    firebaseRealtime = "15.0.0"
+    firebaseCore = "16.0.0"
+    firebaseAuth = "16.0.1"
+    firebaseFirestore = "17.0.1"
+    firebaseStorage = "16.0.1"
+    firebasePerf = "16.0.0"
+    firebaseRealtime = "16.0.1"
 
     // Build plugins
 

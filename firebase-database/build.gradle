@@ -38,11 +38,12 @@ android {
 dependencies {
     implementation project(":firebase-core")
 
-    compileOnly "com.google.auto.value:auto-value:${autoValueVersion}"
+    implementation "com.google.auto.value:auto-value-annotations:${autoValueVersion}"
+    annotationProcessor "com.google.auto.value:auto-value:${autoValueVersion}"
+
     compileOnly "com.google.firebase:firebase-database:${firebaseRealtime}"
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
 
-    annotationProcessor "com.google.auto.value:auto-value:${autoValueVersion}"
 
     testImplementation "com.google.firebase:firebase-database:${firebaseRealtime}"
     testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"

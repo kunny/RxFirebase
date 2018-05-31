@@ -1,11 +1,11 @@
 package com.androidhuman.rxfirebase2.auth;
 
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
+
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -16,6 +16,10 @@ import io.reactivex.Single;
 
 
 public final class RxFirebaseAuth {
+
+    private RxFirebaseAuth() {
+        throw new AssertionError("No instances");
+    }
 
     @CheckResult
     @NonNull
@@ -32,9 +36,9 @@ public final class RxFirebaseAuth {
 
     @CheckResult
     @NonNull
-    public static Maybe<List<String>> fetchProvidersForEmail(
+    public static Maybe<List<String>> fetchSignInMethodsForEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
-        return new FetchProvidersForEmailObserver(instance, email);
+        return new FetchSignInMethodsForEmailObserver(instance, email);
     }
 
     @CheckResult
@@ -83,9 +87,5 @@ public final class RxFirebaseAuth {
     @NonNull
     public static Completable signOut(@NonNull FirebaseAuth instance) {
         return new SignOutObserver(instance);
-    }
-
-    private RxFirebaseAuth() {
-        throw new AssertionError("No instances");
     }
 }
