@@ -1,5 +1,14 @@
 # Change Log
 
+## Version 12.0.0.0 *(2018/06/06)*
+
+Built and tested with:
+- Firebase Android SDK 12.0.0
+- Kotlin 1.2.41
+
+Added:
+- `RxFirebaseAuth.signInWithEmailLink()`
+
 ## Version 11.8.0.1 *(2018/02/26)*
 
 Built and tested with:

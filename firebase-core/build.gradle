@@ -37,11 +37,11 @@ android {
 }
 
 dependencies {
-    compileOnly "com.google.firebase:firebase-core:${firebaseVersion}"
+    compileOnly "com.google.firebase:firebase-core:${firebaseCoreVersion}"
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
 
-    testImplementation "com.google.firebase:firebase-core:${firebaseVersion}"
+    testImplementation "com.google.firebase:firebase-core:${firebaseCoreVersion}"
     testImplementation "junit:junit:${junitVersion}"
     testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     testImplementation "org.assertj:assertj-core:${assertjVersion}"

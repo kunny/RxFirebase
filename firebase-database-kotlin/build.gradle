@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation project(':firebase-database')
 
-    compileOnly "com.google.firebase:firebase-database:${firebaseVersion}"
+    compileOnly "com.google.firebase:firebase-database:${firebaseDatabaseVersion}"
     compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
 }

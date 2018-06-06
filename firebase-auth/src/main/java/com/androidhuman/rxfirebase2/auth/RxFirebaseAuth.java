@@ -1,6 +1,7 @@
 package com.androidhuman.rxfirebase2.auth;
 
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -77,6 +78,13 @@ public final class RxFirebaseAuth {
     public static Single<FirebaseUser> signInWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
         return new SignInWithEmailAndPasswordObserver(instance, email, password);
+    }
+
+    @CheckResult
+    @NonNull
+    public static Single<AuthResult> signInWithEmailLink(
+            @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String emailLink) {
+        return new SignInWithEmailLinkObserver(instance, email, emailLink);
     }
 
     @CheckResult

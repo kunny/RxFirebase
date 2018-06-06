@@ -3,6 +3,7 @@
 package com.androidhuman.rxfirebase2.auth
 
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import io.reactivex.Completable
@@ -45,6 +46,10 @@ inline fun FirebaseAuth.rxSignInWithCustomToken(token: String)
 inline fun FirebaseAuth.rxSignInWithEmailAndPassword(email: String, password: String)
         : Single<FirebaseUser>
         = RxFirebaseAuth.signInWithEmailAndPassword(this, email, password)
+
+inline fun FirebaseAuth.rxSignInWithEmailLink(email: String, emailLink: String)
+        : Single<AuthResult>
+        = RxFirebaseAuth.signInWithEmailLink(this, email, emailLink)
 
 inline fun FirebaseAuth.rxSignOut()
         : Completable

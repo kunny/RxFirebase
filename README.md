@@ -6,12 +6,6 @@
 
 RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
-## RxJava Version
-
-Built and tested with RxJava `2.1.8`.
-
-[RxJava1 compatible version](https://github.com/kunny/RxFirebase/tree/rxjava1) is no longer supported.
-
 ## Modules
 
 ### firebase-auth
@@ -19,8 +13,8 @@ Built and tested with RxJava `2.1.8`.
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-implementation 'com.google.firebase:firebase-auth:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:11.8.0.1'
+implementation 'com.google.firebase:firebase-auth:12.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:12.0.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -29,8 +23,8 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-implementation 'com.google.firebase:firebase-auth:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:11.8.0.1'
+implementation 'com.google.firebase:firebase-auth:12.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:12.0.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -39,8 +33,8 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-implementation 'com.google.firebase:firebase-database:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database:11.8.0.1'
+implementation 'com.google.firebase:firebase-database:12.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:12.0.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -49,8 +43,8 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 Kotlin support module for `firebase-database`
 
 ```groovy
-implementation 'com.google.firebase:firebase-database:11.8.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:11.8.0.1'
+implementation 'com.google.firebase:firebase-database:12.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:12.0.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -108,7 +102,7 @@ Currently no snapshot version is available.
 ## License
 
 ```
-Copyright 2016-2017 Taeho Kim <jyte82@gmail.com>
+Copyright 2016-2018 Taeho Kim <jyte82@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

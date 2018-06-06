@@ -25,17 +25,13 @@ class RxFirebaseAuthTest {
     @Mock
     private lateinit var firebaseAuth: FirebaseAuth
 
-    private val authStateListener
-            = argumentCaptor<FirebaseAuth.AuthStateListener>()
+    private val authStateListener = argumentCaptor<FirebaseAuth.AuthStateListener>()
 
-    private val onAuthResultCompleteListener
-            = argumentCaptor<OnCompleteListener<AuthResult>>()
+    private val onAuthResultCompleteListener = argumentCaptor<OnCompleteListener<AuthResult>>()
 
-    private val onProviderQueryResultCompleteListener
-            = argumentCaptor<OnCompleteListener<ProviderQueryResult>>()
+    private val onProviderQueryResultCompleteListener = argumentCaptor<OnCompleteListener<ProviderQueryResult>>()
 
-    private val onVoidCompleteListener
-            = argumentCaptor<OnCompleteListener<Void>>()
+    private val onVoidCompleteListener = argumentCaptor<OnCompleteListener<Void>>()
 
     @Before
     fun setup() {
@@ -542,6 +538,60 @@ class RxFirebaseAuthTest {
             // verify signInWithEmailAndPassword() has called
             verify(firebaseAuth, times(1))
                     .signInWithEmailAndPassword("foo@bar.com", "password")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun signInWithEmailLink() {
+        val task = succeedAuthResultTask("foo@bar.com")
+
+        whenever(firebaseAuth.signInWithEmailLink("foo@bar.com", "email_link"))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithEmailLink(firebaseAuth, "foo@bar.com", "email_link")
+                    .subscribe(this)
+
+            // verify signInWithEmailAndPassword() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithEmailLink("foo@bar.com", "email_link")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertValue { "foo@bar.com" == it.user.email }
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun signInWithEmailLinkNotSuccessful() {
+        val task = failedTask<AuthResult>(IllegalStateException())
+
+        whenever(firebaseAuth.signInWithEmailLink("foo@bar.com", "email_link"))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithEmailLink(firebaseAuth, "foo@bar.com", "email_link")
+                    .subscribe(this)
+
+            // verify signInWithEmailAndPassword() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithEmailLink("foo@bar.com", "email_link")
 
             // verify addOnCompleteListener() has called
             task.verifyAddOnCompleteListenerCalled()
