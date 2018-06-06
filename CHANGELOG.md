@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 15.0.0.0 *(2018/06/06)*
+
+Built and tested with:
+- Firebase Android SDK 15.0.0
+- Kotlin 1.2.41
+
 ## Version 12.0.1.0 *(2018/06/06)*
 
 Built and tested with:

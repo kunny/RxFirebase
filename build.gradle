@@ -10,6 +10,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:${androidPluginVersion}"
+        classpath "com.google.android.gms:strict-version-matcher-plugin:${versionMatcherPluginVersion}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
     }
 }
