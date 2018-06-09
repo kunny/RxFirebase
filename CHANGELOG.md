@@ -1,5 +1,17 @@
 # Change Log
 
+## RxFirebase-Auth Version 15.1.0.0 *(2018/06/09)*
+
+Built and tested with:
+- Firebase Authentication Android SDK 15.1.0
+- Kotlin 1.2.41
+
+Added:
+- `RxFirebaseAuth.fetchSignInMethodsForEmail()`
+
+Deprecated:
+- `RxFirebaseAuth.fetchProvidersForEmail()`
+
 ## Version 15.0.0.0 *(2018/06/06)*
 
 Built and tested with:

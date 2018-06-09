@@ -31,11 +31,19 @@ public final class RxFirebaseAuth {
         return new CreateUserWithEmailAndPasswordObserver(instance, email, password);
     }
 
+    @Deprecated
     @CheckResult
     @NonNull
     public static Maybe<List<String>> fetchProvidersForEmail(
             @NonNull FirebaseAuth instance, @NonNull String email) {
         return new FetchProvidersForEmailObserver(instance, email);
+    }
+
+    @CheckResult
+    @NonNull
+    public static Maybe<List<String>> fetchSignInMethodsForEmail(
+            @NonNull FirebaseAuth instance, @NonNull String email) {
+        return new FetchSignInMethodsForEmailObserver(instance, email);
     }
 
     @CheckResult
@@ -91,6 +99,13 @@ public final class RxFirebaseAuth {
     @NonNull
     public static Completable signOut(@NonNull FirebaseAuth instance) {
         return new SignOutObserver(instance);
+    }
+
+    @CheckResult
+    @NonNull
+    public static Completable updateCurrentUser(
+            @NonNull FirebaseAuth instance, @NonNull FirebaseUser user) {
+        return new UpdateCurrentUserObserver(instance, user);
     }
 
     private RxFirebaseAuth() {

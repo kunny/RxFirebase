@@ -1,7 +1,6 @@
 # RxFirebase
 [![CircleCI](https://circleci.com/gh/kunny/RxFirebase.svg?style=shield)](https://circleci.com/gh/kunny/RxFirebase)
 [![codecov](https://codecov.io/gh/kunny/RxFirebase/branch/master/graph/badge.svg)](https://codecov.io/gh/kunny/RxFirebase)
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth/badge.svg)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxFirebase-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/4496)
 
 RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
@@ -13,8 +12,8 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
 ```groovy
-implementation 'com.google.firebase:firebase-auth:15.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:15.0.0.0'
+implementation 'com.google.firebase:firebase-auth:15.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:15.1.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -23,8 +22,8 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-implementation 'com.google.firebase:firebase-auth:15.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:15.0.0.0'
+implementation 'com.google.firebase:firebase-auth:15.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:15.1.0.0'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
