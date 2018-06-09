@@ -11,8 +11,8 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "dependencies.gradle" }}
       - run:
-          name: Install Build tools 27.0.2
-          command: sdkmanager "build-tools;27.0.2"
+          name: Install Build tools 27.0.3
+          command: sdkmanager "build-tools;27.0.3"
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
