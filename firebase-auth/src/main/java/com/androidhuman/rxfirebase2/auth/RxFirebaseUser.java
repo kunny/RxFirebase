@@ -20,15 +20,6 @@ public final class RxFirebaseUser {
         return new UserDeleteObserver(user);
     }
 
-    @Deprecated
-    @CheckResult
-    @NonNull
-    public static Single<String> getToken(
-            @NonNull FirebaseUser user, boolean forceRefresh) {
-        //noinspection deprecation
-        return new UserGetTokenObserver(user, forceRefresh);
-    }
-
     @CheckResult
     @NonNull
     public static Single<String> getIdToken(

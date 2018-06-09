@@ -13,16 +13,6 @@ inline fun FirebaseUser.rxDelete()
         : Completable
         = RxFirebaseUser.delete(this)
 
-@Suppress("DEPRECATION")
-@Deprecated(
-        message = "Use rxGetIdToken(forceRefresh) instead.",
-        replaceWith = ReplaceWith(
-                expression = "rxGetIdToken(forceRefresh)",
-                imports = ["com.androidhuman.rxfirebase2.auth"]))
-inline fun FirebaseUser.rxGetToken(forceRefresh: Boolean)
-        : Single<String>
-        = RxFirebaseUser.getToken(this, forceRefresh)
-
 inline fun FirebaseUser.rxGetIdToken(forceRefresh: Boolean)
         : Single<String>
         = RxFirebaseUser.getIdToken(this, forceRefresh)
