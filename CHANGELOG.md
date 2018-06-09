@@ -1,5 +1,20 @@
 # Change Log
 
+## RxFirebase-Auth Version 16.0.1.0 *(2018/06/09)*
+
+Built and tested with:
+- Firebase Authentication Android SDK 16.0.1
+- Kotlin 1.2.41
+
+Removed:
+- `RxFirebaseUser.getToken()`
+
+## RxFirebase-Database Version 16.0.1.0 *(2018/06/09)*
+
+Built and tested with:
+- Firebase Realtime Database Android SDK 16.0.1
+- Kotlin 1.2.41
+
 ## RxFirebase-Auth Version 15.1.0.0 *(2018/06/09)*
 
 Built and tested with:

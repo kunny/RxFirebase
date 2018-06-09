@@ -25,14 +25,11 @@ class RxFirebaseUserTest {
     @Mock
     private lateinit var firebaseUser: FirebaseUser
 
-    private val onAuthResultCompleteListener
-            = argumentCaptor<OnCompleteListener<AuthResult>>()
+    private val onAuthResultCompleteListener = argumentCaptor<OnCompleteListener<AuthResult>>()
 
-    private val onGetTokenResultCompleteListener
-            = argumentCaptor<OnCompleteListener<GetTokenResult>>()
+    private val onGetTokenResultCompleteListener = argumentCaptor<OnCompleteListener<GetTokenResult>>()
 
-    private val onVoidCompleteListener
-            = argumentCaptor<OnCompleteListener<Void>>()
+    private val onVoidCompleteListener = argumentCaptor<OnCompleteListener<Void>>()
 
     @Before
     fun setup() {
@@ -87,61 +84,6 @@ class RxFirebaseUserTest {
 
             // simulate the callback
             onVoidCompleteListener.lastValue.onComplete(task)
-
-            assertError(IllegalStateException::class.java)
-
-            dispose()
-        }
-    }
-
-    @Test
-    fun getToken() {
-        val task = succeedGetTokenResultTask("token")
-
-        whenever(firebaseUser.getToken(true))
-                .thenReturn(task)
-
-        with(TestObserver.create<String>()) {
-            RxFirebaseUser.getToken(firebaseUser, true)
-                    .subscribe(this)
-
-            // verify delete() has called
-            verify(firebaseUser, times(1))
-                    .getToken(true)
-
-            // verify addOnCompleteListener() has called
-            task.verifyAddOnCompleteListenerCalled()
-
-            // simulate the callback
-            onGetTokenResultCompleteListener.lastValue.onComplete(task)
-
-            assertNoErrors()
-            assertComplete()
-
-            dispose()
-        }
-    }
-
-    @Test
-    fun getTokenNotSuccessful() {
-        val task = failedTask<GetTokenResult>(IllegalStateException())
-
-        whenever(firebaseUser.getToken(true))
-                .thenReturn(task)
-
-        with(TestObserver.create<String>()) {
-            RxFirebaseUser.getToken(firebaseUser, true)
-                    .subscribe(this)
-
-            // verify delete() has called
-            verify(firebaseUser, times(1))
-                    .getToken(true)
-
-            // verify addOnCompleteListener() has called
-            task.verifyAddOnCompleteListenerCalled()
-
-            // simulate the callback
-            onGetTokenResultCompleteListener.lastValue.onComplete(task)
 
             assertError(IllegalStateException::class.java)
 
