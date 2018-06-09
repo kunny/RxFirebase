@@ -19,9 +19,14 @@ inline fun FirebaseAuth.rxCreateUserWithEmailAndPassword(email: String, password
         : Single<FirebaseUser>
         = RxFirebaseAuth.createUserWithEmailAndPassword(this, email, password)
 
+@Deprecated(message = "Use rxFetchSignMethodsForEmail() instead.")
 inline fun FirebaseAuth.rxFetchProvidersForEmail(email: String)
         : Maybe<List<String>>
         = RxFirebaseAuth.fetchProvidersForEmail(this, email)
+
+inline fun FirebaseAuth.rxFetchSignInMethodsForEmail(email: String)
+        : Maybe<List<String>>
+        = RxFirebaseAuth.fetchSignInMethodsForEmail(this, email)
 
 inline fun FirebaseAuth.rxGetCurrentUser()
         : Maybe<FirebaseUser>
@@ -50,6 +55,10 @@ inline fun FirebaseAuth.rxSignInWithEmailAndPassword(email: String, password: St
 inline fun FirebaseAuth.rxSignInWithEmailLink(email: String, emailLink: String)
         : Single<AuthResult>
         = RxFirebaseAuth.signInWithEmailLink(this, email, emailLink)
+
+inline fun FirebaseAuth.rxUpdateCurrentUser(user: FirebaseUser)
+        : Completable
+        = RxFirebaseAuth.updateCurrentUser(this, user)
 
 inline fun FirebaseAuth.rxSignOut()
         : Completable

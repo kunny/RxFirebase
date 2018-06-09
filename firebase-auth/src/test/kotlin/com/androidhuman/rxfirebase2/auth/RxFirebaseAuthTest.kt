@@ -1,5 +1,6 @@
 package com.androidhuman.rxfirebase2.auth
 
+import com.google.android.gms.signin.SignIn
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
@@ -7,6 +8,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ProviderQueryResult
+import com.google.firebase.auth.SignInMethodQueryResult
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
@@ -30,6 +32,8 @@ class RxFirebaseAuthTest {
     private val onAuthResultCompleteListener = argumentCaptor<OnCompleteListener<AuthResult>>()
 
     private val onProviderQueryResultCompleteListener = argumentCaptor<OnCompleteListener<ProviderQueryResult>>()
+
+    private val onSignInMethodQueryResultCompleteListener = argumentCaptor<OnCompleteListener<SignInMethodQueryResult>>()
 
     private val onVoidCompleteListener = argumentCaptor<OnCompleteListener<Void>>()
 
@@ -226,6 +230,105 @@ class RxFirebaseAuthTest {
 
             // simulate the callback
             onProviderQueryResultCompleteListener.lastValue.onComplete(task)
+
+            // assert no values are emitted
+            assertNoValues()
+        }
+    }
+
+    @Test
+    fun fetchSignInMethodsForEmail() {
+        val task = succeedSignInMethodsResultTask(listOf("pro", "vid", "ers"))
+
+        whenever(firebaseAuth.fetchSignInMethodsForEmail("foo@bar.com"))
+                .thenReturn(task)
+
+        with(TestObserver.create<List<String>>()) {
+            RxFirebaseAuth.fetchSignInMethodsForEmail(
+                    firebaseAuth, "foo@bar.com")
+                    .subscribe(this)
+
+            // verify fetchProvidersForEmail() has called
+            verify(firebaseAuth, times(1))
+                    .fetchSignInMethodsForEmail("foo@bar.com")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onSignInMethodQueryResultCompleteListener.lastValue.onComplete(task)
+
+            assertThat(values().first())
+                    .contains("pro", "vid", "ers")
+            assertComplete()
+
+            dispose()
+
+            // simulate the callback
+            onSignInMethodQueryResultCompleteListener.lastValue.onComplete(task)
+
+            // assert no values are emitted
+            assertValueCount(1)
+        }
+    }
+
+    @Test
+    fun testSignInMethodsForEmailNullProviders() {
+        val task = succeedSignInMethodsResultTask(null)
+
+        whenever(firebaseAuth.fetchSignInMethodsForEmail("foo@bar.com"))
+                .thenReturn(task)
+
+        with(TestObserver.create<List<String>>()) {
+            RxFirebaseAuth.fetchSignInMethodsForEmail(
+                    firebaseAuth, "foo@bar.com")
+                    .subscribe(this)
+
+            // verify fetchProvidersForEmail() has called
+            verify(firebaseAuth, times(1))
+                    .fetchSignInMethodsForEmail("foo@bar.com")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onSignInMethodQueryResultCompleteListener.lastValue.onComplete(task)
+
+            assertNoValues()
+            assertComplete()
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun fetchSignInMethodsForEmailNotSuccessful() {
+        val task = failedTask<SignInMethodQueryResult>(IllegalStateException())
+
+        whenever(firebaseAuth.fetchSignInMethodsForEmail("foo@bar.com"))
+                .thenReturn(task)
+
+        with(TestObserver.create<List<String>>()) {
+            RxFirebaseAuth.fetchSignInMethodsForEmail(
+                    firebaseAuth, "foo@bar.com")
+                    .subscribe(this)
+
+            // verify fetchProvidersForEmail() has called
+            verify(firebaseAuth, times(1))
+                    .fetchSignInMethodsForEmail("foo@bar.com")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onSignInMethodQueryResultCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+
+            // simulate the callback
+            onSignInMethodQueryResultCompleteListener.lastValue.onComplete(task)
 
             // assert no values are emitted
             assertNoValues()
@@ -621,6 +724,62 @@ class RxFirebaseAuthTest {
         }
     }
 
+    @Test
+    fun updateCurrentUser() {
+        val user = mock<FirebaseUser>()
+        val task = succeedVoidTask()
+
+        whenever(firebaseAuth.updateCurrentUser(user))
+                .thenReturn(task)
+
+        with(TestObserver<Any>()) {
+            RxFirebaseAuth.updateCurrentUser(firebaseAuth, user)
+                    .subscribe(this)
+
+            // verify signOut() has called
+            verify(firebaseAuth, times(1))
+                    .updateCurrentUser(user)
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onVoidCompleteListener.lastValue.onComplete(task)
+
+            assertComplete()
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun updateCurrentUserNotSuccessful() {
+        val user = mock<FirebaseUser>()
+        val task = failedTask<Void>(IllegalStateException())
+
+        whenever(firebaseAuth.updateCurrentUser(user))
+                .thenReturn(task)
+
+        with(TestObserver<Any>()) {
+            RxFirebaseAuth.updateCurrentUser(firebaseAuth, user)
+                    .subscribe(this)
+
+            // verify signOut() has called
+            verify(firebaseAuth, times(1))
+                    .updateCurrentUser(user)
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onVoidCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
     private inline fun FirebaseAuth.verifyAddAuthStateListenerCalled() {
         verify(this, times(1))
                 .addAuthStateListener(authStateListener.capture())
@@ -636,6 +795,12 @@ class RxFirebaseAuthTest {
     private inline fun Task<ProviderQueryResult>.verifyAddOnCompleteListenerCalled() {
         verify(this, times(1))
                 .addOnCompleteListener(onProviderQueryResultCompleteListener.capture())
+    }
+
+    @JvmName("verifySignInMethodQueryAddOnCompleteListenerCalled")
+    private inline fun Task<SignInMethodQueryResult>.verifyAddOnCompleteListenerCalled() {
+        verify(this, times(1))
+                .addOnCompleteListener(onSignInMethodQueryResultCompleteListener.capture())
     }
 
     @JvmName("verifyVoidAddOnCompleteListenerCalled")
