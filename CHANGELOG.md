@@ -4,6 +4,7 @@
 
 Built and tested with:
 - Firebase Authentication Android SDK 16.0.1
+- Firebase Realtime Database Android SDK 16.0.1
 - Kotlin 1.2.41
 
 Breaking changes:
