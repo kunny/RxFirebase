@@ -7,7 +7,8 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 
 ## Modules
 
-### firebase-auth ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth/badge.svg)
+### firebase-auth
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth/badge.svg)
 
 RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
 
@@ -19,7 +20,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.1.1'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
-### firebase-auth-kotlin ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth-kotlin/badge.svg)
+### firebase-auth-kotlin
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth-kotlin/badge.svg)
 
 Kotlin support module for `firebase-auth`.
 
@@ -32,7 +34,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.0.1.1'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
-### firebase-database ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-database/badge.svg)
+### firebase-database
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-database/badge.svg)
 
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
@@ -44,7 +47,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.1'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
-### firebase-database-kotlin ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-database-kotlin/badge.svg)
+### firebase-database-kotlin
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-database-kotlin/badge.svg)
 
 Kotlin support module for `firebase-database`
 
