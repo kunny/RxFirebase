@@ -76,12 +76,7 @@ afterEvaluate { project ->
                 }
 
                 pom.whenConfigured { pom ->
-                    pom.dependencies.forEach { dep ->
-                        if ("unspecified" == dep.getVersion()) {
-                            dep.setGroupId(GROUP)
-                            dep.setVersion(VERSION_NAME)
-                        }
-                    }
+                    pom.dependencies.removeAll { it.scope == "compile" }
                 }
             }
         }

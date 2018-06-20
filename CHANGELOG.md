@@ -1,5 +1,17 @@
 # Change Log
 
+## RxFirebase-Auth, RxFirebase-Database Version 16.0.1.1 *(2018/06/20)*
+
+Built and tested with:
+- Firebase Authentication Android SDK 16.0.1
+- Kotlin 1.2.41
+
+Breaking changes:
+- Your app gradle file now has to explicitly list `com.androidhuman.rxfirebase2:firebase-core` as a dependency for RxFirebase to work as expected.
+
+Fixed:
+- Missing artifact dependency (#37)
+
 ## RxFirebase-Auth Version 16.0.1.0 *(2018/06/09)*
 
 Built and tested with:
