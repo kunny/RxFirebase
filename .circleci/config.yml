@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
       TZ: "/usr/share/zoneinfo/Asia/Seoul"
@@ -11,8 +11,8 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "dependencies.gradle" }}
       - run:
-          name: Install Build tools 27.0.3
-          command: sdkmanager "build-tools;27.0.3"
+          name: Install Build tools 28.0.0
+          command: sdkmanager "build-tools;28.0.0"
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
