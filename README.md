@@ -10,13 +10,18 @@ RxJava binding APIs for [Firebase](https://firebase.google.com/) Android SDK.
 ### firebase-auth
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-auth/badge.svg)
 
-RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/).
+RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/docs/auth/) Android SDK.
 
 ```groovy
-implementation 'com.google.firebase:firebase-core:16.0.0'
-implementation 'com.google.firebase:firebase-auth:16.0.1'
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.1.1'
+// firebase-auth
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.2.0'
+implementation 'com.google.firebase:firebase-auth:16.0.2'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -26,11 +31,16 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 Kotlin support module for `firebase-auth`.
 
 ```groovy
-implementation 'com.google.firebase:firebase-core:16.0.0'
-implementation 'com.google.firebase:firebase-auth:16.0.1'
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.1.1'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.0.1.1'
+// firebase-auth
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.2.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.2.0'
+implementation 'com.google.firebase:firebase-auth:16.0.2'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -40,10 +50,15 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com/docs/database/) Android SDK.
 
 ```groovy
-implementation 'com.google.firebase:firebase-core:16.0.0'
+// firebase-database
+implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.0'
 implementation 'com.google.firebase:firebase-database:16.0.1'
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.1'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -53,11 +68,16 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 Kotlin support module for `firebase-database`
 
 ```groovy
-implementation 'com.google.firebase:firebase-core:16.0.0'
+// firebase-database
+implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:16.0.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.0'
 implementation 'com.google.firebase:firebase-database:16.0.1'
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.1'
-implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:16.0.1.1'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
@@ -94,23 +114,6 @@ RxFirebaseVersion : {major}.{minor}.{patch1}.{patch2} =
 ```
 
 For example, a library version that depends on `10.2.0` version of Firebase SDK, whose patch version is `1` will be `10.2.0.1`.
-
-## Development Snapshot
-
-Snapshots of the development version are available in [Sonatype snapshots](https://oss.sonatype.org/content/repositories/snapshots/) repository.
-
-You can register snapshots repo as your project's remote repo as following:
-
-```groovy
-repositories {
-    ... other remote repositories ...
-
-    // Add following line
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
-```
-
-Currently no snapshot version is available.
 
 ## License
 

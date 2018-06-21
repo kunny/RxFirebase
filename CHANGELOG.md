@@ -1,5 +1,14 @@
 # Change Log
 
+## core-16.0.1.0, auth-16.0.2.0 *(2018/06/21)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-core:16.0.1`
+  - `firebase-auth:16.0.2`
+- Kotlin 1.2.41
+- RxJava2 2.1.8
+
 ## RxFirebase-Auth, RxFirebase-Database Version 16.0.1.1 *(2018/06/20)*
 
 Built and tested with:
