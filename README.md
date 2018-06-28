@@ -32,7 +32,7 @@ Kotlin support module for `firebase-auth`.
 
 ```groovy
 // firebase-auth
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.2.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.0.2.0'
 implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.2.0'
 implementation 'com.google.firebase:firebase-auth:16.0.2'
 
@@ -80,6 +80,83 @@ implementation 'com.google.firebase:firebase-core:16.0.1'
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
+
+### firebase-firestore
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-firestore/badge.svg)
+
+RxJava binding APIs for [Firebase Firestore](https://firebase.google.com/docs/firestore/) Android SDK.
+
+```groovy
+// firebase-firestore
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.0.2.0'
+implementation 'com.google.firebase:firebase-firestore:17.0.2'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
+implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+```
+
+### firebase-firestore-kotlin
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-firestore-kotlin/badge.svg)
+
+Kotlin support module for `firebase-firestore`.
+
+```groovy
+// firebase-firestore
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore-kotlin:17.0.2.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.0.2.0'
+implementation 'com.google.firebase:firebase-firestore:16.0.2'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
+implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+```
+
+### firebase-storage
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-storage/badge.svg)
+
+RxJava binding APIs for [Firebase Storage](https://firebase.google.com/docs/storage/) Android SDK.
+
+```groovy
+// firebase-storage
+implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
+implementation 'com.google.firebase:firebase-storage:16.0.1'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
+implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+```
+
+### firebase-storage-kotlin
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-storage-kotlin/badge.svg)
+
+Kotlin support module for `firebase-storage`.
+
+```groovy
+// firebase-storage
+implementation 'com.androidhuman.rxfirebase2:firebase-storage-kotlin:16.0.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
+implementation 'com.google.firebase:firebase-storage:16.0.1'
+
+// required dependency: firebase-core
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
+implementation 'com.google.firebase:firebase-core:16.0.1'
+
+// required dependency: rxjava2
+implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+```
+
+
+## Kotlin extension modules
 
 Each kotlin support module maps all methods in Java module into an extension function on following classes:
 
