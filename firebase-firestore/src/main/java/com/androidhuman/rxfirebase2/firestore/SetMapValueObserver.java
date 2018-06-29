@@ -7,26 +7,32 @@ import com.google.firebase.firestore.SetOptions;
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Map;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 
-final class SetMapDocumentWithSetOptionsObserver extends Completable {
+public final class SetMapValueObserver extends Completable {
 
     private final DocumentReference instance;
 
     private final Map<String, Object> value;
 
-    private final SetOptions setOptions;
+    @Nullable
+    private final SetOptions options;
 
-    SetMapDocumentWithSetOptionsObserver(
-            DocumentReference instance, Map<String, Object> value,
-            SetOptions setOptions) {
+    SetMapValueObserver(@NonNull DocumentReference instance, Map<String, Object> value) {
+        this(instance, value, null);
+    }
+
+    SetMapValueObserver(
+            @NonNull DocumentReference instance,
+            Map<String, Object> value, @Nullable SetOptions options) {
         this.instance = instance;
         this.value = value;
-        this.setOptions = setOptions;
+        this.options = options;
     }
 
     @Override
@@ -34,8 +40,13 @@ final class SetMapDocumentWithSetOptionsObserver extends Completable {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.set(value, setOptions)
-                .addOnCompleteListener(listener);
+        if (null != options) {
+            instance.set(value, options)
+                    .addOnCompleteListener(listener);
+        } else {
+            instance.set(value)
+                    .addOnCompleteListener(listener);
+        }
     }
 
     static final class Listener extends OnCompleteDisposable<Void> {
@@ -47,10 +58,15 @@ final class SetMapDocumentWithSetOptionsObserver extends Completable {
         }
 
         @Override
-        public void onComplete(@NonNull Task task) {
+        public void onComplete(@NonNull Task<Void> task) {
             if (!isDisposed()) {
                 if (!task.isSuccessful()) {
-                    observer.onError(task.getException());
+                    Exception ex = task.getException();
+                    if (null != ex) {
+                        observer.onError(ex);
+                    } else {
+                        observer.onError(new UnknownError());
+                    }
                 } else {
                     observer.onComplete();
                 }

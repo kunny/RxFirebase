@@ -7,22 +7,30 @@ import com.google.firebase.firestore.SetOptions;
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 
-final class SetDocumentWithSetOptionsObserver<T> extends Completable {
+final class SetValueObserver<T> extends Completable {
 
     private final DocumentReference instance;
 
     private final T value;
 
-    private final SetOptions setOptions;
+    @Nullable
+    private final SetOptions options;
 
-    SetDocumentWithSetOptionsObserver(DocumentReference instance, T value, SetOptions setOptions) {
+    SetValueObserver(@NonNull DocumentReference instance, T value) {
+        this(instance, value, null);
+    }
+
+    SetValueObserver(
+            @NonNull DocumentReference instance,
+            T value, @Nullable SetOptions options) {
         this.instance = instance;
         this.value = value;
-        this.setOptions = setOptions;
+        this.options = options;
     }
 
     @Override
@@ -30,8 +38,13 @@ final class SetDocumentWithSetOptionsObserver<T> extends Completable {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
-        instance.set(value, setOptions)
-                .addOnCompleteListener(listener);
+        if (null != options) {
+            instance.set(value, options)
+                    .addOnCompleteListener(listener);
+        } else {
+            instance.set(value)
+                    .addOnCompleteListener(listener);
+        }
     }
 
     static final class Listener extends OnCompleteDisposable<Void> {
@@ -43,10 +56,15 @@ final class SetDocumentWithSetOptionsObserver<T> extends Completable {
         }
 
         @Override
-        public void onComplete(@NonNull Task task) {
+        public void onComplete(@NonNull Task<Void> task) {
             if (!isDisposed()) {
                 if (!task.isSuccessful()) {
-                    observer.onError(task.getException());
+                    Exception ex = task.getException();
+                    if (null != ex) {
+                        observer.onError(ex);
+                    } else {
+                        observer.onError(new UnknownError());
+                    }
                 } else {
                     observer.onComplete();
                 }

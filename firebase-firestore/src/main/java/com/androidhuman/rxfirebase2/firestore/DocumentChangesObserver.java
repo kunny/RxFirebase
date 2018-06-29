@@ -7,36 +7,37 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
+import com.androidhuman.rxfirebase2.firestore.model.Value;
 
 import android.support.annotation.NonNull;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 
-final class DocumentChangesObserver extends Observable<DocumentSnapshot> {
+final class DocumentChangesObserver extends Observable<Value<DocumentSnapshot>> {
 
     private final DocumentReference instance;
 
-    DocumentChangesObserver(DocumentReference instance) {
+    DocumentChangesObserver(@NonNull DocumentReference instance) {
         this.instance = instance;
     }
 
     @Override
-    protected void subscribeActual(Observer<? super DocumentSnapshot> observer) {
-        Listener listener = new Listener(observer);
+    protected void subscribeActual(Observer<? super Value<DocumentSnapshot>> observer) {
+        Listener listener = new Listener(instance, observer);
         observer.onSubscribe(listener);
-
-        listener.listenerRegistration = instance.addSnapshotListener(listener);
     }
 
     static final class Listener extends SimpleDisposable
             implements EventListener<DocumentSnapshot> {
 
-        private final Observer<? super DocumentSnapshot> observer;
+        private final ListenerRegistration listenerRegistration;
 
-        ListenerRegistration listenerRegistration;
+        private final Observer<? super Value<DocumentSnapshot>> observer;
 
-        Listener(@NonNull Observer<? super DocumentSnapshot> observer) {
+        Listener(@NonNull DocumentReference ref,
+                @NonNull Observer<? super Value<DocumentSnapshot>> observer) {
+            this.listenerRegistration = ref.addSnapshotListener(this);
             this.observer = observer;
         }
 
@@ -46,14 +47,17 @@ final class DocumentChangesObserver extends Observable<DocumentSnapshot> {
         }
 
         @Override
-        public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+        public void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException e) {
             if (!isDisposed()) {
-                if (e != null) {
+                if (null != e) {
                     observer.onError(e);
-                    return;
+                } else {
+                    if (null != snapshot && snapshot.exists()) {
+                        observer.onNext(Value.of(snapshot));
+                    } else {
+                        observer.onNext(Value.<DocumentSnapshot>empty());
+                    }
                 }
-
-                observer.onNext(documentSnapshot);
             }
         }
     }

@@ -44,7 +44,12 @@ final class UpdateMapDocumentObserver extends Completable {
         public void onComplete(@NonNull Task task) {
             if (!isDisposed()) {
                 if (!task.isSuccessful()) {
-                    observer.onError(task.getException());
+                    Exception ex = task.getException();
+                    if (null != ex) {
+                        observer.onError(task.getException());
+                    } else {
+                        observer.onError(new UnknownError());
+                    }
                 } else {
                     observer.onComplete();
                 }

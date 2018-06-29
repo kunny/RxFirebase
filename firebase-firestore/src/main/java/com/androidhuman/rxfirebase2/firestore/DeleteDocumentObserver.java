@@ -14,7 +14,7 @@ final class DeleteDocumentObserver extends Completable {
 
     private final DocumentReference instance;
 
-    DeleteDocumentObserver(DocumentReference instance) {
+    DeleteDocumentObserver(@NonNull DocumentReference instance) {
         this.instance = instance;
     }
 
@@ -39,7 +39,12 @@ final class DeleteDocumentObserver extends Completable {
         public void onComplete(@NonNull Task task) {
             if (!isDisposed()) {
                 if (!task.isSuccessful()) {
-                    observer.onError(task.getException());
+                    Exception ex = task.getException();
+                    if (null != ex) {
+                        observer.onError(ex);
+                    } else {
+                        observer.onError(new UnknownError());
+                    }
                 } else {
                     observer.onComplete();
                 }

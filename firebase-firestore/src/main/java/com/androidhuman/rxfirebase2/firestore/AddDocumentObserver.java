@@ -17,7 +17,7 @@ final class AddDocumentObserver<T> extends Single<DocumentReference> {
 
     private final T value;
 
-    AddDocumentObserver(CollectionReference instance, T value) {
+    AddDocumentObserver(@NonNull CollectionReference instance, T value) {
         this.instance = instance;
         this.value = value;
     }
@@ -42,10 +42,15 @@ final class AddDocumentObserver<T> extends Single<DocumentReference> {
         @Override
         public void onComplete(@NonNull Task<DocumentReference> task) {
             if (!isDisposed()) {
-                if (task.isSuccessful()) {
-                    observer.onSuccess(task.getResult());
+                if (!task.isSuccessful()) {
+                    Exception ex = task.getException();
+                    if (null != ex) {
+                        observer.onError(ex);
+                    } else {
+                        observer.onError(new UnknownError());
+                    }
                 } else {
-                    observer.onError(task.getException());
+                    observer.onSuccess(task.getResult());
                 }
             }
         }

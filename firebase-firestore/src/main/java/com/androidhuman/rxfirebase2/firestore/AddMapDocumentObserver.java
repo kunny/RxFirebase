@@ -19,7 +19,7 @@ final class AddMapDocumentObserver extends Single<DocumentReference> {
 
     private final Map<String, Object> value;
 
-    AddMapDocumentObserver(CollectionReference instance, Map<String, Object> value) {
+    AddMapDocumentObserver(@NonNull CollectionReference instance, Map<String, Object> value) {
         this.instance = instance;
         this.value = value;
     }
@@ -44,10 +44,15 @@ final class AddMapDocumentObserver extends Single<DocumentReference> {
         @Override
         public void onComplete(@NonNull Task<DocumentReference> task) {
             if (!isDisposed()) {
-                if (task.isSuccessful()) {
-                    observer.onSuccess(task.getResult());
+                if (!task.isSuccessful()) {
+                    Exception ex = task.getException();
+                    if (null != ex) {
+                        observer.onError(ex);
+                    } else {
+                        observer.onError(new UnknownError());
+                    }
                 } else {
-                    observer.onError(task.getException());
+                    observer.onSuccess(task.getResult());
                 }
             }
         }
