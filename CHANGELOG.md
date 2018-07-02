@@ -1,6 +1,6 @@
 # Change Log
 
-## firestore-17.0.2.0, database-kotlin-16.0.1.2 *(2018/xx/xx)*
+## firestore-17.0.2.0, database-kotlin-16.0.1.2 *(2018/07/02)*
 
 Built and tested with:
 - Firebase Android SDK
