@@ -40,7 +40,7 @@ public final class RxFirebaseFirestore {
     @NonNull
     @CheckResult
     public static Single<Value<DocumentSnapshot>> data(@NonNull DocumentReference ref) {
-        return new DocumentObserver(ref, null);
+        return new DocumentObserver(ref);
     }
 
     @NonNull
