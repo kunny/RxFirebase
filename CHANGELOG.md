@@ -1,14 +1,16 @@
 # Change Log
 
-## firestore-17.0.2.0, storage-16.0.1.0, database-16.0.1.2 *(2018/xx/xx)*
+## firestore-17.0.2.0, database-kotlin-16.0.1.2 *(2018/xx/xx)*
 
 Built and tested with:
 - Firebase Android SDK
   - `firebase-firestore:17.0.1`
-  - `firebase-storage:16.0.1`
   - `firebase-database:16.0.1`
 - Kotlin 1.2.41
 - RxJava2 2.1.8
+
+New module:
+- `firebase-firestore` and `firebase-firestore-kotlin` for [Cloud Firestore](https://firebase.google.com/docs/firestore/) support
 
 Fixed:
 - Misspells on `childEvents()` extension method (in `firebase-database-kotlin` module)
