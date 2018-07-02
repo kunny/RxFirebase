@@ -1,5 +1,5 @@
 codecov:
-  branch: rxjava2
+  branch: master
 
 coverage:
   status:

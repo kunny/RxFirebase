@@ -19,7 +19,7 @@ inline fun DatabaseReference.childEvents()
         : Observable<ChildEvent>
         = RxFirebaseDatabase.childEvents(this)
 
-inline fun DatabaseReference.chileEvents(strategy: BackpressureStrategy)
+inline fun DatabaseReference.childEvents(strategy: BackpressureStrategy)
         : Flowable<ChildEvent>
         = RxFirebaseDatabase.childEvents(this, strategy)
 

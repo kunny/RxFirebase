@@ -24,7 +24,6 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
     }
 
@@ -37,18 +36,22 @@ android {
 }
 
 dependencies {
-    compileOnly "com.google.firebase:firebase-core:${firebaseCoreVersion}"
-    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+    implementation project(":firebase-core")
 
-    testImplementation "com.google.firebase:firebase-core:${firebaseCoreVersion}"
+    compileOnly "com.google.auto.value:auto-value:${autoValueVersion}"
+    compileOnly "com.google.firebase:firebase-storage:${firebaseStorageVersion}"
+    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+
+    annotationProcessor "com.google.auto.value:auto-value:${autoValueVersion}"
+
+    testImplementation "com.google.firebase:firebase-storage:${firebaseStorageVersion}"
+    testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
     testImplementation "junit:junit:${junitVersion}"
     testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
     testImplementation "org.assertj:assertj-core:${assertjVersion}"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-local.gradle')
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
-
-apply plugin: 'com.google.android.gms.strict-version-matcher-plugin'
