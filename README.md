@@ -69,7 +69,7 @@ Kotlin support module for `firebase-database`
 
 ```groovy
 // firebase-database
-implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:16.0.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:16.0.1.2'
 implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.0'
 implementation 'com.google.firebase:firebase-database:16.0.1'
 
