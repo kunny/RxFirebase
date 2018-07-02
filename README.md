@@ -118,7 +118,7 @@ implementation 'com.google.firebase:firebase-core:16.0.1'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
-### firebase-storage
+### firebase-storage (Coming soon!)
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-storage/badge.svg)
 
 RxJava binding APIs for [Firebase Storage](https://firebase.google.com/docs/storage/) Android SDK.
@@ -136,7 +136,7 @@ implementation 'com.google.firebase:firebase-core:16.0.1'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ```
 
-### firebase-storage-kotlin
+### firebase-storage-kotlin (Coming soon!)
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.androidhuman.rxfirebase2/firebase-storage-kotlin/badge.svg)
 
 Kotlin support module for `firebase-storage`.
@@ -159,14 +159,6 @@ implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
 ## Kotlin extension modules
 
 Each kotlin support module maps all methods in Java module into an extension function on following classes:
-
-- firebase-auth-kotlin
-  - `FirebaseAuth`
-  - `FirebaseUser`
-  - `PhoneAuthProvider`
-- firebase-database-kotlin
-  - `DatabaseReference`
-  - `Query`
 
 Basically, extension function has same name of methods in `RxXXX` classes in Java module.
 
