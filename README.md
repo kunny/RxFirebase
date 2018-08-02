@@ -51,7 +51,7 @@ RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com
 
 ```groovy
 // firebase-database
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.1'
 implementation 'com.google.firebase:firebase-database:16.0.1'
 
 // required dependency: firebase-core
