@@ -1,5 +1,13 @@
 # Change Log
 
+## firestore-17.1.0.0 *(2018/09/09)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-firestore:17.1.0` (Skipping 17.0.5 since it has some issues)
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## firestore-17.0.4.0 *(2018/07/31)*
 
 Built and tested with:

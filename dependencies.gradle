@@ -6,7 +6,7 @@ ext {
     firebaseAuthVersion = '16.0.2'
     firebaseCoreVersion = '16.0.1'
     firebaseDatabaseVersion = '16.0.1'
-    firebaseFirestoreVersion = '17.0.4'
+    firebaseFirestoreVersion = '17.1.0'
     firebaseStorageVersion = '16.0.1'
     junitVersion = '4.12'
     kotlinVersion = '1.2.61'
