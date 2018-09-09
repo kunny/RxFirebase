@@ -18,8 +18,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.2.0'
 implementation 'com.google.firebase:firebase-auth:16.0.2'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -37,8 +37,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.0.2.0'
 implementation 'com.google.firebase:firebase-auth:16.0.2'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -55,8 +55,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.1'
 implementation 'com.google.firebase:firebase-database:16.0.1'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -74,8 +74,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.1.0'
 implementation 'com.google.firebase:firebase-database:16.0.1'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -92,8 +92,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.0.0'
 implementation 'com.google.firebase:firebase-firestore:17.1.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -111,8 +111,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.0.0'
 implementation 'com.google.firebase:firebase-firestore:17.1.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -129,8 +129,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
 implementation 'com.google.firebase:firebase-storage:16.0.1'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -148,8 +148,8 @@ implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
 implementation 'com.google.firebase:firebase-storage:16.0.1'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.1.0'
-implementation 'com.google.firebase:firebase-core:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.3.0'
+implementation 'com.google.firebase:firebase-core:16.0.3'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
