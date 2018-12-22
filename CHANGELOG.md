@@ -1,5 +1,14 @@
 # Change Log
 
+## core-16.0.5.0, firestore-17.1.1.0 *(2018/12/22)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-core:16.0.5`
+  - `firebase-firestore:17.1.1`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## auth-16.0.2.1 *(2018/12/22)*
 - Added methods that return `AuthResult` instead of `FirebaseUser`:
   - `RxFirebaseAuth.signInAnonymouslyAuthResult()`
