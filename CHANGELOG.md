@@ -1,5 +1,13 @@
 # Change Log
 
+## database-16.0.3.0 *(2018/12/23)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-database:16.0.3`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## core-16.0.5.0, firestore-17.1.1.0 *(2018/12/22)*
 
 Built and tested with:

@@ -635,7 +635,7 @@ class RxFirebaseDatabaseTest {
 
     @Test
     fun dataReferenceDataOfGenericTypeIndicator() {
-        val ti = GenericTypeIndicator<List<String>>()
+        val ti = mock<GenericTypeIndicator<List<String>>>()
         val snapshot = dataSnapshotOfTypeIndicator(listOf("foo", "bar"), ti)
 
         with(TestObserver.create<List<String>>()) {
@@ -1492,7 +1492,7 @@ class RxFirebaseDatabaseTest {
 
     @Test
     fun queryDataOfGenericTypeIndicator() {
-        val ti = GenericTypeIndicator<List<String>>()
+        val ti = mock<GenericTypeIndicator<List<String>>>()
         val snapshot = dataSnapshotOfTypeIndicator(listOf("foo", "bar"), ti)
 
         with(TestObserver.create<List<String>>()) {
