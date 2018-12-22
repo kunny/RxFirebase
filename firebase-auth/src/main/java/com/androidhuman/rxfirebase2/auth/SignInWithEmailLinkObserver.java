@@ -34,7 +34,7 @@ final class SignInWithEmailLinkObserver extends Single<AuthResult> {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<AuthResult> {
+    private static final class Listener extends OnCompleteDisposable<AuthResult> {
 
         private final SingleObserver<? super AuthResult> observer;
 

@@ -28,7 +28,7 @@ final class UserDeleteObserver extends Completable {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<Void> {
+    private static final class Listener extends OnCompleteDisposable<Void> {
 
         private final CompletableObserver observer;
 

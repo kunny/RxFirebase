@@ -26,7 +26,7 @@ final class AuthStateChangesObserver extends Observable<FirebaseAuth> {
         instance.addAuthStateListener(listener);
     }
 
-    static final class Listener extends SimpleDisposable
+    private static final class Listener extends SimpleDisposable
             implements FirebaseAuth.AuthStateListener {
 
         private final FirebaseAuth auth;

@@ -95,11 +95,11 @@ public final class RxFirebaseAuth {
             @NonNull FirebaseAuth instance) {
         return new SignInAnonymouslyObserver(instance)
                 .map(new Function<AuthResult, FirebaseUser>() {
-            @Override
-            public FirebaseUser apply(AuthResult authResult) throws Exception {
-                return authResult.getUser();
-            }
-        });
+                    @Override
+                    public FirebaseUser apply(AuthResult authResult) throws Exception {
+                        return authResult.getUser();
+                    }
+                });
     }
 
     @CheckResult
