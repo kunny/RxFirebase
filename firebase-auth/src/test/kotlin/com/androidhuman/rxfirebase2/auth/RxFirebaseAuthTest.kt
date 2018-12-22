@@ -1,6 +1,5 @@
 package com.androidhuman.rxfirebase2.auth
 
-import com.google.android.gms.signin.SignIn
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
@@ -464,6 +463,33 @@ class RxFirebaseAuthTest {
     }
 
     @Test
+    fun signInAnonymouslyAuthResult() {
+        val task = succeedAuthResultTask()
+
+        whenever(firebaseAuth.signInAnonymously())
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInAnonymouslyAuthResult(firebaseAuth)
+                    .subscribe(this)
+
+            // verify signInAnonymously() has called
+            verify(firebaseAuth, times(1))
+                    .signInAnonymously()
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertValue { it.user.isAnonymous }
+
+            dispose()
+        }
+    }
+
+    @Test
     fun signInAnonymousNotSuccessful() {
         val task = failedTask<AuthResult>(IllegalStateException())
 
@@ -472,6 +498,33 @@ class RxFirebaseAuthTest {
 
         with(TestObserver.create<FirebaseUser>()) {
             RxFirebaseAuth.signInAnonymously(firebaseAuth)
+                    .subscribe(this)
+
+            // verify signInAnonymously() has called
+            verify(firebaseAuth, times(1))
+                    .signInAnonymously()
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun signInAnonymousAuthResultNotSuccessful() {
+        val task = failedTask<AuthResult>(IllegalStateException())
+
+        whenever(firebaseAuth.signInAnonymously())
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInAnonymouslyAuthResult(firebaseAuth)
                     .subscribe(this)
 
             // verify signInAnonymously() has called
@@ -519,6 +572,34 @@ class RxFirebaseAuthTest {
     }
 
     @Test
+    fun signInWithCredentialAuthResult() {
+        val credential = mock<AuthCredential>()
+        val task = succeedAuthResultTask("foo@bar.com")
+
+        whenever(firebaseAuth.signInWithCredential(credential))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithCredentialAuthResult(firebaseAuth, credential)
+                    .subscribe(this)
+
+            // verify signInWithCredential() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithCredential(credential)
+
+            // verify addOnCompleteListener has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertValue { "foo@bar.com" == it.user.email }
+
+            dispose()
+        }
+    }
+
+    @Test
     fun signInWithCredentialNotSuccessful() {
         val credential = mock<AuthCredential>()
         val task = failedTask<AuthResult>(IllegalStateException())
@@ -528,6 +609,34 @@ class RxFirebaseAuthTest {
 
         with(TestObserver.create<FirebaseUser>()) {
             RxFirebaseAuth.signInWithCredential(firebaseAuth, credential)
+                    .subscribe(this)
+
+            // verify signInWithCredential() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithCredential(credential)
+
+            // verify addOnCompleteListener has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun signInWithCredentialAuthResultNotSuccessful() {
+        val credential = mock<AuthCredential>()
+        val task = failedTask<AuthResult>(IllegalStateException())
+
+        whenever(firebaseAuth.signInWithCredential(credential))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithCredentialAuthResult(firebaseAuth, credential)
                     .subscribe(this)
 
             // verify signInWithCredential() has called
@@ -574,6 +683,33 @@ class RxFirebaseAuthTest {
     }
 
     @Test
+    fun signInWithCustomTokenAuthResult() {
+        val task = succeedAuthResultTask("foo@bar.com")
+
+        whenever(firebaseAuth.signInWithCustomToken("custom_token"))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithCustomTokenAuthResult(firebaseAuth, "custom_token")
+                    .subscribe(this)
+
+            // verify signInWithCustomToken() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithCustomToken("custom_token")
+
+            // verify addOnCompleteListener has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertNoErrors()
+
+            dispose()
+        }
+    }
+
+    @Test
     fun signInWithCustomTokenNotSuccessful() {
         val task = failedTask<AuthResult>(IllegalStateException())
 
@@ -599,6 +735,34 @@ class RxFirebaseAuthTest {
             dispose()
         }
     }
+
+    @Test
+    fun signInWithCustomTokenAuthResultNotSuccessful() {
+        val task = failedTask<AuthResult>(IllegalStateException())
+
+        whenever(firebaseAuth.signInWithCustomToken("custom_token"))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithCustomTokenAuthResult(firebaseAuth, "custom_token")
+                    .subscribe(this)
+
+            // verify signInWithCustomToken() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithCustomToken("custom_token")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
 
     @Test
     fun signInWithEmailAndPassword() {
@@ -636,6 +800,60 @@ class RxFirebaseAuthTest {
 
         with(TestObserver.create<FirebaseUser>()) {
             RxFirebaseAuth.signInWithEmailAndPassword(firebaseAuth, "foo@bar.com", "password")
+                    .subscribe(this)
+
+            // verify signInWithEmailAndPassword() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithEmailAndPassword("foo@bar.com", "password")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertError(IllegalStateException::class.java)
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun signInWithEmailAndPasswordAuthResult() {
+        val task = succeedAuthResultTask("foo@bar.com")
+
+        whenever(firebaseAuth.signInWithEmailAndPassword("foo@bar.com", "password"))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithEmailAndPasswordAuthResult(firebaseAuth, "foo@bar.com", "password")
+                    .subscribe(this)
+
+            // verify signInWithEmailAndPassword() has called
+            verify(firebaseAuth, times(1))
+                    .signInWithEmailAndPassword("foo@bar.com", "password")
+
+            // verify addOnCompleteListener() has called
+            task.verifyAddOnCompleteListenerCalled()
+
+            // simulate the callback
+            onAuthResultCompleteListener.lastValue.onComplete(task)
+
+            assertValue { "foo@bar.com" == it.user.email }
+
+            dispose()
+        }
+    }
+
+    @Test
+    fun signInWithEmailAndPasswordAuthResultNotSuccessful() {
+        val task = failedTask<AuthResult>(IllegalStateException())
+
+        whenever(firebaseAuth.signInWithEmailAndPassword("foo@bar.com", "password"))
+                .thenReturn(task)
+
+        with(TestObserver.create<AuthResult>()) {
+            RxFirebaseAuth.signInWithEmailAndPasswordAuthResult(firebaseAuth, "foo@bar.com", "password")
                     .subscribe(this)
 
             // verify signInWithEmailAndPassword() has called

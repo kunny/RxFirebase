@@ -32,7 +32,7 @@ final class UserLinkWithCredentialObserver extends Single<FirebaseUser> {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<AuthResult> {
+    private static final class Listener extends OnCompleteDisposable<AuthResult> {
 
         private final SingleObserver<? super FirebaseUser> observer;
 

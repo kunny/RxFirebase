@@ -3,7 +3,6 @@ package com.androidhuman.rxfirebase2.auth;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
@@ -12,7 +11,7 @@ import android.support.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 
-final class SignInWithCustomTokenObserver extends Single<FirebaseUser> {
+final class SignInWithCustomTokenObserver extends Single<AuthResult> {
 
     private final FirebaseAuth instance;
 
@@ -24,7 +23,7 @@ final class SignInWithCustomTokenObserver extends Single<FirebaseUser> {
     }
 
     @Override
-    protected void subscribeActual(SingleObserver<? super FirebaseUser> observer) {
+    protected void subscribeActual(SingleObserver<? super AuthResult> observer) {
         Listener listener = new Listener(observer);
         observer.onSubscribe(listener);
 
@@ -32,11 +31,11 @@ final class SignInWithCustomTokenObserver extends Single<FirebaseUser> {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<AuthResult> {
+    private final class Listener extends OnCompleteDisposable<AuthResult> {
 
-        private final SingleObserver<? super FirebaseUser> observer;
+        private final SingleObserver<? super AuthResult> observer;
 
-        Listener(@NonNull SingleObserver<? super FirebaseUser> observer) {
+        Listener(@NonNull SingleObserver<? super AuthResult> observer) {
             this.observer = observer;
         }
 
@@ -46,7 +45,7 @@ final class SignInWithCustomTokenObserver extends Single<FirebaseUser> {
                 if (!task.isSuccessful()) {
                     observer.onError(task.getException());
                 } else {
-                    observer.onSuccess(task.getResult().getUser());
+                    observer.onSuccess(task.getResult());
                 }
             }
         }

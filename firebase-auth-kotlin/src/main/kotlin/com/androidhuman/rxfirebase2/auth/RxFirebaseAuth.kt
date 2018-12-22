@@ -49,6 +49,22 @@ inline fun FirebaseAuth.rxSignInWithCustomToken(token: String)
         = RxFirebaseAuth.signInWithCustomToken(this, token)
 
 inline fun FirebaseAuth.rxSignInWithEmailAndPassword(email: String, password: String)
+        : Single<AuthResult>
+        = RxFirebaseAuth.signInWithEmailAndPasswordAuthResult(this, email, password)
+
+inline fun FirebaseAuth.rxSignInAnonymouslyAuthResult()
+        : Single<AuthResult>
+        = RxFirebaseAuth.signInAnonymouslyAuthResult(this)
+
+inline fun FirebaseAuth.rxSignInWithCredentialAuthResult(credential: AuthCredential)
+        : Single<AuthResult>
+        = RxFirebaseAuth.signInWithCredentialAuthResult(this, credential)
+
+inline fun FirebaseAuth.rxSignInWithCustomTokenAuthResult(token: String)
+        : Single<AuthResult>
+        = RxFirebaseAuth.signInWithCustomTokenAuthResult(this, token)
+
+inline fun FirebaseAuth.rxSignInWithEmailAndPasswordAuthResult(email: String, password: String)
         : Single<FirebaseUser>
         = RxFirebaseAuth.signInWithEmailAndPassword(this, email, password)
 

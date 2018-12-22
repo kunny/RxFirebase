@@ -31,7 +31,7 @@ final class UserUnlinkObserver extends Single<FirebaseUser> {
                 .addOnCompleteListener(listener);
     }
 
-    final class Listener extends OnCompleteDisposable<AuthResult> {
+    private final class Listener extends OnCompleteDisposable<AuthResult> {
 
         private final SingleObserver<? super FirebaseUser> observer;
 

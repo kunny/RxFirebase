@@ -29,7 +29,7 @@ public final class PhoneAuthProviderVerifyPhoneNumberActivityObserver
     @Nullable
     private final PhoneAuthProvider.ForceResendingToken forceResendingToken;
 
-    public PhoneAuthProviderVerifyPhoneNumberActivityObserver(
+    PhoneAuthProviderVerifyPhoneNumberActivityObserver(
             PhoneAuthProvider provider, String phoneNumber,
             long timeOut, TimeUnit timeUnit, Activity activity,
             @Nullable PhoneAuthProvider.ForceResendingToken forceResendingToken) {
@@ -55,7 +55,7 @@ public final class PhoneAuthProviderVerifyPhoneNumberActivityObserver
         }
     }
 
-    static final class Listener extends OnVerificationStateChangedDisposable {
+    private static final class Listener extends OnVerificationStateChangedDisposable {
 
         private final Observer<? super PhoneAuthEvent> observer;
 

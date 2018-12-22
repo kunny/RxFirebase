@@ -31,7 +31,7 @@ final class UserGetIdTokenObserver extends Single<String> {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<GetTokenResult> {
+    private static final class Listener extends OnCompleteDisposable<GetTokenResult> {
 
         private final SingleObserver<? super String> observer;
 

@@ -34,7 +34,7 @@ final class FetchSignInMethodsForEmailObserver extends Maybe<List<String>> {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<SignInMethodQueryResult> {
+    private static final class Listener extends OnCompleteDisposable<SignInMethodQueryResult> {
 
         private final MaybeObserver<? super List<String>> observer;
 

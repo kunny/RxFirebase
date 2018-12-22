@@ -1,5 +1,12 @@
 # Change Log
 
+## auth-16.0.2.1 *(2018/12/22)*
+- Added methods that return `AuthResult` instead of `FirebaseUser`:
+  - `RxFirebaseAuth.signInAnonymouslyAuthResult()`
+  - `RxFirebaseAuth.signInWithCredentialAuthResult()`
+  - `RxFirebaseAuth.signInWithCustomTokenAuthResult()`
+  - `RxFirebaseAuth.signInWithEmailAndPasswordAuthResult()`
+
 ## core-16.0.3.0 *(2018/09/09)*
 
 Built and tested with:

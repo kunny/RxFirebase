@@ -34,7 +34,7 @@ final class FetchProvidersForEmailObserver extends Maybe<List<String>> {
                 .addOnCompleteListener(listener);
     }
 
-    static final class Listener extends OnCompleteDisposable<ProviderQueryResult> {
+    private static final class Listener extends OnCompleteDisposable<ProviderQueryResult> {
 
         private final MaybeObserver<? super List<String>> observer;
 
