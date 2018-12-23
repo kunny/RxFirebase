@@ -88,8 +88,8 @@ RxJava binding APIs for [Firebase Firestore](https://firebase.google.com/docs/fi
 
 ```groovy
 // firebase-firestore
-implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.4.0'
-implementation 'com.google.firebase:firebase-firestore:17.1.4'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.5.0'
+implementation 'com.google.firebase:firebase-firestore:17.1.5'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
@@ -106,9 +106,9 @@ Kotlin support module for `firebase-firestore`.
 
 ```groovy
 // firebase-firestore
-implementation 'com.androidhuman.rxfirebase2:firebase-firestore-kotlin:17.1.4.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.4.0'
-implementation 'com.google.firebase:firebase-firestore:17.1.4'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore-kotlin:17.1.5.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.5.0'
+implementation 'com.google.firebase:firebase-firestore:17.1.5'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
