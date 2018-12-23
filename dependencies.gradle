@@ -3,7 +3,7 @@ ext {
 
     autoValueVersion = '1.5'
     assertjVersion = '1.2.0'
-    firebaseAuthVersion = '16.0.4'
+    firebaseAuthVersion = '16.1.0'
     firebaseCoreVersion = '16.0.5'
     firebaseDatabaseVersion = '16.0.3'
     firebaseFirestoreVersion = '17.1.4'
