@@ -1,5 +1,45 @@
 # Change Log
 
+## storage-19.1.0.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-storage:19.1.0`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
+## firestore-21.3.1.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-firestore:21.3.1`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
+## database-19.2.0.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-database:19.2.0`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
+## auth-19.2.0.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-auth:19.2.0`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
+## core-17.2.2.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-core:17.2.2`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## firestore-17.1.5.0 *(2018/12/23)*
 
 Built and tested with:

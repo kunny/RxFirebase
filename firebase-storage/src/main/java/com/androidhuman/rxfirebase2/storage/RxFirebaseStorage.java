@@ -5,9 +5,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import android.net.Uri;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 import io.reactivex.Single;
 
 public final class RxFirebaseStorage {

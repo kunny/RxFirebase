@@ -7,8 +7,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 
@@ -41,14 +40,14 @@ final class DataObserver extends Single<DataSnapshot> {
         }
 
         @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             if (!isDisposed()) {
                 observer.onSuccess(dataSnapshot);
             }
         }
 
         @Override
-        public void onCancelled(DatabaseError databaseError) {
+        public void onCancelled(@NonNull DatabaseError databaseError) {
             if (!isDisposed()) {
                 observer.onError(databaseError.toException());
             }

@@ -4,12 +4,11 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 
@@ -64,7 +63,7 @@ public final class PhoneAuthProviderVerifyPhoneNumberExecutorObserver
         }
 
         @Override
-        public void onCodeAutoRetrievalTimeOut(String verificationId) {
+        public void onCodeAutoRetrievalTimeOut(@NonNull String verificationId) {
             if (!isDisposed()) {
                 observer.onNext(PhoneAuthCodeAutoRetrievalTimeOutEvent.create(verificationId));
                 observer.onComplete();
@@ -72,15 +71,15 @@ public final class PhoneAuthProviderVerifyPhoneNumberExecutorObserver
         }
 
         @Override
-        public void onCodeSent(String verificationId,
-                PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NonNull String verificationId,
+                @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             if (!isDisposed()) {
                 observer.onNext(PhoneAuthCodeSentEvent.create(verificationId, forceResendingToken));
             }
         }
 
         @Override
-        public void onVerificationCompleted(PhoneAuthCredential credential) {
+        public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
             if (!isDisposed()) {
                 observer.onNext(PhoneAuthVerificationCompleteEvent.create(credential));
                 observer.onComplete();
@@ -88,7 +87,7 @@ public final class PhoneAuthProviderVerifyPhoneNumberExecutorObserver
         }
 
         @Override
-        public void onVerificationFailed(FirebaseException e) {
+        public void onVerificationFailed(@NonNull FirebaseException e) {
             if (!isDisposed()) {
                 observer.onError(e);
             }

@@ -3,13 +3,13 @@ package com.androidhuman.rxfirebase2.auth;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import android.app.Activity;
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.reactivex.Observable;
 
 public final class RxPhoneAuthProvider {

@@ -7,8 +7,7 @@ import com.google.firebase.database.Query;
 
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 
@@ -41,35 +40,35 @@ final class QueryChildEventsObserver extends Observable<ChildEvent> {
         }
 
         @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String previousChildName) {
             if (!isDisposed()) {
                 observer.onNext(ChildAddEvent.create(dataSnapshot, previousChildName));
             }
         }
 
         @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String previousChildName) {
             if (!isDisposed()) {
                 observer.onNext(ChildChangeEvent.create(dataSnapshot, previousChildName));
             }
         }
 
         @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
+        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
             if (!isDisposed()) {
                 observer.onNext(ChildRemoveEvent.create(dataSnapshot));
             }
         }
 
         @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String previousChildName) {
             if (!isDisposed()) {
                 observer.onNext(ChildMoveEvent.create(dataSnapshot, previousChildName));
             }
         }
 
         @Override
-        public void onCancelled(DatabaseError databaseError) {
+        public void onCancelled(@NonNull DatabaseError databaseError) {
             if (!isDisposed()) {
                 observer.onError(databaseError.toException());
             }

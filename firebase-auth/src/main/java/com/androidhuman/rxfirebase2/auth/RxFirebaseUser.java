@@ -5,9 +5,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 

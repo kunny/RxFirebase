@@ -14,12 +14,12 @@ RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/do
 
 ```groovy
 // firebase-auth
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.1.0.0'
-implementation 'com.google.firebase:firebase-auth:16.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:19.2.0.0'
+implementation 'com.google.firebase:firebase-auth:19.2.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -32,13 +32,13 @@ Kotlin support module for `firebase-auth`.
 
 ```groovy
 // firebase-auth
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.1.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.1.0.0'
-implementation 'com.google.firebase:firebase-auth:16.0.4'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:19.2.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:19.2.0.0'
+implementation 'com.google.firebase:firebase-auth:19.2.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -51,12 +51,12 @@ RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com
 
 ```groovy
 // firebase-database
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.3.0'
-implementation 'com.google.firebase:firebase-database:16.0.3'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:19.2.0.0'
+implementation 'com.google.firebase:firebase-database:19.2.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -69,13 +69,13 @@ Kotlin support module for `firebase-database`
 
 ```groovy
 // firebase-database
-implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:16.0.3.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.3.0'
-implementation 'com.google.firebase:firebase-database:16.0.3'
+implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:19.2.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:19.2.0.0'
+implementation 'com.google.firebase:firebase-database:19.2.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2''
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -88,12 +88,12 @@ RxJava binding APIs for [Firebase Firestore](https://firebase.google.com/docs/fi
 
 ```groovy
 // firebase-firestore
-implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.5.0'
-implementation 'com.google.firebase:firebase-firestore:17.1.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore:21.3.1.0'
+implementation 'com.google.firebase:firebase-firestore:21.3.1'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -106,13 +106,13 @@ Kotlin support module for `firebase-firestore`.
 
 ```groovy
 // firebase-firestore
-implementation 'com.androidhuman.rxfirebase2:firebase-firestore-kotlin:17.1.5.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-firestore:17.1.5.0'
-implementation 'com.google.firebase:firebase-firestore:17.1.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore-kotlin:21.3.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-firestore:21.3.1.0'
+implementation 'com.google.firebase:firebase-firestore:21.3.1'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -125,12 +125,12 @@ RxJava binding APIs for [Firebase Storage](https://firebase.google.com/docs/stor
 
 ```groovy
 // firebase-storage
-implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
-implementation 'com.google.firebase:firebase-storage:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage:19.1.0.0'
+implementation 'com.google.firebase:firebase-storage:19.1.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
@@ -143,13 +143,13 @@ Kotlin support module for `firebase-storage`.
 
 ```groovy
 // firebase-storage
-implementation 'com.androidhuman.rxfirebase2:firebase-storage-kotlin:16.0.1.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
-implementation 'com.google.firebase:firebase-storage:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage-kotlin:19.1.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage:19.1.0.0'
+implementation 'com.google.firebase:firebase-storage:19.1.0'
 
 // required dependency: firebase-core
-implementation 'com.androidhuman.rxfirebase2:firebase-core:16.0.5.0'
-implementation 'com.google.firebase:firebase-core:16.0.5'
+implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
+implementation 'com.google.firebase:firebase-core:17.2.2'
 
 // required dependency: rxjava2
 implementation 'io.reactivex.rxjava2:rxjava:2.1.8'

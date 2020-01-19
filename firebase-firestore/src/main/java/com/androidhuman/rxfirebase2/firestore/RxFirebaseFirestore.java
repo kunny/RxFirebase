@@ -10,11 +10,10 @@ import com.google.firebase.firestore.Source;
 
 import com.androidhuman.rxfirebase2.firestore.model.Value;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-
 import java.util.Map;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;

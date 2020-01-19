@@ -6,11 +6,10 @@ import com.google.firebase.firestore.SetOptions;
 
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 
