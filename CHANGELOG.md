@@ -1,5 +1,13 @@
 # Change Log
 
+## core-17.2.2.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-core:17.2.2`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## firestore-17.1.5.0 *(2018/12/23)*
 
 Built and tested with:
