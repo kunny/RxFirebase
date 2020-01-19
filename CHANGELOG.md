@@ -1,5 +1,13 @@
 # Change Log
 
+## storage-19.1.0.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-storage:19.1.0`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## firestore-21.3.1.0 *(2020/01/19)*
 
 Built and tested with:

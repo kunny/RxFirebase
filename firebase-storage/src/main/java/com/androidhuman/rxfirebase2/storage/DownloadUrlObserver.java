@@ -6,8 +6,8 @@ import com.google.firebase.storage.StorageReference;
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 

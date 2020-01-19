@@ -125,8 +125,8 @@ RxJava binding APIs for [Firebase Storage](https://firebase.google.com/docs/stor
 
 ```groovy
 // firebase-storage
-implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
-implementation 'com.google.firebase:firebase-storage:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage:19.1.0.0'
+implementation 'com.google.firebase:firebase-storage:19.1.0'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
@@ -143,9 +143,9 @@ Kotlin support module for `firebase-storage`.
 
 ```groovy
 // firebase-storage
-implementation 'com.androidhuman.rxfirebase2:firebase-storage-kotlin:16.0.1.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-storage:16.0.1.0'
-implementation 'com.google.firebase:firebase-storage:16.0.1'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage-kotlin:19.1.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-storage:19.1.0.0'
+implementation 'com.google.firebase:firebase-storage:19.1.0'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
