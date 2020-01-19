@@ -6,10 +6,9 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 
 import com.androidhuman.rxfirebase2.core.OnCompleteDisposable;
 
-import android.support.annotation.NonNull;
-
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 

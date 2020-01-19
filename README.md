@@ -14,8 +14,8 @@ RxJava binding APIs for [Firebase Authentication](https://firebase.google.com/do
 
 ```groovy
 // firebase-auth
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.1.0.0'
-implementation 'com.google.firebase:firebase-auth:16.1.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:19.2.0.0'
+implementation 'com.google.firebase:firebase-auth:19.2.0'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
@@ -32,9 +32,9 @@ Kotlin support module for `firebase-auth`.
 
 ```groovy
 // firebase-auth
-implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:16.1.0.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-auth:16.1.0.0'
-implementation 'com.google.firebase:firebase-auth:16.0.4'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth-kotlin:19.2.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-auth:19.2.0.0'
+implementation 'com.google.firebase:firebase-auth:19.2.0'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'

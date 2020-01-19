@@ -19,11 +19,6 @@ inline fun FirebaseAuth.rxCreateUserWithEmailAndPassword(email: String, password
         : Single<FirebaseUser>
         = RxFirebaseAuth.createUserWithEmailAndPassword(this, email, password)
 
-@Deprecated(message = "Use rxFetchSignMethodsForEmail() instead.")
-inline fun FirebaseAuth.rxFetchProvidersForEmail(email: String)
-        : Maybe<List<String>>
-        = RxFirebaseAuth.fetchProvidersForEmail(this, email)
-
 inline fun FirebaseAuth.rxFetchSignInMethodsForEmail(email: String)
         : Maybe<List<String>>
         = RxFirebaseAuth.fetchSignInMethodsForEmail(this, email)

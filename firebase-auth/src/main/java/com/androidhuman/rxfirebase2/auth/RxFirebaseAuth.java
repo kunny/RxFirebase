@@ -5,11 +5,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-
 import java.util.List;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -30,14 +29,6 @@ public final class RxFirebaseAuth {
     public static Single<FirebaseUser> createUserWithEmailAndPassword(
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
         return new CreateUserWithEmailAndPasswordObserver(instance, email, password);
-    }
-
-    @Deprecated
-    @CheckResult
-    @NonNull
-    public static Maybe<List<String>> fetchProvidersForEmail(
-            @NonNull FirebaseAuth instance, @NonNull String email) {
-        return new FetchProvidersForEmailObserver(instance, email);
     }
 
     @CheckResult
@@ -95,6 +86,7 @@ public final class RxFirebaseAuth {
             @NonNull FirebaseAuth instance) {
         return new SignInAnonymouslyObserver(instance)
                 .map(new Function<AuthResult, FirebaseUser>() {
+                    @SuppressWarnings("RedundantThrows")
                     @Override
                     public FirebaseUser apply(AuthResult authResult) throws Exception {
                         return authResult.getUser();
@@ -108,6 +100,7 @@ public final class RxFirebaseAuth {
             @NonNull FirebaseAuth instance, @NonNull AuthCredential credential) {
         return new SignInWithCredentialObserver(instance, credential)
                 .map(new Function<AuthResult, FirebaseUser>() {
+                    @SuppressWarnings("RedundantThrows")
                     @Override
                     public FirebaseUser apply(AuthResult authResult) throws Exception {
                         return authResult.getUser();
@@ -121,6 +114,7 @@ public final class RxFirebaseAuth {
             @NonNull FirebaseAuth instance, @NonNull String token) {
         return new SignInWithCustomTokenObserver(instance, token)
                 .map(new Function<AuthResult, FirebaseUser>() {
+                    @SuppressWarnings("RedundantThrows")
                     @Override
                     public FirebaseUser apply(AuthResult authResult) throws Exception {
                         return authResult.getUser();
@@ -134,6 +128,7 @@ public final class RxFirebaseAuth {
             @NonNull FirebaseAuth instance, @NonNull String email, @NonNull String password) {
         return new SignInWithEmailAndPasswordObserver(instance, email, password)
                 .map(new Function<AuthResult, FirebaseUser>() {
+                    @SuppressWarnings("RedundantThrows")
                     @Override
                     public FirebaseUser apply(AuthResult authResult) throws Exception {
                         return authResult.getUser();

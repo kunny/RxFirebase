@@ -6,7 +6,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ProviderQueryResult
 import com.google.firebase.auth.SignInMethodQueryResult
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.mock
@@ -29,8 +28,6 @@ class RxFirebaseAuthTest {
     private val authStateListener = argumentCaptor<FirebaseAuth.AuthStateListener>()
 
     private val onAuthResultCompleteListener = argumentCaptor<OnCompleteListener<AuthResult>>()
-
-    private val onProviderQueryResultCompleteListener = argumentCaptor<OnCompleteListener<ProviderQueryResult>>()
 
     private val onSignInMethodQueryResultCompleteListener = argumentCaptor<OnCompleteListener<SignInMethodQueryResult>>()
 
@@ -130,105 +127,6 @@ class RxFirebaseAuthTest {
 
             // simulate the callback
             onAuthResultCompleteListener.lastValue.onComplete(task)
-
-            // assert no values are emitted
-            assertNoValues()
-        }
-    }
-
-    @Test
-    fun fetchProvidersForEmail() {
-        val task = succeedProvidersResultTask(listOf("pro", "vid", "ers"))
-
-        whenever(firebaseAuth.fetchProvidersForEmail("foo@bar.com"))
-                .thenReturn(task)
-
-        with(TestObserver.create<List<String>>()) {
-            RxFirebaseAuth.fetchProvidersForEmail(
-                    firebaseAuth, "foo@bar.com")
-                    .subscribe(this)
-
-            // verify fetchProvidersForEmail() has called
-            verify(firebaseAuth, times(1))
-                    .fetchProvidersForEmail("foo@bar.com")
-
-            // verify addOnCompleteListener() has called
-            task.verifyAddOnCompleteListenerCalled()
-
-            // simulate the callback
-            onProviderQueryResultCompleteListener.lastValue.onComplete(task)
-
-            assertThat(values().first())
-                    .contains("pro", "vid", "ers")
-            assertComplete()
-
-            dispose()
-
-            // simulate the callback
-            onProviderQueryResultCompleteListener.lastValue.onComplete(task)
-
-            // assert no values are emitted
-            assertValueCount(1)
-        }
-    }
-
-    @Test
-    fun testProvidersForEmailNullProviders() {
-        val task = succeedProvidersResultTask(null)
-
-        whenever(firebaseAuth.fetchProvidersForEmail("foo@bar.com"))
-                .thenReturn(task)
-
-        with(TestObserver.create<List<String>>()) {
-            RxFirebaseAuth.fetchProvidersForEmail(
-                    firebaseAuth, "foo@bar.com")
-                    .subscribe(this)
-
-            // verify fetchProvidersForEmail() has called
-            verify(firebaseAuth, times(1))
-                    .fetchProvidersForEmail("foo@bar.com")
-
-            // verify addOnCompleteListener() has called
-            task.verifyAddOnCompleteListenerCalled()
-
-            // simulate the callback
-            onProviderQueryResultCompleteListener.lastValue.onComplete(task)
-
-            assertNoValues()
-            assertComplete()
-
-            dispose()
-        }
-    }
-
-    @Test
-    fun fetchProvidersForEmailNotSuccessful() {
-        val task = failedTask<ProviderQueryResult>(IllegalStateException())
-
-        whenever(firebaseAuth.fetchProvidersForEmail("foo@bar.com"))
-                .thenReturn(task)
-
-        with(TestObserver.create<List<String>>()) {
-            RxFirebaseAuth.fetchProvidersForEmail(
-                    firebaseAuth, "foo@bar.com")
-                    .subscribe(this)
-
-            // verify fetchProvidersForEmail() has called
-            verify(firebaseAuth, times(1))
-                    .fetchProvidersForEmail("foo@bar.com")
-
-            // verify addOnCompleteListener() has called
-            task.verifyAddOnCompleteListenerCalled()
-
-            // simulate the callback
-            onProviderQueryResultCompleteListener.lastValue.onComplete(task)
-
-            assertError(IllegalStateException::class.java)
-
-            dispose()
-
-            // simulate the callback
-            onProviderQueryResultCompleteListener.lastValue.onComplete(task)
 
             // assert no values are emitted
             assertNoValues()
@@ -483,7 +381,7 @@ class RxFirebaseAuthTest {
             // simulate the callback
             onAuthResultCompleteListener.lastValue.onComplete(task)
 
-            assertValue { it.user.isAnonymous }
+            assertValue { it.user?.isAnonymous ?: false}
 
             dispose()
         }
@@ -593,7 +491,7 @@ class RxFirebaseAuthTest {
             // simulate the callback
             onAuthResultCompleteListener.lastValue.onComplete(task)
 
-            assertValue { "foo@bar.com" == it.user.email }
+            assertValue { "foo@bar.com" == it.user?.email }
 
             dispose()
         }
@@ -839,7 +737,7 @@ class RxFirebaseAuthTest {
             // simulate the callback
             onAuthResultCompleteListener.lastValue.onComplete(task)
 
-            assertValue { "foo@bar.com" == it.user.email }
+            assertValue { "foo@bar.com" == it.user?.email }
 
             dispose()
         }
@@ -893,7 +791,7 @@ class RxFirebaseAuthTest {
             // simulate the callback
             onAuthResultCompleteListener.lastValue.onComplete(task)
 
-            assertValue { "foo@bar.com" == it.user.email }
+            assertValue { "foo@bar.com" == it.user?.email }
 
             dispose()
         }
@@ -1007,12 +905,6 @@ class RxFirebaseAuthTest {
     private inline fun Task<AuthResult>.verifyAddOnCompleteListenerCalled() {
         verify(this, times(1))
                 .addOnCompleteListener(onAuthResultCompleteListener.capture())
-    }
-
-    @JvmName("verifyProviderQueryAddOnCompleteListenerCalled")
-    private inline fun Task<ProviderQueryResult>.verifyAddOnCompleteListenerCalled() {
-        verify(this, times(1))
-                .addOnCompleteListener(onProviderQueryResultCompleteListener.capture())
     }
 
     @JvmName("verifySignInMethodQueryAddOnCompleteListenerCalled")

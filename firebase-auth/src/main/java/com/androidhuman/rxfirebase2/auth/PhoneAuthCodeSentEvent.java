@@ -3,7 +3,7 @@ package com.androidhuman.rxfirebase2.auth;
 import com.google.auto.value.AutoValue;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 @AutoValue
 public abstract class PhoneAuthCodeSentEvent extends PhoneAuthEvent {

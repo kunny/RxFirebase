@@ -4,7 +4,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
-import com.google.firebase.auth.ProviderQueryResult
 import com.google.firebase.auth.SignInMethodQueryResult
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -44,22 +43,6 @@ internal fun succeedGetTokenResultTask(_token: String): Task<GetTokenResult> {
 
         whenever(result)
                 .thenReturn(tokenResult)
-    }
-}
-
-internal fun succeedProvidersResultTask(
-        _providers: List<String>?): Task<ProviderQueryResult> {
-    return mock<Task<ProviderQueryResult>>().apply {
-        whenever(isSuccessful)
-                .thenReturn(true)
-
-        val providerQueryResult = mock<ProviderQueryResult>().apply {
-            whenever(providers)
-                    .thenReturn(_providers)
-        }
-
-        whenever(result)
-                .thenReturn(providerQueryResult)
     }
 }
 
