@@ -9,8 +9,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 import com.androidhuman.rxfirebase2.firestore.model.Value;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 
