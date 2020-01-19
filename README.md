@@ -51,8 +51,8 @@ RxJava binding APIs for [Firebase Realtime Database](https://firebase.google.com
 
 ```groovy
 // firebase-database
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.3.0'
-implementation 'com.google.firebase:firebase-database:16.0.3'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:19.2.0.0'
+implementation 'com.google.firebase:firebase-database:19.2.0'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'
@@ -69,9 +69,9 @@ Kotlin support module for `firebase-database`
 
 ```groovy
 // firebase-database
-implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:16.0.3.0'
-implementation 'com.androidhuman.rxfirebase2:firebase-database:16.0.3.0'
-implementation 'com.google.firebase:firebase-database:16.0.3'
+implementation 'com.androidhuman.rxfirebase2:firebase-database-kotlin:19.2.0.0'
+implementation 'com.androidhuman.rxfirebase2:firebase-database:19.2.0.0'
+implementation 'com.google.firebase:firebase-database:19.2.0'
 
 // required dependency: firebase-core
 implementation 'com.androidhuman.rxfirebase2:firebase-core:17.2.2.0'

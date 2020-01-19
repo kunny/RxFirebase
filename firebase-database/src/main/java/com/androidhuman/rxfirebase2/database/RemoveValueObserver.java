@@ -5,8 +5,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 
@@ -36,7 +35,8 @@ final class RemoveValueObserver extends Completable {
         }
 
         @Override
-        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+        public void onComplete(DatabaseError databaseError,
+                @NonNull DatabaseReference databaseReference) {
             if (!isDisposed()) {
                 if (null != databaseError) {
                     observer.onError(databaseError.toException());

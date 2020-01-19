@@ -1,5 +1,13 @@
 # Change Log
 
+## database-19.2.0.0 *(2020/01/19)*
+
+Built and tested with:
+- Firebase Android SDK
+  - `firebase-database:19.2.0`
+- Kotlin 1.2.61
+- RxJava2 2.1.8
+
 ## auth-19.2.0.0 *(2020/01/19)*
 
 Built and tested with:

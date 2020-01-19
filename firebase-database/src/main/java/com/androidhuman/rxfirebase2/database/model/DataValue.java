@@ -1,9 +1,9 @@
 package com.androidhuman.rxfirebase2.database.model;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
+
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 
 public abstract class DataValue<T> implements Serializable {
 

@@ -13,11 +13,10 @@ import com.androidhuman.rxfirebase2.database.transformers.SingleTransformerOfGen
 import com.androidhuman.rxfirebase2.database.transformers.TransformerOfClazz;
 import com.androidhuman.rxfirebase2.database.transformers.TransformerOfGenericTypeIndicator;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
-
 import java.util.Map;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;

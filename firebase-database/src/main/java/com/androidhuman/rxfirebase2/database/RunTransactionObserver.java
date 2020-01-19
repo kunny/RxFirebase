@@ -8,8 +8,7 @@ import com.google.firebase.database.Transaction;
 
 import com.androidhuman.rxfirebase2.core.SimpleDisposable;
 
-import android.support.annotation.NonNull;
-
+import androidx.annotation.NonNull;
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.functions.Function;
@@ -50,8 +49,9 @@ final class RunTransactionObserver extends Completable {
             this.observer = observer;
         }
 
+        @NonNull
         @Override
-        public Transaction.Result doTransaction(MutableData mutableData) {
+        public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
             try {
                 return this.task.apply(mutableData);
             } catch (Exception e) {

@@ -5,7 +5,7 @@ ext {
     assertjVersion = '1.2.0'
     firebaseAuthVersion = '19.2.0'
     firebaseCoreVersion = '17.2.2'
-    firebaseDatabaseVersion = '16.0.3'
+    firebaseDatabaseVersion = '19.2.0'
     firebaseFirestoreVersion = '17.1.5'
     firebaseStorageVersion = '16.0.1'
     junitVersion = '4.12'
