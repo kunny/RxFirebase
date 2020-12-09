@@ -39,14 +39,14 @@ dependencies {
 
     compileOnly "com.google.auto.value:auto-value:${autoValueVersion}"
     compileOnly "com.google.firebase:firebase-storage:${firebaseStorageVersion}"
-    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    compileOnly "io.reactivex.rxjava3:rxjava:3.0.8"
 
     annotationProcessor "com.google.auto.value:auto-value:${autoValueVersion}"
 
     testImplementation "com.google.firebase:firebase-storage:${firebaseStorageVersion}"
     testImplementation "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
     testImplementation "junit:junit:${junitVersion}"
-    testImplementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    testImplementation "io.reactivex.rxjava3:rxjava:${rxJavaVersion}"
     testImplementation "org.assertj:assertj-core:${assertjVersion}"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
