@@ -21,7 +21,7 @@ ext {
 
     // Build SDK versions
     minSdkVersion = 14
-    compileSdkVersion = 28
+    compileSdkVersion = 29
 
     // CI
 
