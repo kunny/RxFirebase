@@ -38,7 +38,7 @@ dependencies {
     implementation project(':firebase-auth')
 
     compileOnly "com.google.firebase:firebase-auth:${firebaseAuthVersion}"
-    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    compileOnly "io.reactivex.rxjava3:rxjava:${rxJavaVersion}"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
 }
 

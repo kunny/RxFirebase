@@ -38,7 +38,7 @@ dependencies {
     implementation project(':firebase-storage')
 
     compileOnly "com.google.firebase:firebase-storage:${firebaseStorageVersion}"
-    compileOnly "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    compileOnly "io.reactivex.rxjava3:rxjava:${rxJavaVersion}"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}"
 }
 
